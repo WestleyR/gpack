@@ -13,6 +13,7 @@
 //
 
 #include "main-gpack.h"
+#include "install-pkg.h"
 
 #include "logger/logger.h"
 
@@ -93,18 +94,25 @@ int main(int argc, char **argv) {
         }
     }
 
+    set_verbose(verbose_print);
+    set_debug(debug_print);
+
     if (optind < argc) {
         for (int i = optind; i < argc; i++) {
-            printf("EXTRA OPTIONS: %s\n", argv[i]);
+            if (strcmp(argv[i], "install") == 0) {
+//                for (int n = 1; n <= optind; n++) {
+                for (int n = 1; n < argc-1; n++) {
+                    //if (optind < 1) break;
+                    printf("I: Installing: %s\n", argv[i+n]);
+                    install_pkg(argv[i+n]);
+                }
+                break;
+            }
         }
     } else {
         print_errorf("No arguments\n");
         return(123);
     }
-
-    set_verbose(verbose_print);
-    set_debug(debug_print);
-
 
     print_verbosef("Test verbose\n");
     print_debugf("Test debug\n");
