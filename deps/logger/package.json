@@ -1,0 +1,9 @@
+{
+  "name": "logger",
+  "version": "1.0.1",
+  "repo": "WestleyR/logger",
+  "description": "Verry simple c logger and message printer",
+  "keywords": ["logger", "message", "error", "verbose", "warning"],
+  "license": "The Clear BSD License",
+  "src": ["src/logger.c", "src/logger.h"]
+}
