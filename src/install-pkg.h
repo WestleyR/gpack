@@ -17,8 +17,6 @@
 #include <errno.h>
 #include <string.h>
 
-#define REPO_DIR "/tmp/usr/local/gpack-repo"
-
 int install_pkg(const char*);
 
 //

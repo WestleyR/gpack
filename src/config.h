@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Jun 22, 2019
+// Date: Jun 16, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -12,18 +12,8 @@
 // This software is licensed under a Clear BSD License.
 //
 
-
-#include "update-pkg.h"
-
-#include "logger/logger.h"
-
-int remove_pkg(char *pkg) {
-    print_debugf("Removing: %s\n", pkg);
-
-    return(0);
-}
-
+#define REPO_DIR "/tmp/usr/local/gpack-repo"
 
 //
-// End update-pkg.c
+// End config.h
 //

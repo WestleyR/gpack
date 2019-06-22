@@ -12,7 +12,7 @@
 // This software is licensed under a Clear BSD License.
 //
 
-int remove_pkg(char*);
+int update_pkg();
 
 //
 // End remove-pkg.h

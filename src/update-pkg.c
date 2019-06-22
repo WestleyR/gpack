@@ -17,8 +17,8 @@
 
 #include "logger/logger.h"
 
-int remove_pkg(char* pkg) {
-    print_debugf("Removing: %s\n", pkg);
+int update_pkg() {
+    print_debugf("Updateing\n");
 
     return(0);
 }
