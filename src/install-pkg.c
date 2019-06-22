@@ -53,7 +53,42 @@ int unzip_pkg(char* path, char* to) {
     return(exec_command(unzip_cmd));
 }
 
+int if_pkg_file(const char* pkg) {
+    int infile = 1; // 1 = no/fail, 0 = yes/success
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t read;
+
+    FILE *fp = fopen("pkg.list", "r");
+
+    if (!fp) {
+        printf("E: Unable to open file: %s\n", strerror(errno));
+        return(-1);
+    }
+
+    while ((read = getline(&line, &len, fp)) != -1) {
+        line[strcspn(line, "\n")] = 0;
+        if (!strcmp(line, pkg)) {
+            infile = 0;
+            break;
+        }
+    }
+    fclose(fp);
+
+    return(infile);
+}
+
 int add_pkg(const char* pkg) {
+
+    int err = if_pkg_file(pkg);
+    if (err == -1) {
+        printf("E: PANIC\n");
+        exit(1);
+    } else if (err == 0) {
+        printf("E: Pkg is already in file\n");
+        return(0);
+    }
+
     FILE *fp;
     fp = fopen("pkg.list", "a");
     if (fp == NULL) {
@@ -97,6 +132,15 @@ int install_pkg(const char* pkg) {
     strcat(url, pkg);
 
     print_debugf("URL: %s\n", url);
+
+    int err = if_pkg_file(url);
+    if (err == -1) {
+        printf("E: PANIC\n");
+        exit(1);
+    } else if (err == 0) {
+        printf("E: Pkg is already installed\n");
+        return(0);
+    }
 
     strcat(wget_cmd, url);
 
