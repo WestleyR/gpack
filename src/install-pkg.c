@@ -36,7 +36,7 @@ int exec_command(char* cmd) {
 
 char* replace_char(char* str, char find, char replace){
     char *current_pos = strchr(str,find);
-    while (current_pos){
+    while (current_pos) {
         *current_pos = replace;
         current_pos = strchr(current_pos,find);
     }
@@ -153,20 +153,23 @@ int install_pkg(const char* pkg) {
     }
 
     print_debugf("ZIP_NAME: %s\n", pkg_name_zip);
-    if (unzip_pkg(pkg_name_zip, pkg_name) != 0) {
+//    if (unzip_pkg(pkg_name_zip, pkg_name) != 0) {
+    if (unzip_pkg(pkg_name_zip, REPO_DIR) != 0) {
         print_errorf("ERROR CODE: %i: %s\n", errno, strerror(errno));
-    }
-
-    print_debugf("Writing to file...\n");
-    if (add_pkg(url) != 0) {
-        print_errorf("failed writing pkg file: %s\n", strerror(errno));
     }
 
 //    printf("YYYYYYYYYYYYYYY\n");
 
     print_debugf("Building package: %s ...\n", pkg_name);
-    if (build_pkg(pkg_name) != 0) {
+//    char dir[100];
+//    sprintf(dir, "%s/%s", REPO_DIR, pkg_name);
+    if (build_pkg(REPO_DIR) != 0) {
         print_errorf("BUILD FAILED: nil\n");
+    }
+
+    print_debugf("Writing to file...\n");
+    if (add_pkg(url) != 0) {
+        print_errorf("failed writing pkg file: %s\n", strerror(errno));
     }
 
     url[0] = '\0';
