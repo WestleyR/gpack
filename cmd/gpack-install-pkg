@@ -23,8 +23,14 @@ if [ -x $1 ]; then
     exit 1
 fi
 
+add_pkg() {
+    echo "$1" >> "$PKG_FILE"
+}
+
 build_pkg() {
     make -C "/tmp/usr/local/gpack-repo/repo/${PKG_NAME}"
+
+    add_pkg
 }
 
 unzip_pkg() {
@@ -60,6 +66,7 @@ download_pkg() {
     wget -O "${tmp_file}/zip/${url_name}.zip" "$full_url"
 
     unzip_pkg
+    add_pkg "$1"
 }
 
 for p in $@; do
