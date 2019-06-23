@@ -134,7 +134,7 @@ int build_pkg(char* path) {
     return(exec_command(make_cmd));
 }
 
-int install_pkg(const char* pkg) {
+int _install_pkg(const char* pkg) {
     char *pkg_name = replace_char(strdup(pkg), '/', '_');
 
     char *pkg_name_zip = strdup(pkg_name);
@@ -195,6 +195,16 @@ int install_pkg(const char* pkg) {
     pkg_name_zip[0] = '\0';
 
     return(0);
+}
+
+int install_pkg(const char* pkg) {
+    char cmd[256];
+    cmd[0] = '\0';
+
+    strcat(cmd, "gpack-install-pkg ");
+    strcat(cmd, pkg);
+
+    return(system(cmd));
 }
 
 //

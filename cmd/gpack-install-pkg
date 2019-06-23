@@ -52,6 +52,11 @@ download_pkg() {
     mkdir -p "${tmp_file}/repo"
     mkdir -p "${tmp_file}/zip"
 
+    if [ $(cat "$PKG_FILE" | grep "$1" | wc -l) -ge 1 ]; then
+        echo "E: $1 is already installed"
+        exit 1
+    fi
+
     wget -O "${tmp_file}/zip/${url_name}.zip" "$full_url"
 
     unzip_pkg
