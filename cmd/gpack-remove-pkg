@@ -1,0 +1,33 @@
+#!/bin/sh
+# Created by: WestleyR
+# email: westleyr@nym.hush.com
+# Date: Jun 22, 2019
+# https://github.com/WestleyR/gpack
+# version-1.0.0
+#
+# The Clear BSD License
+#
+# Copyright (c) 2019 WestleyR
+# All rights reserved.
+#
+# This software is licensed under a Clear BSD License.
+#
+
+TMP_FILE="/tmp/gpack-pkg-list.tmp"
+
+if [ -x $1 ]; then
+    echo "E: Not enought arguments"
+    exit 1
+fi
+if [ -x $2 ]; then
+    echo "E: Not enought arguments"
+    exit 1
+fi
+
+cat "$2" | grep -v "$1" > "$TMP_FILE"
+cat "$TMP_FILE" > "$2"
+#mv "$TMP_FILE" "$2"
+
+#
+# End gpack-remove-pkg
+#

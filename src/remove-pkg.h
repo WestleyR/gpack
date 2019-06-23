@@ -12,6 +12,9 @@
 // This software is licensed under a Clear BSD License.
 //
 
+#include <stdlib.h>
+#include <string.h>
+
 int remove_pkg();
 
 //

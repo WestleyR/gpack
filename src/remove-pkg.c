@@ -12,17 +12,23 @@
 // This software is licensed under a Clear BSD License.
 //
 
-
-#include "update-pkg.h"
+#include "remove-pkg.h"
+#include "config.h"
 
 #include "logger/logger.h"
 
 int remove_pkg(char *pkg) {
     print_debugf("Removing: %s\n", pkg);
 
-    return(0);
-}
+    char cmd[256];
 
+    strcat(cmd, REMOVE_PKG_NAME);
+    strcat(cmd, " ");
+    strcat(cmd, pkg);
+    strcat(cmd, " pkg.list");
+
+    return(system(cmd));
+}
 
 //
 // End update-pkg.c

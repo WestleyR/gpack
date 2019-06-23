@@ -13,6 +13,7 @@
 //
 
 #define REPO_DIR "/tmp/usr/local/gpack-repo"
+#define REMOVE_PKG_NAME "gpack-remove-pkg"
 
 //
 // End config.h
