@@ -55,7 +55,16 @@ int unzip_pkg(char* path, char* to) {
 }
 
 int if_pkg_file(const char* pkg) {
-    int infile = 1; // 1 = no/fail, 0 = yes/success
+    char cmd[256];
+    cmd[0] = '\0';
+
+    strcat(cmd, "gpack-if-pkg ");
+    strcat(cmd, pkg);
+
+    return(system(cmd));
+
+
+/*    int infile = 1; // 1 = no/fail, 0 = yes/success
     char *line = NULL;
     size_t len = 0;
     ssize_t read;
@@ -76,11 +85,19 @@ int if_pkg_file(const char* pkg) {
     }
     fclose(fp);
 
-    return(infile);
+    return(infile);*/
 }
 
 int add_pkg(const char* pkg) {
+    char cmd[256];
+    cmd[0] = '\0';
 
+    strcat(cmd, "gpack-add-pkg ");
+    strcat(cmd, pkg);
+
+    return(system(cmd));
+
+/*
     int err = if_pkg_file(pkg);
     if (err == -1) {
         printf("E: PANIC\n");
@@ -103,8 +120,8 @@ int add_pkg(const char* pkg) {
 // TODO: close the file when done
 
 //    fclose(fp);
-
-    return(0);
+*/
+//    return(0);
 }
 
 int build_pkg(char* path) {
