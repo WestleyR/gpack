@@ -21,10 +21,6 @@ if [ -x $1 ]; then
     echo "E: Not enought arguments"
     exit 1
 fi
-if [ -x $2 ]; then
-    echo "E: Not enought arguments"
-#    exit 1
-fi
 
 remove_pkg() {
     pkg_name=`echo "$1" | rev | cut -d / -f 1 | rev`
@@ -34,23 +30,29 @@ remove_pkg() {
     PKG_ZIP="/tmp/usr/local/gpack-repo/zip/${url_name}.zip"
     PKG_NAME="/tmp/usr/local/gpack-repo/repo/${pkg_name}-master"
 
-    echo "D: $pkg_name"
-    echo "D: $url_name"
+    if [ -x $(cat "$PKG_LIST" | grep "$1") ]; then
+        echo "E: $1 is not installed"
+        exit 1
+    fi
 
-    echo "D: $PKG_ZIP"
-    echo "D: $PKG_NAME"
+    echo
+    echo "!!!WARNING!!!"
+    echo
+    echo "Removing: $PKG_ZIP ..."
+    sleep 3s
+    rm -r "$PKG_ZIP"
+    echo "Removing: $PKG_NAME ..."
+    sleep 3s
+    rm -r "$PKG_NAME"
 
+    cat "$PKG_LIST" | grep -v "$1" > /tmp/gpack-tmp-list.tmp
+    mv /tmp/gpack-tmp-list.tmp "$PKG_LIST"
 }
-
 
 for p in $@; do
     echo "I: Downloading: ${p} ..."
     remove_pkg "$p"
 done
-
-#cat "$2" | grep -v "$1" > "$TMP_FILE"
-#cat "$TMP_FILE" > "$2"
-##mv "$TMP_FILE" "$2"
 
 #
 # End gpack-remove-pkg
