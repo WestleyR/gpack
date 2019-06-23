@@ -13,6 +13,8 @@
 # This software is licensed under a Clear BSD License.
 #
 
+PKG_LIST="pkg.list"
+
 TMP_FILE="/tmp/gpack-pkg-list.tmp"
 
 if [ -x $1 ]; then
@@ -21,12 +23,34 @@ if [ -x $1 ]; then
 fi
 if [ -x $2 ]; then
     echo "E: Not enought arguments"
-    exit 1
+#    exit 1
 fi
 
-cat "$2" | grep -v "$1" > "$TMP_FILE"
-cat "$TMP_FILE" > "$2"
-#mv "$TMP_FILE" "$2"
+remove_pkg() {
+    pkg_name=`echo "$1" | rev | cut -d / -f 1 | rev`
+    url_name=`echo "$1" | rev | cut -d / -f 2 | rev`
+    url_name=`echo "${url_name}_${pkg_name}"`
+
+    PKG_ZIP="/tmp/usr/local/gpack-repo/zip/${url_name}.zip"
+    PKG_NAME="/tmp/usr/local/gpack-repo/repo/${pkg_name}-master"
+
+    echo "D: $pkg_name"
+    echo "D: $url_name"
+
+    echo "D: $PKG_ZIP"
+    echo "D: $PKG_NAME"
+
+}
+
+
+for p in $@; do
+    echo "I: Downloading: ${p} ..."
+    remove_pkg "$p"
+done
+
+#cat "$2" | grep -v "$1" > "$TMP_FILE"
+#cat "$TMP_FILE" > "$2"
+##mv "$TMP_FILE" "$2"
 
 #
 # End gpack-remove-pkg
