@@ -1,0 +1,70 @@
+#!/bin/sh
+# Created by: WestleyR
+# email: westleyr@nym.hush.com
+# Date: Jun 22, 2019
+# https://github.com/WestleyR/gpack
+# version-1.0.0
+#
+# The Clear BSD License
+#
+# Copyright (c) 2019 WestleyR
+# All rights reserved.
+#
+# This software is licensed under a Clear BSD License.
+#
+
+PKG_FILE="pkg.list"
+
+PKG_ZIP=""
+PKG_NAME=""
+
+if [ -x $1 ]; then
+    echo "E: Not enought arguments"
+    exit 1
+fi
+
+build_pkg() {
+    make -C "/tmp/usr/local/gpack-repo/repo/${PKG_NAME}"
+}
+
+unzip_pkg() {
+    echo $PKG_ZIP
+    echo $PKG_NAME
+    unzip -d "/tmp/usr/local/gpack-repo/repo" "/tmp/usr/local/gpack-repo/zip/${PKG_ZIP}"
+
+    build_pkg
+}
+
+download_pkg() {
+    pkg_name=`echo "$1" | rev | cut -d / -f 1 | rev`
+    url_name=`echo "$1" | rev | cut -d / -f 2 | rev`
+    url_name=`echo "${url_name}_${pkg_name}"`
+
+    echo "D: $pkg_name"
+    echo "D: $url_name"
+
+    full_url=`echo "https://${1}/archive/master.zip"`
+
+    PKG_ZIP="${url_name}.zip"
+    PKG_NAME="${pkg_name}-master"
+
+    tmp_file="/tmp/usr/local/gpack-repo"
+    mkdir -p "${tmp_file}/repo"
+    mkdir -p "${tmp_file}/zip"
+
+    wget -O "${tmp_file}/zip/${url_name}.zip" "$full_url"
+
+    unzip_pkg
+}
+
+for p in $@; do
+    echo "I: Downloading: ${p} ..."
+    download_pkg "$p"
+
+
+done
+
+
+#
+# End gpack-add-pkg
+#

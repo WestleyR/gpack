@@ -29,6 +29,9 @@ CFLAGS = -Wall
 LDFLAGS =
 
 TARGET = gpack
+
+CMD = $(wildcard cmd/*)
+
 SRCDIR = src
 DEPDIR = deps
 
@@ -66,6 +69,7 @@ cleanall:
 .PHONY:
 install: $(TARGET)
 	cp -f $(TARGET) $(PREFIX)
+	cp -f $(CMD) $(PREFIX)
 
 .PHONY:
 test: $(TARGET)
