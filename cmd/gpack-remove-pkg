@@ -50,7 +50,6 @@ remove_pkg() {
 }
 
 for p in $@; do
-    echo "I: Downloading: ${p} ..."
     remove_pkg "$p"
 done
 

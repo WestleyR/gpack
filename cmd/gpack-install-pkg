@@ -28,12 +28,14 @@ add_pkg() {
 }
 
 build_pkg() {
+    echo "I: Building package..."
     make -C "/tmp/usr/local/gpack-repo/repo/${PKG_NAME}" >> "/tmp/gpack-build-log.${PKG_NAME}.log"
-
+    echo "Done"
     add_pkg
 }
 
 unzip_pkg() {
+    echo "I: Unzipping package..."
     unzip -qq -d "/tmp/usr/local/gpack-repo/repo" "/tmp/usr/local/gpack-repo/zip/${PKG_ZIP}"
 
     build_pkg
@@ -58,6 +60,7 @@ download_pkg() {
         exit 1
     fi
 
+    echo "I: Downloading: ${p} ..."
     wget -qq -O "${tmp_file}/zip/${url_name}.zip" "$full_url"
 
     unzip_pkg
@@ -65,7 +68,6 @@ download_pkg() {
 }
 
 for p in $@; do
-    echo "I: Downloading: ${p} ..."
     download_pkg "$p"
 
 
