@@ -28,15 +28,13 @@ add_pkg() {
 }
 
 build_pkg() {
-    make -C "/tmp/usr/local/gpack-repo/repo/${PKG_NAME}"
+    make -C "/tmp/usr/local/gpack-repo/repo/${PKG_NAME}" >> "/tmp/gpack-build-log.${PKG_NAME}.log"
 
     add_pkg
 }
 
 unzip_pkg() {
-    echo $PKG_ZIP
-    echo $PKG_NAME
-    unzip -d "/tmp/usr/local/gpack-repo/repo" "/tmp/usr/local/gpack-repo/zip/${PKG_ZIP}"
+    unzip -qq -d "/tmp/usr/local/gpack-repo/repo" "/tmp/usr/local/gpack-repo/zip/${PKG_ZIP}"
 
     build_pkg
 }
@@ -45,9 +43,6 @@ download_pkg() {
     pkg_name=`echo "$1" | rev | cut -d / -f 1 | rev`
     url_name=`echo "$1" | rev | cut -d / -f 2 | rev`
     url_name=`echo "${url_name}_${pkg_name}"`
-
-    echo "D: $pkg_name"
-    echo "D: $url_name"
 
     full_url=`echo "https://${1}/archive/master.zip"`
 
@@ -63,7 +58,7 @@ download_pkg() {
         exit 1
     fi
 
-    wget -O "${tmp_file}/zip/${url_name}.zip" "$full_url"
+    wget -qq -O "${tmp_file}/zip/${url_name}.zip" "$full_url"
 
     unzip_pkg
     add_pkg "$1"

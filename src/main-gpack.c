@@ -120,7 +120,7 @@ int main(int argc, char **argv) {
                 break;
             } else if (strcmp(argv[i], "remove") == 0) {
                 for (int n = 1; n < argc-1; n++) {
-                    if (argc <= 3) {
+                    if (argc - optind <= 0) {
                         print_errorf("Nothing to remove...\n");
                         return(1);
                     }

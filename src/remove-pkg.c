@@ -27,7 +27,10 @@ int remove_pkg(char *pkg) {
     strcat(cmd, pkg);
     strcat(cmd, " pkg.list");
 
-    return(system(cmd));
+    int err = system(cmd);
+    cmd[0] = '\0';
+
+    return(err);
 }
 
 //
