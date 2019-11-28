@@ -15,6 +15,12 @@
 #include "utils.h"
 
 
+char* get_pkg_version(const char* pkg) {
+
+
+  return(NULL);
+}
+
 char* get_update_script() {
   char* ret;
   ret = (char*) malloc(100);

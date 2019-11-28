@@ -17,6 +17,7 @@
 #include "list.h"
 #include "autoclean.h"
 #include "update-pkg.h"
+#include "upgrade-pkg.h"
 #include "remove-pkg.h"
 
 #include "logger/logger.h"
@@ -133,6 +134,10 @@ int main(int argc, char **argv) {
       } else if (strcmp(argv[i], "update") == 0) {
         printf("I: Updating packages...\n");
         update_pkg();
+        return(0);
+        break;
+      } else if (strcmp(argv[i], "upgrade") == 0) {
+        upgrade_pkg();
         return(0);
         break;
       } else if (strcmp(argv[i], "remove") == 0) {

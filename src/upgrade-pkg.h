@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Nov 24, 2019
+// Date: Nov 28, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -13,12 +13,16 @@
 //
 
 #include <stdio.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <dirent.h>
+#include <unistd.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
-char* get_pkg_version(const char* pkg);
-char* get_update_script();
-char* get_package_prefix();
-char* get_bin();
+#include "utils.h"
+
+int upgrade_pkg();
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

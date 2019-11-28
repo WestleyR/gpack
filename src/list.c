@@ -57,7 +57,6 @@ int list_packages() {
       strcpy(full_path, ppath);
       strcat(full_path, d->d_name);
       print_package(full_path, pkg);
-      //printf("%s\n", d->d_name);
     }
   }
   closedir(dir);
