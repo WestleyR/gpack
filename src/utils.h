@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+char* get_update_script();
 char* get_package_prefix();
 char* get_bin();
 

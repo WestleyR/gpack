@@ -14,6 +14,23 @@
 
 #include "utils.h"
 
+
+char* get_update_script() {
+  char* ret;
+  ret = (char*) malloc(100);
+
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  strcpy(ret, h);
+  strcat(ret, "/.gpack/gpack/cmd/gpack-update");
+
+  return(ret);
+}
+
 char* get_bin() {
   char* ret;
   ret = (char*) malloc(100);

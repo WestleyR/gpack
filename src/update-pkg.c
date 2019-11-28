@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Jun 16, 2019
+// Date: Nov 28, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -12,18 +12,32 @@
 // This software is licensed under a Clear BSD License.
 //
 
-
-#include "remove-pkg.h"
-
-#include "logger/logger.h"
+#include "update-pkg.h"
 
 int update_pkg() {
-    print_debugf("Updateing\n");
+  printf("I: Updateing...\n");
 
-    return(0);
+  char* update_script = get_update_script();
+  if (update_script == NULL) {
+    fprintf(stderr, "Failed to get update script\n");
+    return(1);
+  }
+
+  printf("Update script: %s\n", update_script);
+
+  // TODO: add shasum verify to update script
+  
+  if (system(update_script) != 0) {
+    fprintf(stderr, "Failed to run update script\n");
+    free(update_script);
+    return(1);
+  }
+
+  free(update_script);
+
+  printf("I: Done\n");
+
+  return(0);
 }
 
-
-//
-// End remove-pkg.c
-//
+// vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

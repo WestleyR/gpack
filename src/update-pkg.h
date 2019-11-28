@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Jun 16, 2019
+// Date: Nov 28, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -12,8 +12,11 @@
 // This software is licensed under a Clear BSD License.
 //
 
+#include <stdio.h>
+#include <stdlib.h>
+
+#include "utils.h"
+
 int update_pkg();
 
-//
-// End remove-pkg.h
-//
+// vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

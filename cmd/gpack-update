@@ -1,13 +1,20 @@
 #!/bin/sh
 
-set -e
+set -ex
 
 cd ${HOME}/.gpack/gpack
+
+echo "Updated gpack..."
+
+if ! git diff --name-status --exit-code; then
+    echo "gpack has un-commited changes; aborting"
+    exit 1
+fi
 
 git pull origin master
 
 make
-
 make install
 
+echo "Done"
 
