@@ -1,0 +1,24 @@
+#!/bin/sh
+# This script will get ran when the user wants to install it.
+
+set -ex
+
+# Package info
+USR_NAME="WestleyR"
+PKG_NAME="ssum"
+BINARY_NAME="ssum"
+PKG_VERSION="master"
+
+# Download the package
+mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
+wget -O ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz https://github.com/${USR_NAME}/${PKG_NAME}/tarball/master
+tar -xf ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz -C ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
+
+cd ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${USR_NAME}-${PKG_NAME}*
+
+# Build, and install the package in its own directory as a prefix
+make install PREFIX=${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}
+
+# Link the binary to gpack's bin
+ln -f -s ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}/bin/${BINARY_NAME} ${HOME}/.gpack/bin
+

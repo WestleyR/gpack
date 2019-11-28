@@ -1,0 +1,8 @@
+{
+  "name": "gpack",
+  "version": "master",
+  "repo": "WestleyR/gpack",
+  "dependencies": {
+    "WestleyR/c-utils": "1.0.1"
+  }
+}

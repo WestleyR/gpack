@@ -1,0 +1,12 @@
+set -e
+
+mkdir -p ${HOME}/.gpack/installed/WestleyR/clint
+wget -O ${HOME}/.gpack/installed/WestleyR/clint/package.tar.gz https://github.com/WestleyR/clint/archive/v1.0.1.tar.gz
+tar -xf ${HOME}/.gpack/installed/WestleyR/clint/package.tar.gz -C ${HOME}/.gpack/installed/WestleyR/clint
+
+cd ${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1
+
+make install PREFIX=${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1
+
+ln -f -s ${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1/bin/clint ${HOME}/.gpack/bin
+

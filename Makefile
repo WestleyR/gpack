@@ -12,35 +12,29 @@
 # This software is licensed under a Clear BSD License.
 #
 
-# where to install
-PREFIX = /usr/local/bin
+PREFIX = $(HOME)/.gpack
 
 # your c compiler
 CC = gcc
 
-# Pass the 'make STATIC=1' to use the '-static' flag
-STATIC = 0
-STATIC_FLAG = -static
-
-MAN_PREFIX = /usr/share/man/man1
-
-DEP_FLAG = -I deps
+DEP_FLAG = -Ideps
 CFLAGS = -Wall
+DEFLAGS = 
 LDFLAGS =
 
 TARGET = gpack
+
+COMMIT = "$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ) )"
+DEFLAGS += -DCOMMIT_HASH=\"$(COMMIT)\"
+
+ifeq ($(DEBUG), true)
+	CFLAGS += -DDEBUG
+endif
 
 CMD = $(wildcard cmd/*)
 
 SRCDIR = src
 DEPDIR = deps
-
-MANPAGE = man/man1/gpack.1.gz
-
-# Check if user passed the STATIC=1 flag
-ifeq ($(STATIC),1)
-	CFLAGS += $(STATIC_FLAG)
-endif
 
 SRC = $(wildcard src/*.c)
 SRC += $(wildcard deps/*/*.c)
@@ -56,7 +50,7 @@ $(TARGET): $(OBJS)
 
 .PHONY:
 %.o: %.c
-	$(CC) $(DEP_FLAG) $(CFLAGS) $(LDFLAGS) -o $@ -c $<
+	$(CC) $(DEP_FLAG) $(CFLAGS) $(DEFLAGS) $(LDFLAGS) -o $@ -c $<
 
 .PHONY:
 clean:
@@ -68,16 +62,8 @@ cleanall:
 
 .PHONY:
 install: $(TARGET)
-	cp -f $(TARGET) $(PREFIX)
-	cp -f $(CMD) $(PREFIX)
-
-.PHONY:
-test: $(TARGET)
-	./tests/tests-sh
-
-.PHONY:
-uninstall: $(PREFIX)/$(TARGET)
-	rm -f $(PREFIX)/$(TARGET)
+	mkdir -p $(PREFIX)/bin
+	cp -f $(TARGET) $(PREFIX)/bin
 
 #
 # End Makefile

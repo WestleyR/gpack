@@ -1,0 +1,13 @@
+#!/bin/sh
+
+set -e
+
+cd ${HOME}/.gpack/gpack
+
+git pull origin master
+
+make
+
+make install
+
+
