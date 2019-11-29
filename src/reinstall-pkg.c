@@ -17,6 +17,18 @@
 int reinstall_pkg(const char *pkg) {
   printf("I: Reinstalling: %s\n", pkg);
 
+  if (remove_pkg(pkg) != 0) {
+    fprintf(stderr, "Failed to remove: %s\n", pkg);
+    return(1);
+  }
+
+  if (install_pkg(pkg) != 0) {
+    fprintf(stderr, "Failed to reinstall: %s\n", pkg);
+    return(1);
+  }
+
+  printf("I: Done\n");
+
   return(0);
 }
 

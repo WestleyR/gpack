@@ -10,3 +10,4 @@ make install PREFIX=${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1
 
 ln -f -s ${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1/bin/clint ${HOME}/.gpack/bin
 
+echo $PKG_VERSION > ../version.gpack
