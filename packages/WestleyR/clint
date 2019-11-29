@@ -1,13 +1,25 @@
-set -e
+#!/bin/sh
+# This script will get ran when the user wants to install it.
 
-mkdir -p ${HOME}/.gpack/installed/WestleyR/clint
-wget -O ${HOME}/.gpack/installed/WestleyR/clint/package.tar.gz https://github.com/WestleyR/clint/archive/v1.0.1.tar.gz
-tar -xf ${HOME}/.gpack/installed/WestleyR/clint/package.tar.gz -C ${HOME}/.gpack/installed/WestleyR/clint
+set -ex
 
-cd ${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1
+# Package info
+USR_NAME="WestleyR"
+PKG_NAME="clint"
+BINARY_NAME="clint"
+PKG_VERSION="1.0.1"
 
-make install PREFIX=${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1
+# Download the package
+mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
+wget -O ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz
+tar -xf ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz -C ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
 
-ln -f -s ${HOME}/.gpack/installed/WestleyR/clint/clint-1.0.1/bin/clint ${HOME}/.gpack/bin
+cd ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}
+
+# Build, and install the package in its own directory as a prefix
+make install PREFIX=${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}
+
+# Link the binary to gpack's bin
+ln -f -s ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}/bin/${BINARY_NAME} ${HOME}/.gpack/bin
 
 echo $PKG_VERSION > ../version.gpack

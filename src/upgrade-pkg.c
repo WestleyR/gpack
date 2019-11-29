@@ -59,9 +59,13 @@ char* read_file(const char* path) {
   char line[200];
 
   while (fgets(line, sizeof(line), fp)) {
-    if (line != NULL) {
-      char* v = strtok(line, "\n");
-      strcpy(ret, v);
+    if (line[0] != '\0') {
+      if (line[strlen(line)-1] == '\n') {
+        line[strlen(line)-1] = '\0';
+        strcpy(ret, line);
+      } else {
+        strcpy(ret, line);
+      }
       break;
     }
   }
