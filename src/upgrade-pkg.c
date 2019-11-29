@@ -102,7 +102,7 @@ int upgrade_pkg() {
 
       while ((de = readdir(newdir)) != NULL) {
         if (*de->d_name != '.' && strcmp(de->d_name, "..") != 0) {
-          char version_file[128];
+          char version_file[256];
           version_file[0] = '\0';
 
           strcpy(version_file, d->d_name);
