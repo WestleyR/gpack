@@ -131,7 +131,13 @@ int upgrade_pkg() {
             printf("Static version: %s\n", static_version);
 
             if (strstr(static_version, current_version)) {
-              printf("%s: Already up to date\n", pkg_name);
+              if (strcmp(current_version, "master") == 0) {
+                if (reinstall_pkg(pkg_name) != 0) {
+                  printf("Failed to reinstall pkg\n");
+                }
+              } else {
+                printf("%s: Already up to date\n", pkg_name);
+              }
             } else {
               printf("Reinstalling: %s\n", pkg_name);
               if (reinstall_pkg(pkg_name) != 0) {
