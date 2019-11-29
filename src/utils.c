@@ -14,13 +14,6 @@
 
 #include "utils.h"
 
-
-char* get_pkg_version(const char* pkg) {
-
-
-  return(NULL);
-}
-
 char* get_update_script() {
   char* ret;
   ret = (char*) malloc(100);
@@ -53,6 +46,25 @@ char* get_bin() {
   // TODO: free(h)?
 
   return(ret);
+}
+
+char* get_package_dir() {
+  char* path;
+
+  path = (char*) malloc(100);
+
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  strcpy(path, h);
+  strcat(path, "/.gpack/gpack/packages/");
+
+  // TODO: free(h)?
+
+  return(path);
 }
 
 char* get_package_prefix() {

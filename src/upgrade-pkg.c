@@ -14,6 +14,61 @@
 
 #include "upgrade-pkg.h"
 
+char* get_static_version(const char* pkg) {
+  char path[256];
+
+  char* ppath = get_package_dir();
+
+  strcpy(path, ppath);
+  strcat(path, pkg);
+
+  FILE* fp = fopen(path, "r");
+  if (fp == NULL) {
+    printf("Failed to open: %s\n", path);
+    return(NULL);
+  }
+
+  char* ret;
+  ret = (char*) malloc(100);
+
+  char line[200];
+
+  while (fgets(line, sizeof(line), fp)) {
+    if (strstr(line, "PKG_VERSION")) {
+      char* v = strtok(line, "\n");
+      strcpy(ret, v);
+      break;
+    }
+  }
+
+  free(ppath);
+
+  return(ret);
+}
+
+char* read_file(const char* path) {
+  FILE* fp = fopen(path, "r");
+  if (fp == NULL) {
+    printf("Failed to open: %s\n", path);
+    return(NULL);
+  }
+
+  char* ret;
+  ret = (char*) malloc(100);
+
+  char line[200];
+
+  while (fgets(line, sizeof(line), fp)) {
+    if (line != NULL) {
+      char* v = strtok(line, "\n");
+      strcpy(ret, v);
+      break;
+    }
+  }
+
+  return(ret);
+}
+
 int upgrade_pkg() {
   printf("I: Upgrading...\n");
   char* ppath = get_package_prefix();
@@ -50,14 +105,38 @@ int upgrade_pkg() {
           char version_file[128];
           version_file[0] = '\0';
 
+          strcpy(version_file, d->d_name);
+          strcat(version_file, "/");
+          strcat(version_file, de->d_name);
+
+          char* static_version = get_static_version(version_file);
+
+          version_file[0] = '\0';
+
           strcpy(version_file, ppath);
           strcat(version_file, d->d_name);
           strcat(version_file, "/");
           strcat(version_file, de->d_name);
           strcat(version_file, "/version.gpack");
-          printf("Version file: %s\n", version_file);
           if (access(version_file, F_OK) == 0) {
             printf("OK: %s\n", version_file);
+            char* current_version = read_file(version_file);
+            if (current_version == NULL) {
+              printf("Error\n");
+              return(1);
+            }
+
+            printf("Current version: %s; for: %s\n", current_version, version_file);
+            printf("Static version: %s\n", static_version);
+
+            if (strstr(static_version, current_version)) {
+              printf("%s: Already up to date\n", version_file);
+            } else {
+              printf("Reinstalling: %s\n", version_file);
+              //reinstall(pkg);
+            }
+
+            free(current_version);
           } else {
             printf("WARNING: No version file found for: %s\n", version_file);
           }
