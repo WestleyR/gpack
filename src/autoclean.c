@@ -12,7 +12,6 @@
 // This software is licensed under a Clear BSD License.
 //
 
-#include "utils.h"
 #include "autoclean.h"
 
 int find_link(char* symlink, const char* name) {
@@ -32,7 +31,6 @@ int find_link(char* symlink, const char* name) {
 
   return(0);
 }
-
 
 int autoclean() {
   char* installed_dir = get_bin();
@@ -82,6 +80,11 @@ int autoclean() {
         if (access(full_link_path, F_OK) != 0) {
           // If the link is broken
           printf("%s: Link is broken\n", d->d_name);
+          printf("Removing: %s\n", full_file_path);
+          if (remove(full_file_path) != 0) {
+            fprintf(stderr, "Failed to remove: %s\n", full_file_path);
+            return(1);
+          }
         } else {
           printf("%s: Link OK\n", d->d_name);
         }

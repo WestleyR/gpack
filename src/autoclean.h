@@ -20,6 +20,8 @@
 #include <unistd.h>
 #include <grp.h>
 
+#include "utils.h"
+
 int autoclean();
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
