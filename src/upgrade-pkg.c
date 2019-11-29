@@ -109,6 +109,7 @@ int upgrade_pkg() {
           strcat(version_file, "/");
           strcat(version_file, de->d_name);
 
+          char* pkg_name = strdup(version_file);
           char* static_version = get_static_version(version_file);
 
           version_file[0] = '\0';
@@ -130,15 +131,17 @@ int upgrade_pkg() {
             printf("Static version: %s\n", static_version);
 
             if (strstr(static_version, current_version)) {
-              printf("%s: Already up to date\n", version_file);
+              printf("%s: Already up to date\n", pkg_name);
             } else {
-              printf("Reinstalling: %s\n", version_file);
-              //reinstall(pkg);
+              printf("Reinstalling: %s\n", pkg_name);
+              if (reinstall_pkg(pkg_name) != 0) {
+                printf("Failed to reinstall pkg\n");
+              }
             }
 
             free(current_version);
           } else {
-            printf("WARNING: No version file found for: %s\n", version_file);
+            printf("WARNING: No version file found for: %s\n", pkg_name);
           }
         }
       }
