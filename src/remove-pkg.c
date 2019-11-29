@@ -53,7 +53,7 @@ int remove_pkg(char *pkg) {
 
     printf("About to run: %s\n", cmd);
 
-    system("sleep 3s");
+    system("sleep 1s");
 
     system(cmd);
 

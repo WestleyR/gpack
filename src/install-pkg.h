@@ -12,12 +12,15 @@
 // This software is licensed under a Clear BSD License.
 //
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <errno.h>
-#include <string.h>
+#include <unistd.h>
+#include <sys/stat.h>
 
-int install_pkg(const char*);
+#include "remove-pkg.h"
+#include "config.h"
+#include "logger/logger.h"
+
+int install_pkg(const char* pkg);
 
 //
 // End install-pkg.h
