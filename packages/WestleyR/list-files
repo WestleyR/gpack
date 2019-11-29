@@ -17,7 +17,7 @@ mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
 wget -O ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz
 
 # Verify the shasum
-checksum_cmd=`command -v sha256sum || command -v shasum -a256 || true`
+checksum_cmd=`command -v sha256sum || command -v shasum > /dev/null && echo "$(command -v shasum) -a 256" || true`
 if ! test -n $checksum_cmd; then
     if test -n $SHA_256; then
         echo "Failed to find sha256sum, or shasum command. Skipping shasum"
