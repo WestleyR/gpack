@@ -28,9 +28,9 @@ fi
 
 # Verify the md5sum
 if [ -n $MD5_SUM ]; then
-    checksum_cmd=`command -v md5sum || command -v md5 || true`
+    checksum_cmd=`command -v md5sum || true`
     if [ -z $checksum_cmd ]; then
-            echo "Failed to find md5sum, or md5 command. Skipping md5sum"
+            echo "Failed to find md5sum command. Skipping md5sum"
     else
         echo "${MD5_SUM}  ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz" | $checksum_cmd -c
     fi
