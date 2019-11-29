@@ -17,23 +17,23 @@ mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
 wget -O ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz
 
 # Verify the shasum
-checksum_cmd=`command -v sha256sum || (command -v shasum > /dev/null && echo "$(command -v shasum) -a 256") || true`
-if ! test -n $checksum_cmd; then
-    if test -n $SHA_256; then
+if [ -n $SHA_256 ]; then
+    checksum_cmd=`command -v sha256sum || (command -v shasum > /dev/null && echo "$(command -v shasum) -a 256") || true`
+    if [ -z $checksum_cmd ]; then
         echo "Failed to find sha256sum, or shasum command. Skipping shasum"
+    else
+        echo "${SHA_256}  ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz" | $checksum_cmd -c
     fi
-else
-    echo "${SHA_256}  ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz" | $checksum_cmd -c
 fi
 
 # Verify the md5sum
-checksum_cmd=`command -v md5sum || true`
-if ! test -n $checksum_cmd; then
-    if test -n $MD5_SUM; then
-        echo "Failed to find md5sum command. Skipping md5sum"
+if [ -n $MD5_SUM ]; then
+    checksum_cmd=`command -v md5sum || command -v md5 || true`
+    if [ -z $checksum_cmd ]; then
+            echo "Failed to find md5sum, or md5 command. Skipping md5sum"
+    else
+        echo "${MD5_SUM}  ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz" | $checksum_cmd -c
     fi
-else
-    echo "${MD5_SUM}  ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz" | $checksum_cmd -c
 fi
 
 tar -xf ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz -C ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
