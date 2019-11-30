@@ -1,0 +1,20 @@
+{
+  "name": "list-files-utils",
+  "version": "v1.4.1",
+  "repo": "WestleyR/list-files",
+  "license": "The Clear BSD License",
+  "dependencies": {
+    "WestleyR/c-utils": "1.0.1"
+  },
+  "src": [
+      "src/add_slash.c", "src/add_slash.h",
+      "src/color.h",
+      "src/extcmp.c", "src/extcmp.h",
+      "src/find_link.c", "src/find_link.h",
+      "src/iszip.c", "src/iszip.h",
+      "src/readable-fs.c", "src/readable-fs.h",
+      "src/add_slash.c", "src/add_slash.h",
+      "src/color.h"
+  ]
+}
+

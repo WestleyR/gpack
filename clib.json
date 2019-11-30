@@ -3,6 +3,8 @@
   "version": "master",
   "repo": "WestleyR/gpack",
   "dependencies": {
+    "WestleyR/list-files": "v1.4.1",
+    "WestleyR/logger": "1.0.1",
     "WestleyR/c-utils": "1.0.1"
   }
 }

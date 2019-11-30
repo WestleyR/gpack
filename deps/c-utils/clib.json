@@ -1,0 +1,9 @@
+{
+  "name": "c-utils",
+  "version": "1.0.1",
+  "repo": "WestleyR/c-utils",
+  "description": "Simple C Utils For Your C Code",
+  "keywords": ["c", "utils", "basic", "functions", "add", "char", "to", "string"],
+  "license": "The Clear BSD License",
+  "src": ["src/c-utils.c", "src/c-utils.h"]
+}
