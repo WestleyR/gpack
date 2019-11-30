@@ -22,6 +22,8 @@
 
 #include "utils.h"
 
+#include "list-files-utils/find_link.h"
+
 int autoclean();
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

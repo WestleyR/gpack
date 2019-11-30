@@ -14,24 +14,6 @@
 
 #include "autoclean.h"
 
-int find_link(char* symlink, const char* name) {
-  char link_buff[256];
-  link_buff[0] = '\0';
-
-  ssize_t len = readlink(name, link_buff, sizeof(link_buff));
-  if (len == -1) {
-    perror("readlink");
-    fprintf(stderr, "Unable to find link for: %s\n", name);
-    return(-1);
-  }
-
-  symlink[0] = '\0';
-  strcpy(symlink, link_buff);
-  symlink[len] = '\0';
-
-  return(0);
-}
-
 int autoclean() {
   char* installed_dir = get_bin();
 
