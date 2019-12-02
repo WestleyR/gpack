@@ -7,36 +7,20 @@ if [ -z $1 ]; then
   exit 1
 fi
 
-
 # get the pkg
 source $1
 
-echo "user         : $USR_NAME"
-echo "name         : $PKG_NAME"
-echo "name         : $NAME"
-echo "version      : $PKG_VERSION"
-echo "url          : $TARBALL"
-echo "un-tar dir   : $UNTAR_DIR"
-echo "exacutable   : $COMMANDS"
-echo "libraries    : $LIBRARIES"
-echo "install cmd  : ${INSTALL_CMD}"
-echo "libraries    : ${LIBRARIES}"
-echo "header files : ${HEADER_FILES}"
-
-wget -O ${gpack_prefix}/package.tar.gz ${TARBALL}
+wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL}
 tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
 
 cd ${gpack_prefix}/${UNTAR_DIR}
 
-ls
-
 if [ ! -z "${INSTALL_LIB}" ]; then
-  ${INSTALL_LIB}
+  ${INSTALL_LIB} &> /dev/null
 
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
 
-  ls
   for l in ${LIBRARIES}; do
     cp -f $l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   done
@@ -55,23 +39,21 @@ if [ ! -z "${INSTALL_LIB}" ]; then
   done
 fi
 
-ls
-
 if [ ! -z "${INSTALL_CMD}" ]; then
 
-  ${INSTALL_CMD}
+  ${INSTALL_CMD} &> /dev/null
 
   cd ${gpack_prefix}/bin
 
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
 
+  echo "Copying files..."
   for b in $(ls -1); do
-    echo "Copying files: $b"
     cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
   done
 
+  echo "Installing files..."
   for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
-    echo "Installing files: $c"
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$c" ${HOME}/.gpack/bin
   done
 fi

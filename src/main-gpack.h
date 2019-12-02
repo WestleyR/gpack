@@ -20,7 +20,7 @@
 #include <unistd.h>
 #include <getopt.h>
 
-#define GPACK_VERSION "v1.0.0-beta-16, Dec 1, 2019"
+#define GPACK_VERSION "v1.0.0-beta-20, Dec 1, 2019"
 
 //
 // End main-gpack.h

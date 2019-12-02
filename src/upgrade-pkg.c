@@ -131,8 +131,10 @@ int upgrade_pkg() {
               return(1);
             }
 
+#ifdef DEBUG
             printf("Current version: %s; for: %s\n", current_version, version_file);
             printf("Static version: %s\n", static_version);
+#endif
 
             if (strstr(static_version, current_version)) {
               if (strcmp(current_version, "master") == 0) {
