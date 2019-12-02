@@ -164,8 +164,6 @@ int upgrade_pkg() {
 
   free(ppath);
 
-  printf("I: Done\n");
-
   return(0);
 }
 

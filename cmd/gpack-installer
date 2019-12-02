@@ -10,13 +10,37 @@ fi
 # get the pkg
 source $1
 
-wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL}
+if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL} ; then
+  echo "ERROR: failed to download tarball from: ${TARBALL}"
+  exit 1
+fi
 tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
 
 cd ${gpack_prefix}/${UNTAR_DIR}
 
+build_log=${gpack_prefix}/build.log
+
+if [ ! -z "${DEP_PKGS}" ]; then
+  echo "I: Installing deps: ${DEP_PKGS}..."
+  for d in ${DEP_PKGS}; do
+    echo "I: Installing: ${d}..."
+    if ! gpack install $d ; then
+      echo "ERROR: Failed to install deps: ${d}"
+      exit 1
+    fi
+  done
+fi
+
 if [ ! -z "${INSTALL_LIB}" ]; then
-  ${INSTALL_LIB} &> /dev/null
+  if ! ${INSTALL_LIB} &>> ${build_log} ; then
+    echo
+    echo "ERROR: failed to compile libraries"
+    echo "last 10 lines from: ${build_log}"
+    echo
+    tail ${build_log}
+    echo
+    exit 1
+  fi
 
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
@@ -40,8 +64,15 @@ if [ ! -z "${INSTALL_LIB}" ]; then
 fi
 
 if [ ! -z "${INSTALL_CMD}" ]; then
-
-  ${INSTALL_CMD} &> /dev/null
+  if ! ${INSTALL_CMD} &>> ${build_log} ; then
+    echo
+    echo "ERROR: failed to compile binary"
+    echo "last 10 lines from: ${build_log}"
+    echo
+    tail ${build_log}
+    echo
+    exit 1
+  fi
 
   cd ${gpack_prefix}/bin
 

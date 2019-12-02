@@ -22,12 +22,10 @@ int reinstall_pkg(const char *pkg) {
 //    return(1);
 //  }
 
-  if (install_pkg(pkg) != 0) {
+  if (install_pkg(pkg, 0) != 0) {
     fprintf(stderr, "Failed to reinstall: %s\n", pkg);
     return(1);
   }
-
-  printf("I: Done\n");
 
   return(0);
 }

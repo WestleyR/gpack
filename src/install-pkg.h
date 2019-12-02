@@ -21,7 +21,7 @@
 #include "utils.h"
 #include "logger/logger.h"
 
-int install_pkg(const char* pkg);
+int install_pkg(const char* pkg, int check_installed);
 
 //
 // End install-pkg.h

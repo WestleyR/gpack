@@ -129,7 +129,7 @@ int main(int argc, char **argv) {
           }
           if (argv[i+n] == NULL) break;
           printf("I: Installing: %s ...\n", argv[i+n]);
-          install_pkg(argv[i+n]);
+          install_pkg(argv[i+n], 1);
         }
         return(0);
         break;

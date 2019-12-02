@@ -23,7 +23,7 @@ char* replace_char(char* str, char find, char replace){
   return str;
 }
 
-int open_package(const char* pkg) {
+int open_package(const char* pkg, int check_installed) {
   char pkg_file[256];
   pkg_file[0] = '\0';
 
@@ -53,11 +53,13 @@ int open_package(const char* pkg) {
   strcat(installed_pkg, "/.gpack/installed/");
   strcat(installed_pkg, pkg);
 
-//  struct stat sb;
-//  if (stat(installed_pkg, &sb) == 0 && S_ISDIR(sb.st_mode)) {
-//    printf("%s: is already installed\n", pkg);
-//    return 1;
-//  }
+  if (check_installed) {
+    struct stat sb;
+    if (stat(installed_pkg, &sb) == 0 && S_ISDIR(sb.st_mode)) {
+      printf("%s: is already installed\n", pkg);
+      return 1;
+    }
+  }
 
   char cmd[256];
 
@@ -80,9 +82,9 @@ int open_package(const char* pkg) {
   return 0;
 }
 
-int install_pkg(const char* pkg) {
+int install_pkg(const char* pkg, int check_installed) {
 
-  if (open_package(pkg) != 0) {
+  if (open_package(pkg, check_installed) != 0) {
     return(1);
   }
   printf("I: Done\n");
