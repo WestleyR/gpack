@@ -1,2 +1,2 @@
-export gpack_prefix=$(mktemp -d --suffix=-${1})
+export gpack_prefix=$(mktemp -d --suffix=-${1}) || export gpack_prefix=$(mktemp -d)
 

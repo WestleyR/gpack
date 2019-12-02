@@ -1,25 +1,16 @@
-#!/bin/sh
-# This script will get ran when the user wants to install it.
-
-set -ex
-
-# Package info
 USR_NAME="WestleyR"
 PKG_NAME="whereis"
-BINARY_NAME="whereis"
+NAME="whereis"
 PKG_VERSION="1.0.1"
 
-# Download the package
-mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
-wget -O ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz
-tar -xf ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/package.tar.gz -C ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}
+TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
+UNTAR_DIR="${NAME}-${PKG_VERSION}"
 
-cd ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}
+COMMANDS="whereis"
+LIBRARIES=""
 
-# Build, and install the package in its own directory as a prefix
-make install PREFIX=${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}
+# Load the prefix
+. load_gpack ${PKG_NAME}
 
-# Link the binary to gpack's bin
-ln -f -s ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_NAME}-${PKG_VERSION}/bin/${BINARY_NAME} ${HOME}/.gpack/bin
+INSTALL_CMD="make install PREFIX=${gpack_prefix}"
 
-echo $PKG_VERSION > ../version.gpack
