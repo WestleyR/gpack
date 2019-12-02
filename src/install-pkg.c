@@ -59,20 +59,21 @@ int open_package(const char* pkg) {
     return 1;
   }
 
-  printf("Executing install script...\n");
+  char cmd[256];
 
-  char cmd[strlen(pkg_file) + 5];
-  cmd[0] = '\0';
+  char* installer_script = get_installer();
 
-  strcpy(cmd, "sh ");
+  strcpy(cmd, installer_script);
   strcat(cmd, pkg_file);
+
+  printf("Executing install script: %s\n", cmd);
 
   if (system(cmd) != 0) {
     fprintf(stderr, "Failed to install: %s\n", pkg);
-    fprintf(stderr, "Cleaning up...\n");
-    remove_pkg(pkg);
     return(1);
   }
+
+  free(installer_script);
 
   return 0;
 }

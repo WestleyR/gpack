@@ -16,6 +16,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+char* get_installer();
 char* get_package_dir();
 char* get_pkg_version(const char* pkg);
 char* get_update_script();

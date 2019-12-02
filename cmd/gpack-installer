@@ -1,12 +1,50 @@
-#!/bin/sh
+#!/bin/bash
 
-set -e
+set -ex
 
 if [ -z $1 ]; then
-    echo "No script to install"
-    exit 1
+  echo "No script to install"
+  exit 1
 fi
 
-#. $1
 
+# get the pkg
+source $1
 
+echo "user         : $USR_NAME"
+echo "name         : $PKG_NAME"
+echo "version      : $PKG_VERSION"
+echo "url          : $TARBALL"
+echo "un-tar dir   : $UNTAR_DIR"
+echo "exacutable   : $COMMANDS"
+echo "libraries    : $LIBRARIES"
+echo "install cmd  : ${INSTALL_CMD}"
+
+wget -O ${gpack_prefix}/package.tar.gz ${TARBALL}
+tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
+
+cd ${gpack_prefix}/${UNTAR_DIR}
+
+ls
+
+${INSTALL_CMD}
+
+cd ${gpack_prefix}/bin
+
+ls
+
+mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin
+
+for b in $(ls -1); do
+  echo "Copying files: $b"
+  cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin
+done
+
+for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin); do
+  echo "Installing files: $b"
+  ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin/$c" ${HOME}/.gpack/bin
+done
+
+echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/version.gpack
+
+# vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

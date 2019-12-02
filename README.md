@@ -1,4 +1,4 @@
-# Simple, minimal, rootless package manager
+# Simple, minimal, rootless package and library manager
 
 WIP
 
@@ -29,7 +29,14 @@ make install # Dont use sudo!!!
 
 `gpack` is installed in the users home directory, no root or sudo requiered.
 
-Be sure to add `~/.gpack/bin` to you PATH.
+#### Setting up your environment
+
+Add the following lines to your `~/.bashrc`:
+
+```
+export LD_LIBRARY_PATH=${HOME}/.lib/:${LD_LIBRARY_PATH}
+export PATH=${PATH}:${HOME}/.gpack/bin/
+```
 
 <br>
 

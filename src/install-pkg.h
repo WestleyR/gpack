@@ -18,6 +18,7 @@
 
 #include "remove-pkg.h"
 #include "config.h"
+#include "utils.h"
 #include "logger/logger.h"
 
 int install_pkg(const char* pkg);

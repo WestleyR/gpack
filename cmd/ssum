@@ -3,7 +3,7 @@ PKG_NAME="ssum"
 PKG_VERSION="master"
 
 TARBALL="https://github.com/WestleyR/ssum/tarball/master"
-UNTAR_DIR="WestleyR-ssum-5a1dd67"
+UNTAR_DIR="foo"
 
 COMMANDS="ssum"
 LIBRARIES=""
