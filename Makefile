@@ -1,6 +1,6 @@
 # Created by: WestleyR
 # email: westleyr@nym.hush.com
-# Date: Jun 16, 2019
+# Date: Dec 1, 2019
 # https://github.com/WestleyR/gpack
 # version-1.0.0
 #
@@ -64,6 +64,7 @@ cleanall:
 install: $(TARGET)
 	mkdir -p $(PREFIX)/bin
 	cp -f $(TARGET) $(PREFIX)/bin
+	cp -f cmd/load_gpack $(PREFIX)/bin
 
 #
 # End Makefile

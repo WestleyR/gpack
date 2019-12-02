@@ -33,16 +33,16 @@ cd ${gpack_prefix}/bin
 
 ls
 
-mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin
+mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin
 
 for b in $(ls -1); do
   echo "Copying files: $b"
-  cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin
+  cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin
 done
 
-for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin); do
+for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin); do
   echo "Installing files: $b"
-  ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/bin/$c" ${HOME}/.gpack/bin
+  ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin/$c" ${HOME}/.gpack/bin
 done
 
 echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/version.gpack

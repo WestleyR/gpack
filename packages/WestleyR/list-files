@@ -3,7 +3,7 @@ PKG_NAME="list-files"
 PKG_VERSION="1.4.1"
 
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
-UNTAR_DIR="list-files-1.4.1"
+UNTAR_DIR="list-files-${PKG_VERSION}"
 
 COMMANDS="ssum"
 LIBRARIES=""
