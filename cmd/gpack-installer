@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -ex
+set -e
 
 if [ -z $1 ]; then
   echo "No script to install"
@@ -13,12 +13,15 @@ source $1
 
 echo "user         : $USR_NAME"
 echo "name         : $PKG_NAME"
+echo "name         : $NAME"
 echo "version      : $PKG_VERSION"
 echo "url          : $TARBALL"
 echo "un-tar dir   : $UNTAR_DIR"
 echo "exacutable   : $COMMANDS"
 echo "libraries    : $LIBRARIES"
 echo "install cmd  : ${INSTALL_CMD}"
+echo "libraries    : ${LIBRARIES}"
+echo "header files : ${HEADER_FILES}"
 
 wget -O ${gpack_prefix}/package.tar.gz ${TARBALL}
 tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
@@ -27,24 +30,52 @@ cd ${gpack_prefix}/${UNTAR_DIR}
 
 ls
 
-${INSTALL_CMD}
+if [ ! -z "${INSTALL_LIB}" ]; then
+  ${INSTALL_LIB}
 
-cd ${gpack_prefix}/bin
+  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+
+  ls
+  for l in ${LIBRARIES}; do
+    cp -f $l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+  done
+  for h in ${HEADER_FILES}; do
+    cp -f $h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+  done
+
+  for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
+    echo "Installing files: $l"
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.lib
+  done
+
+  for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
+    echo "Installing files: $h"
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.lib/include
+  done
+fi
 
 ls
 
-mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin
+if [ ! -z "${INSTALL_CMD}" ]; then
 
-for b in $(ls -1); do
-  echo "Copying files: $b"
-  cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin
-done
+  ${INSTALL_CMD}
 
-for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin); do
-  echo "Installing files: $b"
-  ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin/$c" ${HOME}/.gpack/bin
-done
+  cd ${gpack_prefix}/bin
 
-echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/version.gpack
+  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+
+  for b in $(ls -1); do
+    echo "Copying files: $b"
+    cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+  done
+
+  for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
+    echo "Installing files: $c"
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$c" ${HOME}/.gpack/bin
+  done
+fi
+
+echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
 
 # vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
