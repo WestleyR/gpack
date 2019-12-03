@@ -20,7 +20,6 @@ CC = gcc
 DEP_FLAG = -Ideps
 CFLAGS = -Wall
 DEFLAGS = 
-LDFLAGS =
 
 TARGET = gpack
 
@@ -30,8 +29,6 @@ DEFLAGS += -DCOMMIT_HASH=\"$(COMMIT)\"
 ifeq ($(DEBUG), true)
 	CFLAGS += -DDEBUG
 endif
-
-CMD = $(wildcard cmd/*)
 
 SRCDIR = src
 DEPDIR = deps
@@ -46,11 +43,11 @@ all: $(TARGET)
 
 .PHONY:
 $(TARGET): $(OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $(TARGET) $(OBJS)
+	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(TARGET)
 
 .PHONY:
 %.o: %.c
-	$(CC) $(DEP_FLAG) $(CFLAGS) $(DEFLAGS) $(LDFLAGS) -o $@ -c $<
+	$(CC) $(DEP_FLAG) $(CFLAGS) $(DEFLAGS) -o $@ -c $< $(LDFLAGS)
 
 .PHONY:
 clean:

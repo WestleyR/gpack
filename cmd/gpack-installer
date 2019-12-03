@@ -32,7 +32,7 @@ if [ ! -z "${DEP_PKGS}" ]; then
 fi
 
 if [ ! -z "${INSTALL_LIB}" ]; then
-  if ! ${INSTALL_LIB} &>> ${build_log} ; then
+  if ! ${INSTALL_LIB} &> ${build_log} ; then
     echo
     echo "ERROR: failed to compile libraries"
     echo "last 10 lines from: ${build_log}"
@@ -52,19 +52,21 @@ if [ ! -z "${INSTALL_LIB}" ]; then
     cp -f $h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
   done
 
+  mkdir -p ${HOME}/.local/lib
   for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
     echo "Installing files: $l"
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.lib
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
   done
 
+  mkdir -p ${HOME}/.local/include
   for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
     echo "Installing files: $h"
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.lib/include
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
   done
 fi
 
 if [ ! -z "${INSTALL_CMD}" ]; then
-  if ! ${INSTALL_CMD} &>> ${build_log} ; then
+  if ! ${INSTALL_CMD} &> ${build_log} ; then
     echo
     echo "ERROR: failed to compile binary"
     echo "last 10 lines from: ${build_log}"

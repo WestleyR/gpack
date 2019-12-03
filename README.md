@@ -34,8 +34,18 @@ make install # Dont use sudo!!!
 Add the following lines to your `~/.bashrc`:
 
 ```
-export LD_LIBRARY_PATH=${HOME}/.lib/:${LD_LIBRARY_PATH}
+# For you installed commands
 export PATH=${PATH}:${HOME}/.gpack/bin/
+
+# For shared libraries at runtime
+export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/.local/lib/
+
+# For your c compiler to include the installed libraries
+export CPATH=${CPATH}:${HOME}/.local/include
+export LIBRARY_PATH=${LIBRARY_PATH}:${HOME}/.local/lib
+
+# optional (this helps other projects find your libries) (not nessary if you do the above)
+export LDFLAGS="${LDFLAGS} -L${HOME}/.local/lib -I${HOME}/.local/include"
 ```
 
 <br>
@@ -53,7 +63,6 @@ export PATH=${PATH}:${HOME}/.gpack/bin/
 
  - Q: Where does gpack install packages?
    - A: In `~/.gpack/installed/<user>/<package_name>`, all binaries are symlinked to `~/.gpack/bin`, and can easily be uninstalled.
-
 
 <br>
 
