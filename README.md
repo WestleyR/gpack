@@ -1,4 +1,4 @@
-# Simple, minimal, rootless package and library manager
+# Simple, fast, rootless package and library manager
 
 WIP
 
@@ -38,14 +38,20 @@ Add the following lines to your `~/.bashrc`:
 export PATH=${PATH}:${HOME}/.gpack/bin/
 
 # For shared libraries at runtime
-export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${HOME}/.local/lib/
+export LD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 
 # For your c compiler to include the installed libraries
-export CPATH=${CPATH}:${HOME}/.local/include
-export LIBRARY_PATH=${LIBRARY_PATH}:${HOME}/.local/lib
+export CPATH=${HOME}/.local/include:${CPATH}
+export LIBRARY_PATH=${HOME}/.local/lib:${LIBRARY_PATH}
 
 # optional (this helps other projects find your libries) (not nessary if you do the above)
 export LDFLAGS="${LDFLAGS} -L${HOME}/.local/lib -I${HOME}/.local/include"
+```
+
+If you are using macOS, then use `DYLD_LIBRARY_PATH` instead of `LD_LIBRARY_PATH`:
+
+```
+export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 ```
 
 <br>
@@ -60,6 +66,9 @@ export LDFLAGS="${LDFLAGS} -L${HOME}/.local/lib -I${HOME}/.local/include"
 
  - Q: Can you uninstall gpack?
    - A: Yes; `rm -rf ~/.gpack` _NOTE: doing this will remove all packages that gpack installed._
+
+ - Q: Can gpack handle shared c libraries?
+   - A: Yes; installed and symlinked to `~/.local/lib` and `~/.local/include`.
 
  - Q: Where does gpack install packages?
    - A: In `~/.gpack/installed/<user>/<package_name>`, all binaries are symlinked to `~/.gpack/bin`, and can easily be uninstalled.

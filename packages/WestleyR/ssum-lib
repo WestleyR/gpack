@@ -4,7 +4,7 @@ NAME="ssum-lib"
 PKG_VERSION="master"
 
 TARBALL="https://github.com/WestleyR/ssum/tarball/master"
-UNTAR_DIR="WestleyR-ssum-666edb9"
+UNTAR_DIR="WestleyR-ssum-*"
 
 LIBRARIES="libssum.1.so"
 HEADER_FILES="lib/ssum.1.h"

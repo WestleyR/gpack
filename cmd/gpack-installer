@@ -45,6 +45,7 @@ if [ ! -z "${INSTALL_LIB}" ]; then
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
 
+  echo "Copying files..."
   for l in ${LIBRARIES}; do
     cp -f $l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   done
@@ -52,15 +53,14 @@ if [ ! -z "${INSTALL_LIB}" ]; then
     cp -f $h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
   done
 
+  echo "Installing files..."
   mkdir -p ${HOME}/.local/lib
   for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
-    echo "Installing files: $l"
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
   done
 
   mkdir -p ${HOME}/.local/include
   for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
-    echo "Installing files: $h"
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
   done
 fi

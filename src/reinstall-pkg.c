@@ -15,7 +15,7 @@
 #include "reinstall-pkg.h"
 
 int reinstall_pkg(const char *pkg) {
-  printf("I: Reinstalling: %s\n", pkg);
+  print_debugf("Reinstalling: %s\n", pkg);
 
 //  if (remove_pkg(pkg) != 0) {
 //    fprintf(stderr, "Failed to remove: %s\n", pkg);

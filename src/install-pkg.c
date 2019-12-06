@@ -57,7 +57,8 @@ int open_package(const char* pkg, int check_installed) {
     struct stat sb;
     if (stat(installed_pkg, &sb) == 0 && S_ISDIR(sb.st_mode)) {
       printf("%s: is already installed\n", pkg);
-      return 1;
+      // TODO: this should not be 0
+      return(0);
     }
   }
 
@@ -78,6 +79,7 @@ int open_package(const char* pkg, int check_installed) {
   }
 
   free(installer_script);
+  printf("I: Done\n");
 
   return 0;
 }
@@ -87,7 +89,6 @@ int install_pkg(const char* pkg, int check_installed) {
   if (open_package(pkg, check_installed) != 0) {
     return(1);
   }
-  printf("I: Done\n");
 
   return(0);
 }

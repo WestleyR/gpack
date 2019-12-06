@@ -74,7 +74,9 @@ char* read_file(const char* path) {
 }
 
 int upgrade_pkg() {
-  printf("I: Upgrading...\n");
+#ifdef DEBUG
+  printf("I: Checking...\n");
+#endif
   char* ppath = get_package_prefix();
 
   DIR *dir;
@@ -124,7 +126,7 @@ int upgrade_pkg() {
           strcat(version_file, de->d_name);
           strcat(version_file, "/version.gpack");
           if (access(version_file, F_OK) == 0) {
-            printf("OK: %s\n", version_file);
+            print_debugf("OK: %s\n", version_file);
             char* current_version = read_file(version_file);
             if (current_version == NULL) {
               printf("Error\n");
@@ -138,14 +140,15 @@ int upgrade_pkg() {
 
             if (strstr(static_version, current_version)) {
               if (strcmp(current_version, "master") == 0) {
+                printf("I: Reinstalling master package: %s\n", pkg_name);
                 if (reinstall_pkg(pkg_name) != 0) {
                   printf("Failed to reinstall pkg\n");
                 }
               } else {
-                printf("%s: Already up to date\n", pkg_name);
+                print_verbosef("%s: Already up to date\n", pkg_name);
               }
             } else {
-              printf("Reinstalling: %s\n", pkg_name);
+              printf("I: Upgrading: %s\n", pkg_name);
               if (reinstall_pkg(pkg_name) != 0) {
                 printf("Failed to reinstall pkg\n");
               }

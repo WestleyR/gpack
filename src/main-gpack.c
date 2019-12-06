@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Jun 16, 2019
+// Date: Dec 1, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -34,18 +34,19 @@ void help_menu(const char* script_name) {
   printf("  $ %s [option] [command] <github/url>\n", script_name);
   printf("\n");
   printf("Commands:\n");
-  printf("  install    install a package.\n");
+  printf("  install    install a package/library\n");
   printf("  update     update gpack and libraries\n");
   printf("  upgrade    upgrade installed packages\n");
   printf("             note: if a package version is 'master',\n");
   printf("             it will alwasy be reinstalled.\n");
   printf("  remove     remove a package\n");
-  printf("  autoclean  auto clean gpack's bin (~/.gpack/bin)\n");
+  printf("  autoclean  remove broken links from ~/.gpack/bin,\n");
+  printf("             ~/.local/lib and ~/.local/include.\n");
   printf("  list       list all installed packages\n");
   printf("\n");
   printf("OPTIONS:\n");
   printf("  -h, --help     print help menu\n");
-  printf("  -v, --verbose  verbose\n");
+  printf("  -v, --verbose  verbose output\n");
   printf("  -d, --debug    debug output\n");
   printf("  -C, --commit   print the github commit hash\n");
   printf("  -V, --version  print version\n");
@@ -55,8 +56,8 @@ void help_menu(const char* script_name) {
   printf("  %s remove WestleyR/ssum\n", script_name);
   printf("  %s autoclean\n", script_name);
   printf("\n");
-  printf("This software is licensed under a Clear BSD License.\n");
   printf("Copyright (c) 2019 WestleyR, All rights reserved.\n");
+  printf("This software is licensed under a Clear BSD License.\n");
   printf("Source code: https://github.com/WestleyR/gpack\n");
   return;
 }
@@ -129,7 +130,9 @@ int main(int argc, char **argv) {
           }
           if (argv[i+n] == NULL) break;
           printf("I: Installing: %s ...\n", argv[i+n]);
-          install_pkg(argv[i+n], 1);
+          if (install_pkg(argv[i+n], 1) != 0) {
+            return(1);
+          }
         }
         return(0);
         break;

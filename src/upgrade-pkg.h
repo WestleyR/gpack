@@ -23,6 +23,7 @@
 
 #include "utils.h"
 #include "reinstall-pkg.h"
+#include "logger/logger.h"
 
 int upgrade_pkg();
 
