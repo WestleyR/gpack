@@ -7,7 +7,7 @@ TARBALL="https://github.com/WestleyR/ssum/tarball/master"
 UNTAR_DIR="WestleyR-ssum-*"
 
 LIBRARIES="libssum.1.so"
-HEADER_FILES="lib/ssum.1.h"
+HEADER_FILES="include/ssum.1.h"
 
 # Load the prefix
 . load_gpack ${PKG_NAME}
