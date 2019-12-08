@@ -3,6 +3,8 @@ PKG_NAME="clint"
 NAME="clint"
 PKG_VERSION="1.0.1"
 
+SHA256SUM="2e1e45bd14e2b81493b04d20c9f31eeeff35ceddce1cfa01fb603ac7dd2e6fc6"
+
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
 UNTAR_DIR="${NAME}-${PKG_VERSION}"
 
