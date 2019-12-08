@@ -1,4 +1,17 @@
 #!/bin/bash
+# Created by: WestleyR
+# email: westleyr@nym.hush.com
+# Date: Dec 7, 2019
+# https://github.com/WestleyR/gpack
+# version-1.0.0
+#
+# The Clear BSD License
+#
+# Copyright (c) 2019 WestleyR
+# All rights reserved.
+#
+# This software is licensed under a Clear BSD License.
+#
 
 set -e
 
@@ -14,6 +27,22 @@ if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL} ; then
   echo "ERROR: failed to download tarball from: ${TARBALL}"
   exit 1
 fi
+
+if [ ! -z "${SHA256SUM}" ]; then
+  if ! command -v sha256sum > /dev/null; then
+    echo "WARNING: sha256sum command not found; skipping"
+  else
+    if ! echo "${SHA256SUM}  ${gpack_prefix}/package.tar.gz" | sha256sum -c > /dev/null; then
+      echo "sha256sum verify failed; hashes differ"
+      exit 1
+    else
+      echo "${gpack_prefix}/package.tar.gz sha256sum OK"
+    fi
+  fi
+else
+  echo "No sha256sum to verify with..."
+fi
+
 tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
 
 cd ${gpack_prefix}/${UNTAR_DIR}
@@ -23,7 +52,6 @@ build_log=${gpack_prefix}/build.log
 if [ ! -z "${DEP_PKGS}" ]; then
   echo "I: Installing deps: ${DEP_PKGS}..."
   for d in ${DEP_PKGS}; do
-    echo "I: Installing: ${d}..."
     if ! gpack install $d ; then
       echo "ERROR: Failed to install deps: ${d}"
       exit 1

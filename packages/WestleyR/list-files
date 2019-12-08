@@ -3,6 +3,8 @@ PKG_NAME="list-files"
 NAME="list-files"
 PKG_VERSION="1.4.1"
 
+SHA256SUM="ea2c16d36a4df49e61d54d2302f3b4401fd1e012eab1b435a498cfd8294d9784"
+
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
 UNTAR_DIR="list-files-${PKG_VERSION}"
 
