@@ -3,7 +3,7 @@
 # email: westleyr@nym.hush.com
 # Date: Dec 7, 2019
 # https://github.com/WestleyR/gpack
-# version-1.0.0
+# version-1.0.1
 #
 # The Clear BSD License
 #
@@ -33,14 +33,14 @@ if [ ! -z "${SHA256SUM}" ]; then
     echo "WARNING: sha256sum command not found; skipping"
   else
     if ! echo "${SHA256SUM}  ${gpack_prefix}/package.tar.gz" | sha256sum -c > /dev/null; then
-      echo "sha256sum verify failed; hashes differ"
+      echo "ERROR: sha256sum verify failed; hashes differ"
       exit 1
     else
       echo "${gpack_prefix}/package.tar.gz sha256sum OK"
     fi
   fi
 else
-  echo "No sha256sum to verify with..."
+  echo "WARNING: No sha256sum to verify with..."
 fi
 
 tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
@@ -50,7 +50,7 @@ cd ${gpack_prefix}/${UNTAR_DIR}
 build_log=${gpack_prefix}/build.log
 
 if [ ! -z "${DEP_PKGS}" ]; then
-  echo "I: Installing deps: ${DEP_PKGS}..."
+  echo "I: Installing dependencies: ${DEP_PKGS}..."
   for d in ${DEP_PKGS}; do
     if ! gpack install $d ; then
       echo "ERROR: Failed to install deps: ${d}"
@@ -73,7 +73,7 @@ if [ ! -z "${INSTALL_LIB}" ]; then
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
 
-  echo "Copying files..."
+  echo "I: Copying files..."
   for l in ${LIBRARIES}; do
     cp -f $l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   done
@@ -81,7 +81,7 @@ if [ ! -z "${INSTALL_LIB}" ]; then
     cp -f $h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
   done
 
-  echo "Installing files..."
+  echo "I: Installing files..."
   mkdir -p ${HOME}/.local/lib
   for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
@@ -108,12 +108,12 @@ if [ ! -z "${INSTALL_CMD}" ]; then
 
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
 
-  echo "Copying files..."
+  echo "I: Copying files..."
   for b in $(ls -1); do
     cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
   done
 
-  echo "Installing files..."
+  echo "I: Installing files..."
   for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$c" ${HOME}/.gpack/bin
   done

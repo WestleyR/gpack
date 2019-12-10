@@ -3,7 +3,7 @@ PKG_NAME="ssum"
 NAME="ssum"
 PKG_VERSION="master"
 
-DEP_PKGS="WestleyR/ssum-lib"
+DEP_PKGS="WestleyR/lib-ssum"
 
 TARBALL="https://github.com/WestleyR/ssum/tarball/master"
 UNTAR_DIR="WestleyR-ssum-*"
