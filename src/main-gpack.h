@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Dec 8, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+// version-1.0.1
 //
 // The Clear BSD License
 //
@@ -11,6 +11,9 @@
 //
 // This software is licensed under a Clear BSD License.
 //
+
+#ifndef INCLUDE_MAIN_H
+#define INCLUDE_MAIN_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,6 +25,6 @@
 
 #define GPACK_VERSION "v1.0.0-beta-26, Dec 8, 2019"
 
-//
-// End main-gpack.h
-//
+#endif // INCLUDE_MAIN_H
+
+// vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

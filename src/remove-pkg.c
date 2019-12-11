@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Jun 22, 2019
 // https://github.com/WestleyR/gpack
-// version-1.1.0
+// version-1.1.1
 //
 // The Clear BSD License
 //
@@ -17,7 +17,6 @@
 #include <sys/stat.h>
 
 #include "remove-pkg.h"
-#include "config.h"
 
 #include "logger/logger.h"
 
@@ -53,8 +52,6 @@ int remove_pkg(char *pkg) {
 
   char* ispk = strtok(pkg, "/");
   int sc = 0;
-  printf("ISPK: %s\n", ispk);
-
   while (ispk != NULL) {
     ispk = strtok(NULL, "/");
     sc++;

@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Nov 24, 2019
+// Date: Dec 8, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.1
+// version-1.0.2
 //
 // The Clear BSD License
 //
@@ -11,6 +11,9 @@
 //
 // This software is licensed under a Clear BSD License.
 //
+
+#ifndef AUTOCLEAN_H
+#define AUTOCLEAN_H
 
 #include <stdlib.h>
 #include <stdio.h>
@@ -26,5 +29,7 @@
 #include "logger/logger.h"
 
 int autoclean();
+
+#endif // AUTOCLEAN_H
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
