@@ -9,5 +9,5 @@ UNTAR_DIR="WestleyR-ssum-*"
 # Load the prefix
 . load_gpack ${PKG_NAME}
 
-INSTALL_CMD="make install-lib LIB_PREFIX=${gpack_prefix} INCLUDE_PREFIX=${gpack_prefix}"
+INSTALL_CMD="make install-lib PREFIX=${gpack_prefix}"
 

@@ -3,7 +3,7 @@
 # email: westleyr@nym.hush.com
 # Date: Dec 7, 2019
 # https://github.com/WestleyR/gpack
-# version-1.1.0
+# version-1.1.1
 #
 # The Clear BSD License
 #
@@ -79,19 +79,19 @@ if [ ! -z "${INSTALL_CMD}" ]; then
   # Check bin files
   if test -d ${gpack_prefix}/bin; then
     for e in $(ls -1 ${gpack_prefix}/bin); do
-      cp -f $e ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+      cp -f ${gpack_prefix}/bin/$e ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
     done
   fi
 
   if test -d ${gpack_prefix}/lib; then
     for l in $(ls -1 ${gpack_prefix}/lib); do
-      cp -f $l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+      cp -f ${gpack_prefix}/lib/$l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
     done
   fi
 
   if test -d ${gpack_prefix}/include; then
     for h in $(ls -1 ${gpack_prefix}/include); do
-      cp -f $h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+      cp -f ${gpack_prefix}/include/$h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
     done
   fi
 
