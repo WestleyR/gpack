@@ -43,9 +43,6 @@ export LD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 # For your c compiler to include the installed libraries
 export CPATH=${HOME}/.local/include:${CPATH}
 export LIBRARY_PATH=${HOME}/.local/lib:${LIBRARY_PATH}
-
-# optional (this helps other projects find your libries) (not nessary if you do the above)
-export LDFLAGS="${LDFLAGS} -L${HOME}/.local/lib -I${HOME}/.local/include"
 ```
 
 If you are using macOS, then use `DYLD_LIBRARY_PATH` instead of `LD_LIBRARY_PATH`:

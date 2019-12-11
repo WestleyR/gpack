@@ -3,7 +3,7 @@
 # email: westleyr@nym.hush.com
 # Date: Dec 7, 2019
 # https://github.com/WestleyR/gpack
-# version-1.0.1
+# version-1.1.0
 #
 # The Clear BSD License
 #
@@ -59,8 +59,8 @@ if [ ! -z "${DEP_PKGS}" ]; then
   done
 fi
 
-if [ ! -z "${INSTALL_LIB}" ]; then
-  if ! ${INSTALL_LIB} &> ${build_log} ; then
+if [ ! -z "${INSTALL_CMD}" ]; then
+  if ! ${INSTALL_CMD} &> ${build_log} ; then
     echo
     echo "ERROR: failed to compile libraries"
     echo "last 10 lines from: ${build_log}"
@@ -70,55 +70,54 @@ if [ ! -z "${INSTALL_LIB}" ]; then
     exit 1
   fi
 
+  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
 
   echo "I: Copying files..."
-  for l in ${LIBRARIES}; do
-    cp -f $l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
-  done
-  for h in ${HEADER_FILES}; do
-    cp -f $h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
-  done
+
+  # Check bin files
+  if test -d ${gpack_prefix}/bin; then
+    for e in $(ls -1 ${gpack_prefix}/bin); do
+      cp -f $e ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+    done
+  fi
+
+  if test -d ${gpack_prefix}/lib; then
+    for l in $(ls -1 ${gpack_prefix}/lib); do
+      cp -f $l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+    done
+  fi
+
+  if test -d ${gpack_prefix}/include; then
+    for h in $(ls -1 ${gpack_prefix}/include); do
+      cp -f $h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+    done
+  fi
 
   echo "I: Installing files..."
+  mkdir -p ${HOME}/.gpack/bin
   mkdir -p ${HOME}/.local/lib
+  mkdir -p ${HOME}/.local/include
+  # TODO: handle etc dir
+
+  for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${HOME}/.gpack/bin
+  done
+
   for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
   done
 
-  mkdir -p ${HOME}/.local/include
   for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
   done
+  echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+else
+  echo "ERROR: No install command"
+  echo "Please open a issue at https://github.com/WestleyR/gpack, or https://github.com/${USR_NAME}/${PKG_NAME}"
+  exit 1
 fi
 
-if [ ! -z "${INSTALL_CMD}" ]; then
-  if ! ${INSTALL_CMD} &> ${build_log} ; then
-    echo
-    echo "ERROR: failed to compile binary"
-    echo "last 10 lines from: ${build_log}"
-    echo
-    tail ${build_log}
-    echo
-    exit 1
-  fi
-
-  cd ${gpack_prefix}/bin
-
-  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
-
-  echo "I: Copying files..."
-  for b in $(ls -1); do
-    cp -f "${gpack_prefix}/bin/$b" ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
-  done
-
-  echo "I: Installing files..."
-  for c in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$c" ${HOME}/.gpack/bin
-  done
-fi
-
-echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
 
 # vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

@@ -6,11 +6,8 @@ PKG_VERSION="master"
 TARBALL="https://github.com/WestleyR/ssum/tarball/master"
 UNTAR_DIR="WestleyR-ssum-*"
 
-LIBRARIES="libssum.1.so"
-HEADER_FILES="include/ssum.1.h"
-
 # Load the prefix
 . load_gpack ${PKG_NAME}
 
-INSTALL_LIB="make install-lib LIB_PREFIX=${gpack_prefix} INCLUDE_PREFIX=${gpack_prefix}"
+INSTALL_CMD="make install-lib LIB_PREFIX=${gpack_prefix} INCLUDE_PREFIX=${gpack_prefix}"
 

@@ -1,3 +1,0 @@
-
- [ ] Make the install script look at 'bin', 'lib', and 'include' in the prefix to install stuff
-
