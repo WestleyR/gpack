@@ -146,12 +146,21 @@ int main(int argc, char **argv) {
         return(0);
         break;
       } else if (strcmp(argv[i], "remove") == 0) {
+        if (argc - optind <= 0) {
+          print_errorf("Nothing to remove...\n");
+          return(1);
+        }
+        char cont;
+        fprintf(stderr, "This will remove:");
+        for (int i = optind+1; i < argc; i++) fprintf(stderr, " %s", argv[i]);
+        fprintf(stderr, "\nAre you sure you want to continue? [N/y] ");
+        scanf("%c", &cont);
+        if (cont != 'y' && cont != 'Y') {
+          fprintf(stderr, "Abouting\n");
+          return(1);
+        }
         for (int n = 1; n < argc-1; n++) {
-          if (argc - optind <= 0) {
-            print_errorf("Nothing to remove...\n");
-            return(1);
-          }
-          if (argv[i+n] == NULL) break;
+         if (argv[i+n] == NULL) break;
           printf("I: Removing: %s ...\n", argv[i+n]);
           remove_pkg(argv[i+n]);
         }

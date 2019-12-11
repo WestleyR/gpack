@@ -8,8 +8,6 @@ DEP_PKGS="WestleyR/lib-ssum"
 TARBALL="https://github.com/WestleyR/ssum/tarball/master"
 UNTAR_DIR="WestleyR-ssum-*"
 
-COMMANDS="ssum"
-
 # Load the prefix
 . load_gpack ${PKG_NAME}
 

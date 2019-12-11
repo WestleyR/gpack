@@ -1,5 +1,2 @@
 *.o
 /gpack
-
-/.gpack.log
-/pkg.list

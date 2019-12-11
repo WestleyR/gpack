@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Nov 23, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+// version-1.0.1
 //
 // The Clear BSD License
 //
@@ -61,18 +61,18 @@ int autoclean() {
 
         if (access(full_link_path, F_OK) != 0) {
           // If the link is broken
-          printf("%s: Link is broken\n", d->d_name);
-          printf("Removing: %s\n", full_file_path);
+          print_debugf("%s: Link is broken\n", d->d_name);
+          printf("I: Removing broken link: %s\n", full_file_path);
           if (remove(full_file_path) != 0) {
             fprintf(stderr, "Failed to remove: %s\n", full_file_path);
             return(1);
           }
         } else {
-          printf("%s: Link OK\n", d->d_name);
+          print_debugf("%s: Link OK\n", d->d_name);
         }
         free(link_path);
       } else {
-        fprintf(stderr, "%s: Is not a link, skipping\n", d->d_name);
+        print_debugf("%s: Is not a link, skipping\n", d->d_name);
       }
     }
   }
@@ -80,7 +80,7 @@ int autoclean() {
   closedir(dir);
   free(installed_dir);
 
-  return 1;
+  return(0);
 }
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

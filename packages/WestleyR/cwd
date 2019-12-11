@@ -8,9 +8,6 @@ SHA256SUM="97f0d41ec34755d9d3f40d9aeffa0b81af288200e7afabdfb278512e291f8b2f"
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
 UNTAR_DIR="${NAME}-${PKG_VERSION}"
 
-COMMANDS="cwd"
-LIBRARIES=""
-
 # Load the prefix
 . load_gpack ${PKG_NAME}
 

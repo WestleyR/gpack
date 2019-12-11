@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Nov 24, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+// version-1.0.1
 //
 // The Clear BSD License
 //
@@ -23,6 +23,7 @@
 #include "utils.h"
 
 #include "list-files-utils/find_link.h"
+#include "logger/logger.h"
 
 int autoclean();
 
