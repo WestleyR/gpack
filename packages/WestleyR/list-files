@@ -1,21 +1,21 @@
 USR_NAME="WestleyR"
 PKG_NAME="list-files"
 NAME="list-files"
-PKG_VERSION="1.4.1"
+PKG_VERSION="1.5.0"
 
-SHA256SUM="ea2c16d36a4df49e61d54d2302f3b4401fd1e012eab1b435a498cfd8294d9784"
+SHA256SUM="786abd3b67d92dab2bb5ad7d393cb2b07fc2d9fadfcf3c5ca756e4effdd97688"
 
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
 UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
 
 # Linux Ubuntu
 if [[ "$1" = "X86_64_LINUX" ]]; then
-    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.4.1-x86_64_linux.tar.gz"
-    PREBUILT_SHA256SUM="dfbb31258bfdd9ec0999a046005802755d33bdcca83c27eeb6947db6027b1020"
+    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.5.0-x86_64_linux.tar.gz"
+    PREBUILT_SHA256SUM="8f3e57336b27f99110478f0e6cd98be778eaaa197203a6e8f1bb8e0da9e1ba1f"
 # Macos
 elif [[ "$1" = "MACOS" ]]; then
-    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.4.1-macos.tar.gz"
-    PREBUILT_SHA256SUM="f80e262bcb073755eede5310743b4b135d1f8a63fff95967beb76b2d4319a071"
+    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.5.0-macos.tar.gz"
+    PREBUILT_SHA256SUM="bb55d6021d823264e698b0b8684ce40615a31472d32c8950ff1bab7fc87b2b9d"
 else
     echo "No prebuilt binaries avalibal for your arch: ${1}"
 fi
