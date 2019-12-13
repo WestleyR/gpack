@@ -1,25 +1,25 @@
 USR_NAME="WestleyR"
 PKG_NAME="list-files"
 NAME="list-files"
-PKG_VERSION="1.5.0"
+PKG_VERSION="1.5.1"
 
-SHA256SUM="786abd3b67d92dab2bb5ad7d393cb2b07fc2d9fadfcf3c5ca756e4effdd97688"
+SHA256SUM="ef2bae0b6ad0aac2e1aefc002f0d58136587032ee01c39edd61e26dc29f3c90c"
 
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
 UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
 
 # Linux Ubuntu
 if [[ "$1" = "X86_64_LINUX" ]]; then
-    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.5.0-x86_64_linux.tar.gz"
-    PREBUILT_SHA256SUM="8f3e57336b27f99110478f0e6cd98be778eaaa197203a6e8f1bb8e0da9e1ba1f"
+    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-x86_64_linux.tar.gz"
+    PREBUILT_SHA256SUM="2c8fcbf0933b4949ad12d02dd3e50250303146fa98654ea530933cebc71a3df8"
 # Macos
 elif [[ "$1" = "MACOS" ]]; then
-    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.5.0-macos.tar.gz"
-    PREBUILT_SHA256SUM="bb55d6021d823264e698b0b8684ce40615a31472d32c8950ff1bab7fc87b2b9d"
+    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-macos.tar.gz"
+    PREBUILT_SHA256SUM="de189bfe4ba6bf3a89ad30688750155c9a8b3b7f171e7abe430a48dc5dae7a5a"
 # Raspberry pi zero
 elif [[ "$1" = "ARMV6L" ]]; then
-    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.5.0-armv6l.tar.gz"
-    PREBUILT_SHA256SUM="69b9b19d48ad5d87ecd2f8f7cd18cb3fc3de35260075a7646417c0244203085c"
+    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-armv6l.tar.gz"
+    PREBUILT_SHA256SUM="fc3f0885b7ecc84884445d84d3850b40cc6c47990a5df8863ed7e95185754faa"
 else
     echo "No prebuilt binaries avalibal for your arch: ${1}"
 fi
