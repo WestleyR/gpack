@@ -3,7 +3,7 @@
 # email: westleyr@nym.hush.com
 # Date: Dec 7, 2019
 # https://github.com/WestleyR/gpack
-# version-1.1.1
+# version-1.2.0
 #
 # The Clear BSD License
 #
@@ -20,80 +20,141 @@ if [ -z $1 ]; then
   exit 1
 fi
 
-# get the pkg
-source $1
-
-if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL} ; then
-  echo "ERROR: failed to download tarball from: ${TARBALL}"
-  exit 1
-fi
-
-if [ ! -z "${SHA256SUM}" ]; then
-  if ! command -v sha256sum > /dev/null; then
-    echo "WARNING: sha256sum command not found; skipping"
-  else
-    if ! echo "${SHA256SUM}  ${gpack_prefix}/package.tar.gz" | sha256sum -c > /dev/null; then
-      echo "ERROR: sha256sum verify failed; hashes differ"
-      exit 1
-    else
-      echo "${gpack_prefix}/package.tar.gz sha256sum OK"
-    fi
-  fi
-else
-  echo "WARNING: No sha256sum to verify with..."
-fi
-
-tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
-
-cd ${gpack_prefix}/${UNTAR_DIR}
-
-build_log=${gpack_prefix}/build.log
-
-if [ ! -z "${DEP_PKGS}" ]; then
-  echo "I: Installing dependencies: ${DEP_PKGS}..."
-  for d in ${DEP_PKGS}; do
-    if ! gpack install $d ; then
-      echo "ERROR: Failed to install deps: ${d}"
-      exit 1
-    fi
-  done
-fi
-
-if [ ! -z "${INSTALL_CMD}" ]; then
-  if ! ${INSTALL_CMD} &> ${build_log} ; then
-    echo
-    echo "ERROR: failed to compile libraries"
-    echo "last 10 lines from: ${build_log}"
-    echo
-    tail ${build_log}
-    echo
+build_release() {
+  if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL} ; then
+    echo "ERROR: failed to download tarball from: ${TARBALL}"
     exit 1
   fi
 
-  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
-  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
-  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+  if [ ! -z "${SHA256SUM}" ]; then
+    if ! command -v sha256sum > /dev/null; then
+      echo "WARNING: sha256sum command not found; skipping"
+    else
+      if ! echo "${SHA256SUM}  ${gpack_prefix}/package.tar.gz" | sha256sum -c > /dev/null; then
+        echo "ERROR: sha256sum verify failed; hashes differ"
+        exit 1
+      else
+        echo "${gpack_prefix}/package.tar.gz sha256sum OK"
+      fi
+    fi
+  else
+    echo "WARNING: No sha256sum to verify with..."
+  fi
 
-  echo "I: Copying files..."
+  tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
 
-  # Check bin files
-  if test -d ${gpack_prefix}/bin; then
-    for e in $(ls -1 ${gpack_prefix}/bin); do
-      cp -f ${gpack_prefix}/bin/$e ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+  cd ${gpack_prefix}/${UNTAR_DIR}
+
+  build_log=${gpack_prefix}/build.log
+
+  if [ ! -z "${DEP_PKGS}" ]; then
+    echo "I: Installing dependencies: ${DEP_PKGS}..."
+    for d in ${DEP_PKGS}; do
+      if ! gpack install $d ; then
+        echo "ERROR: Failed to install deps: ${d}"
+        exit 1
+      fi
     done
   fi
 
-  if test -d ${gpack_prefix}/lib; then
-    for l in $(ls -1 ${gpack_prefix}/lib); do
-      cp -f ${gpack_prefix}/lib/$l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+  if [ ! -z "${INSTALL_CMD}" ]; then
+    if ! ${INSTALL_CMD} &> ${build_log} ; then
+      echo
+      echo "ERROR: failed to compile libraries"
+      echo "last 10 lines from: ${build_log}"
+      echo
+      tail ${build_log}
+      echo
+      exit 1
+    fi
+
+    mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+    mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+    mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+
+    echo "I: Copying files..."
+
+    # Check bin files
+    if test -d ${gpack_prefix}/bin; then
+      for e in $(ls -1 ${gpack_prefix}/bin); do
+        cp -f ${gpack_prefix}/bin/$e ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+      done
+    fi
+
+    if test -d ${gpack_prefix}/lib; then
+      for l in $(ls -1 ${gpack_prefix}/lib); do
+        cp -f ${gpack_prefix}/lib/$l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+      done
+    fi
+
+    if test -d ${gpack_prefix}/include; then
+      for h in $(ls -1 ${gpack_prefix}/include); do
+        cp -f ${gpack_prefix}/include/$h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+      done
+    fi
+
+    echo "I: Installing files..."
+    mkdir -p ${HOME}/.gpack/bin
+    mkdir -p ${HOME}/.local/lib
+    mkdir -p ${HOME}/.local/include
+    # TODO: handle etc dir
+
+    for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
+      ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${HOME}/.gpack/bin
     done
+
+    for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
+      ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
+    done
+
+    for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
+      ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
+    done
+    echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+  else
+    echo "ERROR: No install command"
+    echo "Please open a issue at https://github.com/WestleyR/gpack, or https://github.com/${USR_NAME}/${PKG_NAME}"
+    exit 1
+  fi
+  exit 0
+}
+
+# get the pkg
+if [ ! -z ${GPACK_ARCH} ]; then
+  source $1 ${GPACK_ARCH}
+else
+  echo "Warning: \$GPACK_ARCH not set; building package"
+  source $1
+  build_release
+fi
+
+if [ ! -z "${PREBUILT}" ]; then
+  echo "I: Installing prebuilt binaries..."
+  if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${PREBUILT} ; then
+    echo "ERROR: failed to download tarball from: ${PREBUILT}"
+    echo "Building from source..."
+    build_release
+    exit 0
+  fi
+  if [ ! -z "${SHA256SUM}" ]; then
+    if ! command -v sha256sum > /dev/null; then
+      echo "WARNING: sha256sum command not found; skipping"
+    else
+      if ! echo "${PREBUILT_SHA256SUM}  ${gpack_prefix}/package.tar.gz" | sha256sum -c > /dev/null; then
+        echo "ERROR: sha256sum verify failed; hashes differ"
+        echo "Building from source..."
+        build_release
+        exit 0
+      else
+        echo "${gpack_prefix}/package.tar.gz sha256sum OK"
+      fi
+    fi
+  else
+    echo "WARNING: No sha256sum to verify with..."
   fi
 
-  if test -d ${gpack_prefix}/include; then
-    for h in $(ls -1 ${gpack_prefix}/include); do
-      cp -f ${gpack_prefix}/include/$h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
-    done
-  fi
+  mkdir -p ${HOME}/.gpack/installed
+  tar -xf ${gpack_prefix}/package.tar.gz -C ${HOME}/.gpack/installed/${USR_NAME}
 
   echo "I: Installing files..."
   mkdir -p ${HOME}/.gpack/bin
@@ -101,23 +162,124 @@ if [ ! -z "${INSTALL_CMD}" ]; then
   mkdir -p ${HOME}/.local/include
   # TODO: handle etc dir
 
-  for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${HOME}/.gpack/bin
-  done
+  if test -d ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin; then
+    for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
+      ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${HOME}/.gpack/bin
+    done
+  fi
 
-  for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
-  done
+  if test -d ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib; then
+    for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
+      ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
+    done
+  fi
 
-  for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
-  done
+  if test -d ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include; then
+    for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
+      ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
+    done
+  fi
   echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+  exit 0
 else
-  echo "ERROR: No install command"
-  echo "Please open a issue at https://github.com/WestleyR/gpack, or https://github.com/${USR_NAME}/${PKG_NAME}"
-  exit 1
+  build_release
 fi
+
+#if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL} ; then
+#  echo "ERROR: failed to download tarball from: ${TARBALL}"
+#  exit 1
+#fi
+#
+#if [ ! -z "${SHA256SUM}" ]; then
+#  if ! command -v sha256sum > /dev/null; then
+#    echo "WARNING: sha256sum command not found; skipping"
+#  else
+#    if ! echo "${SHA256SUM}  ${gpack_prefix}/package.tar.gz" | sha256sum -c > /dev/null; then
+#      echo "ERROR: sha256sum verify failed; hashes differ"
+#      exit 1
+#    else
+#      echo "${gpack_prefix}/package.tar.gz sha256sum OK"
+#    fi
+#  fi
+#else
+#  echo "WARNING: No sha256sum to verify with..."
+#fi
+#
+#tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
+#
+#cd ${gpack_prefix}/${UNTAR_DIR}
+#
+#build_log=${gpack_prefix}/build.log
+#
+#if [ ! -z "${DEP_PKGS}" ]; then
+#  echo "I: Installing dependencies: ${DEP_PKGS}..."
+#  for d in ${DEP_PKGS}; do
+#    if ! gpack install $d ; then
+#      echo "ERROR: Failed to install deps: ${d}"
+#      exit 1
+#    fi
+#  done
+#fi
+#
+#if [ ! -z "${INSTALL_CMD}" ]; then
+#  if ! ${INSTALL_CMD} &> ${build_log} ; then
+#    echo
+#    echo "ERROR: failed to compile libraries"
+#    echo "last 10 lines from: ${build_log}"
+#    echo
+#    tail ${build_log}
+#    echo
+#    exit 1
+#  fi
+#
+#  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+#  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+#  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+#
+#  echo "I: Copying files..."
+#
+#  # Check bin files
+#  if test -d ${gpack_prefix}/bin; then
+#    for e in $(ls -1 ${gpack_prefix}/bin); do
+#      cp -f ${gpack_prefix}/bin/$e ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
+#    done
+#  fi
+#
+#  if test -d ${gpack_prefix}/lib; then
+#    for l in $(ls -1 ${gpack_prefix}/lib); do
+#      cp -f ${gpack_prefix}/lib/$l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
+#    done
+#  fi
+#
+#  if test -d ${gpack_prefix}/include; then
+#    for h in $(ls -1 ${gpack_prefix}/include); do
+#      cp -f ${gpack_prefix}/include/$h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
+#    done
+#  fi
+#
+#  echo "I: Installing files..."
+#  mkdir -p ${HOME}/.gpack/bin
+#  mkdir -p ${HOME}/.local/lib
+#  mkdir -p ${HOME}/.local/include
+#  # TODO: handle etc dir
+#
+#  for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
+#    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${HOME}/.gpack/bin
+#  done
+#
+#  for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
+#    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
+#  done
+#
+#  for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
+#    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
+#  done
+#  echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+#else
+#  echo "ERROR: No install command"
+#  echo "Please open a issue at https://github.com/WestleyR/gpack, or https://github.com/${USR_NAME}/${PKG_NAME}"
+#  exit 1
+#fi
 
 
 # vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
