@@ -16,6 +16,10 @@ if [[ "$1" = "X86_64_LINUX" ]]; then
 elif [[ "$1" = "MACOS" ]]; then
     PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.5.0-macos.tar.gz"
     PREBUILT_SHA256SUM="bb55d6021d823264e698b0b8684ce40615a31472d32c8950ff1bab7fc87b2b9d"
+# Raspberry pi zero
+elif [[ "$1" = "ARMV6L" ]]; then
+    PREBUILT="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v1.5.0-armv6l.tar.gz"
+    PREBUILT_SHA256SUM="69b9b19d48ad5d87ecd2f8f7cd18cb3fc3de35260075a7646417c0244203085c"
 else
     echo "No prebuilt binaries avalibal for your arch: ${1}"
 fi

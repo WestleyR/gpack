@@ -43,6 +43,13 @@ export LD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 # For your c compiler to include the installed libraries
 export CPATH=${HOME}/.local/include:${CPATH}
 export LIBRARY_PATH=${HOME}/.local/lib:${LIBRARY_PATH}
+
+# If Linux Ubuntu:
+export GPACK_ARCH="X86_64_LINUX"
+# Or if MacOS:
+export GPACK_ARCH="MACOS"
+# Or if raspberry pi zero
+export GPACK_ARCH="ARMV6L"
 ```
 
 If you are using macOS, then use `DYLD_LIBRARY_PATH` instead of `LD_LIBRARY_PATH`:
@@ -55,11 +62,12 @@ export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 
 ### FAQ
 
- - Q: Do you have a precompiled binary for gpack?
-   - A: Not yet, wip...
+ - Q: Does gpack support pre-compiled binaries?
+   - A: Yes.
 
  - Q: What dependencies does gpack require?
-   - A: Need gcc (or other c compiler) to compile gpack. Need `wget` and `tar` to download packages, and `git` for update.
+   - A: Need gcc (or other c compiler) to compile gpack. Need `wget` and `tar` to download packages, and `git` for update,
+   but also a couple other basic commands, like: `rm`, `cp`, `bash`, `ln`, which %99.99 of all systems have/support :)
 
  - Q: Can you uninstall gpack?
    - A: Yes; `rm -rf ~/.gpack` _NOTE: doing this will remove all packages that gpack installed._
