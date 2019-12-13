@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Nov 28, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+// version-1.0.1
 //
 // The Clear BSD License
 //
@@ -73,7 +73,7 @@ char* read_file(const char* path) {
   return(ret);
 }
 
-int upgrade_pkg() {
+int upgrade_pkg(int compile_build) {
 #ifdef DEBUG
   printf("I: Checking...\n");
 #endif
@@ -141,7 +141,7 @@ int upgrade_pkg() {
             if (strstr(static_version, current_version)) {
               if (strcmp(current_version, "master") == 0) {
                 printf("I: Reinstalling master package: %s\n", pkg_name);
-                if (reinstall_pkg(pkg_name) != 0) {
+                if (reinstall_pkg(pkg_name, compile_build) != 0) {
                   printf("Failed to reinstall pkg\n");
                 }
               } else {
@@ -149,7 +149,7 @@ int upgrade_pkg() {
               }
             } else {
               printf("I: Upgrading: %s\n", pkg_name);
-              if (reinstall_pkg(pkg_name) != 0) {
+              if (reinstall_pkg(pkg_name, compile_build) != 0) {
                 printf("Failed to reinstall pkg\n");
               }
             }

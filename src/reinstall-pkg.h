@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Dec 8, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.1
+// version-1.0.2
 //
 // The Clear BSD License
 //
@@ -25,7 +25,7 @@
 #include "install-pkg.h"
 #include "logger/logger.h"
 
-int reinstall_pkg(const char* pkg);
+int reinstall_pkg(const char* pkg, int compile_build);
 
 #endif // INCLUDE_REINSTALL_PKG_H
 

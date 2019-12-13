@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Dec 1, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+// version-1.0.1
 //
 // The Clear BSD License
 //
@@ -79,12 +79,14 @@ int main(int argc, char **argv) {
 
   int verbose_print = 0;
   int debug_print = 0;
+  int compile_build = 0;
 
   int opt = 0;
 
   static struct option long_options[] = {
     {"help", no_argument, 0, 'h'},
     {"verbose", no_argument, 0, 'V'},
+    {"compile", no_argument, 0, 'c'},
     {"commit", no_argument, 0, 'C'},
     {"verbose", no_argument, 0, 'v'},
     {"debug", no_argument, 0, 'd'},
@@ -92,7 +94,7 @@ int main(int argc, char **argv) {
   };
 
   //    while ((opt = getopt_long(argc, argv,"o:T:S:vVhdtsl", long_options, 0)) != -1) {
-  while ((opt = getopt_long(argc, argv, "vdVCh", long_options, 0)) != -1) {
+  while ((opt = getopt_long(argc, argv, "vdVcCh", long_options, 0)) != -1) {
     switch (opt) {
       case 'h':
         help_menu(argv[0]);
@@ -100,6 +102,9 @@ int main(int argc, char **argv) {
         break;
       case 'v':
         verbose_print = 1;
+        break;
+      case 'c':
+        compile_build = 1;
         break;
       case 'd':
         debug_print = 1;
@@ -130,7 +135,7 @@ int main(int argc, char **argv) {
           }
           if (argv[i+n] == NULL) break;
           printf("I: Installing: %s ...\n", argv[i+n]);
-          if (install_pkg(argv[i+n], 1) != 0) {
+          if (install_pkg(argv[i+n], 1, compile_build) != 0) {
             return(1);
           }
         }
@@ -142,7 +147,7 @@ int main(int argc, char **argv) {
         return(0);
         break;
       } else if (strcmp(argv[i], "upgrade") == 0) {
-        upgrade_pkg();
+        upgrade_pkg(compile_build);
         return(0);
         break;
       } else if (strcmp(argv[i], "remove") == 0) {

@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Jun 22, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+// version-1.0.1
 //
 // The Clear BSD License
 //
@@ -14,7 +14,7 @@
 
 #include "reinstall-pkg.h"
 
-int reinstall_pkg(const char *pkg) {
+int reinstall_pkg(const char *pkg, int compile_build) {
   print_debugf("Reinstalling: %s\n", pkg);
 
 //  if (remove_pkg(pkg) != 0) {
@@ -22,7 +22,7 @@ int reinstall_pkg(const char *pkg) {
 //    return(1);
 //  }
 
-  if (install_pkg(pkg, 0) != 0) {
+  if (install_pkg(pkg, 0, compile_build) != 0) {
     fprintf(stderr, "Failed to reinstall: %s\n", pkg);
     return(1);
   }

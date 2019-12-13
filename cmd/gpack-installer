@@ -3,7 +3,7 @@
 # email: westleyr@nym.hush.com
 # Date: Dec 7, 2019
 # https://github.com/WestleyR/gpack
-# version-1.2.0
+# version-1.2.1
 #
 # The Clear BSD License
 #
@@ -21,6 +21,7 @@ if [ -z $1 ]; then
 fi
 
 build_release() {
+  echo "I: Compiling from release..."
   if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${TARBALL} ; then
     echo "ERROR: failed to download tarball from: ${TARBALL}"
     exit 1
@@ -120,19 +121,18 @@ build_release() {
 }
 
 # get the pkg
-if [ ! -z ${GPACK_ARCH} ]; then
-  source $1 ${GPACK_ARCH}
-else
-  echo "Warning: \$GPACK_ARCH not set; building package"
+if [ -z ${GPACK_ARCH} ] || [ ! -z ${GPACK_COMPILE_BUILD} ]; then
   source $1
   build_release
+  exit 0
+else
+  source $1 ${GPACK_ARCH}
 fi
 
 if [ ! -z "${PREBUILT}" ]; then
   echo "I: Installing prebuilt binaries..."
   if ! wget -q --show-progress -O ${gpack_prefix}/package.tar.gz ${PREBUILT} ; then
     echo "ERROR: failed to download tarball from: ${PREBUILT}"
-    echo "Building from source..."
     build_release
     exit 0
   fi
@@ -142,7 +142,6 @@ if [ ! -z "${PREBUILT}" ]; then
     else
       if ! echo "${PREBUILT_SHA256SUM}  ${gpack_prefix}/package.tar.gz" | sha256sum -c > /dev/null; then
         echo "ERROR: sha256sum verify failed; hashes differ"
-        echo "Building from source..."
         build_release
         exit 0
       else

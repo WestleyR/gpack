@@ -28,7 +28,7 @@
 #include "reinstall-pkg.h"
 #include "logger/logger.h"
 
-int upgrade_pkg();
+int upgrade_pkg(int compile_build);
 
 #endif // INCLUDE_UPGRADE_PKG_H
 

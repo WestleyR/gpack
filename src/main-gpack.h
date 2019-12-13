@@ -23,7 +23,7 @@
 #include <unistd.h>
 #include <getopt.h>
 
-#define GPACK_VERSION "v1.0.0-beta-26, Dec 8, 2019"
+#define GPACK_VERSION "v1.0.0-beta-30, Dec 8, 2019"
 
 #endif // INCLUDE_MAIN_H
 

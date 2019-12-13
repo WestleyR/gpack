@@ -2,7 +2,7 @@
 // email: westleyr@nym.hush.com
 // Date: Jun 16, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+// version-1.1.0
 //
 // The Clear BSD License
 //
@@ -23,10 +23,9 @@ char* replace_char(char* str, char find, char replace){
   return str;
 }
 
-int open_package(const char* pkg, int check_installed) {
+int open_package(const char* pkg, int check_installed, int compile_build) {
   char pkg_file[256];
   pkg_file[0] = '\0';
-
 
   char* h = getenv("HOME");
   if (h == NULL) {
@@ -66,7 +65,14 @@ int open_package(const char* pkg, int check_installed) {
 
   char* installer_script = get_installer();
 
-  strcpy(cmd, installer_script);
+  if (compile_build == 1) {
+    printf("I: Compiling from release\n");
+    strcpy(cmd, "GPACK_COMPILE_BUILD=true ");
+    strcat(cmd, installer_script);
+  } else {
+    strcpy(cmd, installer_script);
+  }
+
   strcat(cmd, pkg_file);
 
 #ifdef DEBUG
@@ -84,9 +90,9 @@ int open_package(const char* pkg, int check_installed) {
   return 0;
 }
 
-int install_pkg(const char* pkg, int check_installed) {
+int install_pkg(const char* pkg, int check_installed, int compile_build) {
 
-  if (open_package(pkg, check_installed) != 0) {
+  if (open_package(pkg, check_installed, compile_build) != 0) {
     return(1);
   }
 
