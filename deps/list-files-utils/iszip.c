@@ -1,8 +1,8 @@
 // created by: WestleyR
 // email: westleyr@nym.hush.com
 // https://github.com/WestleyR/list-files
-// date: Nov 29, 2019
-// version-1.0.0
+// date: Dec 8, 2019
+// version-1.1.0
 //
 // The Clear BSD License
 //
@@ -15,15 +15,17 @@
 #include "iszip.h"
 
 int iszip(const char* file) {
-    if (extcmp(file, ".gz") == 0) {
-        return(0);
-    } else if (extcmp(file, ".lz4") == 0) {
-        return(0);
-    } else if (extcmp(file, ".zip") == 0) {
-        return(0);
-    }
+  if (extcmp(file, ".gz") == 0) {
+    return(0);
+  } else if (extcmp(file, ".lz4") == 0) {
+    return(0);
+  } else if (extcmp(file, ".tgz") == 0) {
+    return(0);
+  } else if (extcmp(file, ".zip") == 0) {
+    return(0);
+  }
 
-    return(-1);
+  return(-1);
 }
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

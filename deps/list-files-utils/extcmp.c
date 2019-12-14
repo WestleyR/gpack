@@ -15,13 +15,13 @@
 #include "extcmp.h"
 
 int extcmp(const char *string, const char* ext) {
-    string = strrchr(string, '.');
+  string = strrchr(string, '.');
 
-    if (string != NULL) {
-        return(strcmp(string, ext));
-    }
+  if (string != NULL) {
+    return(strcmp(string, ext));
+  }
 
-    return(-1);
+  return(-1);
 }
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

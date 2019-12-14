@@ -15,12 +15,12 @@
 #include "add_slash.h"
 
 int add_slash(char* path) {
-    int len = strlen(path);
-    if (path[len-1] != '/') {
-        add_char_to_string(path, '/');
-    }
+  int len = strlen(path);
+  if (path[len-1] != '/') {
+    add_char_to_string(path, '/');
+  }
 
-    return(0);
+  return(0);
 }
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
