@@ -1,9 +1,9 @@
 #!/bin/bash
 # Created by: WestleyR
 # email: westleyr@nym.hush.com
-# Date: Dec 13, 2019
+# Date: Dec 15, 2019
 # https://github.com/WestleyR/gpack
-# version-1.3.1
+# version-1.3.2
 #
 # The Clear BSD License
 #
@@ -175,7 +175,7 @@ if [ ! -z "${PREBUILT_URL}" ]; then
     echo "WARNING: No sha256sum to verify with..."
   fi
 
-  mkdir -p ${HOME}/.gpack/installed
+  mkdir -p ${HOME}/.gpack/installed/${USR_NAME}
   tar -xf ${gpack_prefix}/package.tar.gz -C ${HOME}/.gpack/installed/${USR_NAME}
 
   echo "I: Installing files..."

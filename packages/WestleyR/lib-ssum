@@ -1,13 +1,19 @@
 USR_NAME="WestleyR"
 PKG_NAME="ssum"
 NAME="lib-ssum"
-PKG_VERSION="master"
+PKG_VERSION="2.0.0"
 
-TARBALL="https://github.com/WestleyR/ssum/tarball/master"
-UNTAR_DIR="WestleyR-ssum-*"
+TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
+SHA256SUM="3afd8854bc40b34b7dbc54b4271f9c35d727b080d6704f923a696e8a1e678f5a"
+
+UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
 
 # Load the prefix
 . load_gpack ${PKG_NAME}
 
 INSTALL_CMD="make install-lib PREFIX=${gpack_prefix}"
+
+# Linux Ubuntu
+X86_64_LINUX_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lib-ssum-v${PKG_VERSION}-x86_64_linux.tar.gz"
+X86_64_LINUX_SHA256SUM="1a7dc99d7608bc306f48c304a8f1da59f7c4b659e345b61201997e1be84d78e0"
 
