@@ -1,7 +1,5 @@
 # Simple, fast, rootless package and library manager
 
-WIP
-
 ## Example
 
 ```bash
@@ -12,9 +10,11 @@ gpack remove WestleyR/list-files
 # removes lf
 ```
 
-## Install
+Quick demo:
 
-_WIP_
+[![asciicast](https://asciinema.org/a/288403.svg)](https://asciinema.org/a/288403)
+
+## Install
 
 ```
 mkdir -p ~/.gpack
