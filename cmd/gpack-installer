@@ -113,6 +113,21 @@ build_release() {
       ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
     done
     echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+
+    if [ ! -z "${INSTALL_NOTES}" ]; then
+      echo
+      echo "There is a install note from ${PKG_NAME}:"
+      echo
+      echo "${INSTALL_NOTES}"
+    fi
+
+    if [ ! -z "${NOTES}" ]; then
+      echo
+      echo "There is a note from ${PKG_NAME}:"
+      echo
+      echo "${NOTES}"
+    fi
+
   else
     echo "ERROR: No install command"
     echo "Please open a issue at https://github.com/WestleyR/gpack, or https://github.com/${USR_NAME}/${PKG_NAME}"
@@ -213,6 +228,20 @@ if [ ! -z "${PREBUILT_URL}" ]; then
     done
   fi
   echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+
+  if [ ! -z "${INSTALL_NOTES}" ]; then
+    echo
+    echo "There is a install note from ${PKG_NAME}:"
+    echo
+    echo "${INSTALL_NOTES}"
+  fi
+
+  if [ ! -z "${NOTES}" ]; then
+    echo
+    echo "There is a note from ${PKG_NAME}:"
+    echo
+    echo "${NOTES}"
+  fi
   exit 0
 else
   build_release

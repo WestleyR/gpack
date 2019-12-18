@@ -1,15 +1,23 @@
 USR_NAME="WestleyR"
 PKG_NAME="srm"
 NAME="srm"
-PKG_VERSION="1.0.0"
+PKG_VERSION="1.1.0"
 
-SHA256SUM="354d603c338dae3fb8126dd504c905606b220fa46107e6092b930eb219f4f11c"
+SHA256SUM="0d37349fb7800590d12aa2a100fb587176d4285dc250db5c8e867acf4ab6bf2d"
 
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
 UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
 
+# Linux Ubuntu
+X86_64_LINUX_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/srm-v${PKG_VERSION}-x86_64_linux.tar.gz"
+X86_64_LINUX_SHA256SUM="139aae1a7931482036e63805bb7ee37eac2387eb48bf083b2e9489c71ccc9d8a"
+
 # Load the prefix
 . load_gpack ${PKG_NAME}
+
+INSTALL_NOTES="Recommended that you a you rm command: (just add this to your .bashrc)
+alias rm="srm"
+"
 
 INSTALL_CMD="make install PREFIX=${gpack_prefix}"
 

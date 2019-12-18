@@ -5,4 +5,5 @@
  - [ ] Make the `package` dir a seprate repo
  - [ ] Document how to make a precompiled package
  - [ ] Document how to make a package
+ - [x] Handle `INSTALL_NOTES="blab"` and `NOTES="blab"` in package file
 
