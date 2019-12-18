@@ -1,0 +1,15 @@
+USR_NAME="WestleyR"
+PKG_NAME="srm"
+NAME="srm"
+PKG_VERSION="1.0.0"
+
+SHA256SUM="354d603c338dae3fb8126dd504c905606b220fa46107e6092b930eb219f4f11c"
+
+TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
+UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
+
+# Load the prefix
+. load_gpack ${PKG_NAME}
+
+INSTALL_CMD="make install PREFIX=${gpack_prefix}"
+
