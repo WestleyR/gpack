@@ -59,7 +59,8 @@ build_release() {
   fi
 
   if [ ! -z "${INSTALL_CMD}" ]; then
-    if ! ${INSTALL_CMD} &> ${build_log} ; then
+    # Use 'sh -c' so we can have '&&' in the install command
+    if ! sh -c "${INSTALL_CMD}" &> ${build_log} ; then
       echo
       echo "ERROR: failed to compile libraries"
       echo "last 10 lines from: ${build_log}"
