@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 8, 2019
+// Date: Dec 18, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.1
+// version-1.0.0
 //
 // The Clear BSD License
 //
@@ -23,7 +23,7 @@
 #include <unistd.h>
 #include <getopt.h>
 
-#define GPACK_VERSION "v1.0.0-beta-30, Dec 8, 2019"
+#define GPACK_VERSION "v1.0.0-beta-32, Dec 18, 2019"
 
 #endif // INCLUDE_MAIN_H
 

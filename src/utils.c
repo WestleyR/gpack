@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Jun 16, 2019
+// Date: Dec 18, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -59,7 +59,46 @@ char* get_bin() {
   strcpy(ret, h);
   strcat(ret, "/.gpack/bin");
 
-  // TODO: free(h)?
+  return(ret);
+}
+
+char* get_lib_dir() {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  char* ret;
+  // strlen(h) for HOME, and 12 for '/.local/lib', 2 for extra
+  ret = (char*) malloc(sizeof(char) * (strlen(h) + 12 + 2));
+  if (ret == NULL) {
+    fprintf(stderr, "Malloc failed\n");
+    return(NULL);
+  }
+
+  strcpy(ret, h);
+  strcat(ret, "/.local/lib");
+
+  return(ret);
+}
+
+char* get_include_dir() {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  char* ret;
+  ret = (char*) malloc(sizeof(char) * (strlen(h) + 16 + 2));
+  if (ret == NULL) {
+    fprintf(stderr, "Malloc failed\n");
+    return(NULL);
+  }
+
+  strcpy(ret, h);
+  strcat(ret, "/.local/include");
 
   return(ret);
 }
@@ -78,8 +117,6 @@ char* get_package_dir() {
   strcpy(path, h);
   strcat(path, "/.gpack/gpack/packages/");
 
-  // TODO: free(h)?
-
   return(path);
 }
 
@@ -96,8 +133,6 @@ char* get_package_prefix() {
 
   strcpy(path, h);
   strcat(path, "/.gpack/installed/");
-
-  // TODO: free(h)?
 
   return(path);
 }

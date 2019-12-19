@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 8, 2019
+// Date: Dec 18, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.2
+// version-1.0.0
 //
 // The Clear BSD License
 //
@@ -28,7 +28,7 @@
 #include "list-files-utils/find_link.h"
 #include "logger/logger.h"
 
-int autoclean();
+int autoclean(const char* clean_dir);
 
 #endif // AUTOCLEAN_H
 

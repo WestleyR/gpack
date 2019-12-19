@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Nov 23, 2019
+// Date: Dec 18, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.1
+// version-1.0.0
 //
 // The Clear BSD License
 //
@@ -14,14 +14,12 @@
 
 #include "autoclean.h"
 
-int autoclean() {
-  char* installed_dir = get_bin();
-
+int autoclean(const char* clean_dir) {
   DIR *dir;
   struct dirent *d;
-  dir = opendir(installed_dir);
+  dir = opendir(clean_dir);
   if (dir == NULL) {
-    fprintf(stderr, "Failed to open: %s\n", installed_dir);
+    fprintf(stderr, "Failed to open: %s\n", clean_dir);
     return(1);
   }
 
@@ -31,7 +29,7 @@ int autoclean() {
 
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-      strcpy(full_file_path, installed_dir);
+      strcpy(full_file_path, clean_dir);
       strcat(full_file_path, "/");
       strcat(full_file_path, d->d_name);
 
@@ -49,13 +47,13 @@ int autoclean() {
         if (err != 0) {
           strcpy(link_path, "failed to get symlink");
         }
-        char full_link_path[strlen(installed_dir)+strlen(link_path)+1];
+        char full_link_path[strlen(clean_dir)+strlen(link_path)+1];
         full_link_path[0] = '\0';
 
         if (link_path[0] == '/') {
           strcpy(full_link_path, link_path);
         } else {
-          strcpy(full_link_path, installed_dir);
+          strcpy(full_link_path, clean_dir);
           strcat(full_link_path, link_path);
         }
 
@@ -78,7 +76,6 @@ int autoclean() {
   }
 
   closedir(dir);
-  free(installed_dir);
 
   return(0);
 }

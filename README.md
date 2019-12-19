@@ -1,5 +1,7 @@
 # Simple, fast, rootless package and library manager
 
+This is a basic package manager that can manage non-system (users) packages.
+
 ## Example
 
 ```bash
@@ -60,6 +62,12 @@ export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 
 <br>
 
+## Making your own package
+
+Docs comming soon! As gpack is still in beta, things are changing.
+
+<br>
+
 ### FAQ
 
  - Q: Does gpack support pre-compiled binaries?
@@ -77,6 +85,10 @@ export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 
  - Q: Where does gpack install packages?
    - A: In `~/.gpack/installed/<user>/<package_name>`, all binaries are symlinked to `~/.gpack/bin`, and can easily be uninstalled.
+
+ - Q: Why use this when you can just use brew?
+   - A: On a generic pc/laptop, it might make sence to use brew. But on a small, low power, low memory divice, thats where gpack comes in.
+   Gpack is very fast, and small in size, making it very good for that use.
 
 <br>
 

@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 1, 2019
+// Date: Dec 18, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.1
+// version-1.0.0
 //
 // The Clear BSD License
 //
@@ -19,6 +19,7 @@
 #include "update-pkg.h"
 #include "upgrade-pkg.h"
 #include "remove-pkg.h"
+#include "utils.h"
 
 #include "logger/logger.h"
 
@@ -69,6 +70,46 @@ void version_print() {
 
 void print_commit() {
   printf("%s\n", COMMIT_HASH);
+}
+
+int helper_autoclean() {
+  // For ~/.gpack/bin
+  char* bin_dir = get_bin();
+  if (bin_dir == NULL) {
+    fprintf(stderr, "Failed to get gpack bin dir\n");
+    return(1);
+  }
+  print_debugf("Cleaning bin dir: %s\n", bin_dir);
+  if (autoclean(bin_dir) != 0) {
+    return(1);
+  }
+  free(bin_dir);
+
+  // For ~/.local/lib
+  char* lib_dir = get_lib_dir();
+  if (lib_dir == NULL) {
+    fprintf(stderr, "Failed to get gpack bin dir\n");
+    return(1);
+  }
+  print_debugf("Cleaning lib dir: %s\n", lib_dir);
+  if (autoclean(lib_dir) != 0) {
+    return(1);
+  }
+  free(lib_dir);
+
+  // For ~/.local/include
+  char* include_dir = get_include_dir();
+  if (include_dir == NULL) {
+    fprintf(stderr, "Failed to get gpack bin dir\n");
+    return(1);
+  }
+  print_debugf("Cleaning include dir: %s\n", include_dir);
+  if (autoclean(include_dir) != 0) {
+    return(1);
+  }
+  free(include_dir);
+
+  return(0);
 }
 
 int main(int argc, char **argv) {
@@ -165,7 +206,7 @@ int main(int argc, char **argv) {
           return(1);
         }
         for (int n = 1; n < argc-1; n++) {
-         if (argv[i+n] == NULL) break;
+          if (argv[i+n] == NULL) break;
           printf("I: Removing: %s ...\n", argv[i+n]);
           remove_pkg(argv[i+n]);
         }
@@ -175,10 +216,8 @@ int main(int argc, char **argv) {
         list_packages();
         return(0);
       } else if (strcmp(argv[i], "autoclean") == 0) {
-        if (autoclean() != 0) {
-          return(1);
-        }
-        return(0);
+        int ret_code = helper_autoclean();
+        return(ret_code);
         break;
       } else {
         print_errorf("Unknown command: %s\n", argv[i]);
