@@ -10,4 +10,5 @@
  - [x] Make `autoclean` clean the `~/.local/lib` and `~/.local/include` directories
  - [ ] Make gpack install to `~/.local`
  - [ ] Autoclean after removing a package
+ - [x] Use a path join function in utils.c
 

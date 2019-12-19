@@ -15,49 +15,37 @@
 #include "utils.h"
 
 char* get_installer() {
-  char* ret;
-  ret = (char*) malloc(100);
-
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
     return(NULL);
   }
 
-  strcpy(ret, h);
-  strcat(ret, "/.gpack/gpack/cmd/gpack-installer ");
+  char* ret = path_join(h, ".gpack/gpack/cmd/gpack-installer ");
 
   return(ret);
 }
 
 char* get_update_script() {
-  char* ret;
-  ret = (char*) malloc(100);
-
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
     return(NULL);
   }
 
-  strcpy(ret, h);
-  strcat(ret, "/.gpack/gpack/cmd/gpack-update");
+  char* ret = path_join(h, ".gpack/gpack/cmd/gpack-update");
 
   return(ret);
 }
 
 char* get_bin() {
-  char* ret;
-  ret = (char*) malloc(100);
-
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
     return(NULL);
   }
 
-  strcpy(ret, h);
-  strcat(ret, "/.gpack/bin");
+  char* ret = path_join(h, ".gpack/bin");
 
   return(ret);
 }
@@ -69,16 +57,7 @@ char* get_lib_dir() {
     return(NULL);
   }
 
-  char* ret;
-  // strlen(h) for HOME, and 12 for '/.local/lib', 2 for extra
-  ret = (char*) malloc(sizeof(char) * (strlen(h) + 12 + 2));
-  if (ret == NULL) {
-    fprintf(stderr, "Malloc failed\n");
-    return(NULL);
-  }
-
-  strcpy(ret, h);
-  strcat(ret, "/.local/lib");
+  char* ret = path_join(h, "/.local/lib");
 
   return(ret);
 }
@@ -90,15 +69,7 @@ char* get_include_dir() {
     return(NULL);
   }
 
-  char* ret;
-  ret = (char*) malloc(sizeof(char) * (strlen(h) + 16 + 2));
-  if (ret == NULL) {
-    fprintf(stderr, "Malloc failed\n");
-    return(NULL);
-  }
-
-  strcpy(ret, h);
-  strcat(ret, "/.local/include");
+  char* ret = path_join(h, "/.local/include");
 
   return(ret);
 }
