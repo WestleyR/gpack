@@ -121,6 +121,7 @@ int main(int argc, char **argv) {
   int verbose_print = 0;
   int debug_print = 0;
   int compile_build = 0;
+  int force_flag = 0;
 
   int opt = 0;
 
@@ -128,6 +129,7 @@ int main(int argc, char **argv) {
     {"help", no_argument, 0, 'h'},
     {"verbose", no_argument, 0, 'V'},
     {"compile", no_argument, 0, 'c'},
+    {"force", no_argument, 0, 'f'},
     {"commit", no_argument, 0, 'C'},
     {"verbose", no_argument, 0, 'v'},
     {"debug", no_argument, 0, 'd'},
@@ -135,7 +137,7 @@ int main(int argc, char **argv) {
   };
 
   //    while ((opt = getopt_long(argc, argv,"o:T:S:vVhdtsl", long_options, 0)) != -1) {
-  while ((opt = getopt_long(argc, argv, "vdVcCh", long_options, 0)) != -1) {
+  while ((opt = getopt_long(argc, argv, "vdfVcCh", long_options, 0)) != -1) {
     switch (opt) {
       case 'h':
         help_menu(argv[0]);
@@ -146,6 +148,9 @@ int main(int argc, char **argv) {
         break;
       case 'c':
         compile_build = 1;
+        break;
+      case 'f':
+        force_flag = 1;
         break;
       case 'd':
         debug_print = 1;
@@ -196,14 +201,16 @@ int main(int argc, char **argv) {
           print_errorf("Nothing to remove...\n");
           return(1);
         }
-        char cont;
-        fprintf(stderr, "This will remove:");
-        for (int i = optind+1; i < argc; i++) fprintf(stderr, " %s", argv[i]);
-        fprintf(stderr, "\nAre you sure you want to continue? [N/y] ");
-        scanf("%c", &cont);
-        if (cont != 'y' && cont != 'Y') {
-          fprintf(stderr, "Abouting\n");
-          return(1);
+        if (!force_flag) {
+          char cont;
+          fprintf(stderr, "This will remove:");
+          for (int i = optind+1; i < argc; i++) fprintf(stderr, " %s", argv[i]);
+          fprintf(stderr, "\nAre you sure you want to continue? [N/y] ");
+          scanf("%c", &cont);
+          if (cont != 'y' && cont != 'Y') {
+            fprintf(stderr, "Abouting\n");
+            return(1);
+          }
         }
         for (int n = 1; n < argc-1; n++) {
           if (argv[i+n] == NULL) break;
