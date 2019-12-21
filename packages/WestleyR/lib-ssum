@@ -11,7 +11,7 @@ UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
 # Load the prefix
 . load_gpack ${PKG_NAME}
 
-INSTALL_CMD="make install-lib PREFIX=${gpack_prefix}"
+INSTALL_CMD="make install-lib PREFIX=${gpack_package}"
 
 # Linux Ubuntu
 X86_64_LINUX_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lib-ssum-v${PKG_VERSION}-x86_64_linux.tar.gz"

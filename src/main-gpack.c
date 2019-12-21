@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 18, 2019
+// Date: Dec 21, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -127,7 +127,7 @@ int main(int argc, char **argv) {
 
   static struct option long_options[] = {
     {"help", no_argument, 0, 'h'},
-    {"verbose", no_argument, 0, 'V'},
+    {"version", no_argument, 0, 'V'},
     {"compile", no_argument, 0, 'c'},
     {"force", no_argument, 0, 'f'},
     {"commit", no_argument, 0, 'C'},
