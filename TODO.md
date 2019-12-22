@@ -12,6 +12,6 @@
  - [ ] Make gpack install commands to `~/.local/bin`
  - [ ] Autoclean after removing a package
  - [x] Use a path join function in utils.c
- - [ ] Show version of package when listing them
+ - [x] Show version of package when listing them
  - [x] There should be a "version" to always stay up-to-date with master (without redownloading it every time)
 

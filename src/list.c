@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Nov 23, 2019
+// Date: Dec 22, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -12,7 +12,6 @@
 // This software is licensed under a Clear BSD License.
 //
 
-#include "utils.h"
 #include "list.h"
 
 int print_package(const char* path, const char* name) {
@@ -26,7 +25,9 @@ int print_package(const char* path, const char* name) {
 
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-      printf("%s/%s\n", name, d->d_name);
+      char *pkg_version = get_installed_pkg_version(path, d->d_name);
+      printf("%s/%-12s %s\n", name, d->d_name, pkg_version);
+      free(pkg_version);
     }
   }
   closedir(dir);

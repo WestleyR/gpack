@@ -14,6 +14,40 @@
 
 #include "utils.h"
 
+char* get_installed_pkg_version(const char* usr_pkg, const char* pkg) {
+  char* version_file = path_join(usr_pkg, pkg);
+  version_file = path_join(version_file, "version.gpack");
+
+  print_debugf("Full version file path: %s\n", version_file);
+
+  char line[128];
+
+  FILE* fp = fopen(version_file, "r");
+  if (fp == NULL) {
+    print_debugf("Failed to open: %s\n", version_file);
+    return(NULL);
+  }
+
+  char* ret;
+  ret = (char*) malloc(32 * sizeof(char));
+  if (ret == NULL) {
+    print_debugf("malloc failed\n");
+    return (NULL);
+  }
+
+  while(fgets(line, sizeof(line), fp) != NULL) {
+    if (line != NULL) {
+      if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = '\0';
+      strcpy(ret, line);
+    }
+  }
+
+  fclose(fp);
+  free(version_file);
+
+  return(ret);
+}
+
 char* get_installer() {
   char* h = getenv("HOME");
   if (h == NULL) {

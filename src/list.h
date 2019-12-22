@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 8, 2019
+// Date: Dec 22, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.1
+// version-1.0.0
 //
 // The Clear BSD License
 //
@@ -20,6 +20,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#include "utils.h"
+#include "path-join/path-join.h"
+#include "logger/logger.h"
 
 int list_packages();
 

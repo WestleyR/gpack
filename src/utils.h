@@ -20,10 +20,11 @@
 #include <string.h>
 
 #include "path-join/path-join.h"
+#include "logger/logger.h"
 
+char* get_installed_pkg_version(const char* usr_pkg, const char* pkg);
 char* get_installer();
 char* get_package_dir();
-char* get_pkg_version(const char* pkg);
 char* get_update_script();
 char* get_upgrade_script();
 char* get_package_prefix();
