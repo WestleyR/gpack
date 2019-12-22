@@ -13,24 +13,24 @@
 # This software is licensed under a Clear BSD License.
 #
 
+set -e
+
 for f in $(ls -1 ${HOME}/.gpack/installed/); do
   for p in $(ls -1 ${HOME}/.gpack/installed/${f}/); do
 
+    # TODO check file before sourcing
     source ${HOME}/.gpack/gpack/packages/${f}/${p}
     current_commit=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
 
     if [[ "$PKG_VERSION" = "master" ]]; then
       if [[ "$current_commit" != "$LATEST_COMMIT" ]]; then
         echo "Master package out-of-date: ${f}/${p}"
-        # TODO: dont remove the package
-        gpack remove --force "${f}/${p}"
-        gpack install "${f}/${p}"
+        gpack install --overide "${f}/${p}"
       fi
     else
       if [[ "$current_commit" != "$PKG_VERSION" ]]; then
         echo "Package out-of-date: ${f}/${p}"
-        gpack remove --force "${f}/${p}"
-        gpack install "${f}/${p}"
+        gpack install --overide "${f}/${p}"
       fi
     fi
 

@@ -122,6 +122,7 @@ int main(int argc, char **argv) {
   int debug_print = 0;
   int compile_build = 0;
   int force_flag = 0;
+  int overide_flag = 0;
 
   int opt = 0;
 
@@ -130,6 +131,7 @@ int main(int argc, char **argv) {
     {"version", no_argument, 0, 'V'},
     {"compile", no_argument, 0, 'c'},
     {"force", no_argument, 0, 'f'},
+    {"overide", no_argument, 0, 'r'},
     {"commit", no_argument, 0, 'C'},
     {"verbose", no_argument, 0, 'v'},
     {"debug", no_argument, 0, 'd'},
@@ -137,7 +139,7 @@ int main(int argc, char **argv) {
   };
 
   //    while ((opt = getopt_long(argc, argv,"o:T:S:vVhdtsl", long_options, 0)) != -1) {
-  while ((opt = getopt_long(argc, argv, "vdfVcCh", long_options, 0)) != -1) {
+  while ((opt = getopt_long(argc, argv, "vdfrVcCh", long_options, 0)) != -1) {
     switch (opt) {
       case 'h':
         help_menu(argv[0]);
@@ -151,6 +153,9 @@ int main(int argc, char **argv) {
         break;
       case 'f':
         force_flag = 1;
+        break;
+      case 'r':
+        overide_flag = 1;
         break;
       case 'd':
         debug_print = 1;
@@ -181,7 +186,7 @@ int main(int argc, char **argv) {
           }
           if (argv[i+n] == NULL) break;
           printf("I: Installing: %s ...\n", argv[i+n]);
-          if (install_pkg(argv[i+n], 1, compile_build) != 0) {
+          if (install_pkg(argv[i+n], 1, compile_build, overide_flag) != 0) {
             return(1);
           }
         }

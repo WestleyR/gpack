@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Jun 16, 2019
+// Date: Dec 21, 2019
 // https://github.com/WestleyR/gpack
-// version-1.1.0
+// version-1.0.0
 //
 // The Clear BSD License
 //
@@ -52,7 +52,7 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
   strcat(installed_pkg, "/.gpack/installed/");
   strcat(installed_pkg, pkg);
 
-  if (check_installed) {
+  if (check_installed == 1) {
     struct stat sb;
     if (stat(installed_pkg, &sb) == 0 && S_ISDIR(sb.st_mode)) {
       printf("%s: is already installed\n", pkg);
@@ -90,7 +90,10 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
   return 0;
 }
 
-int install_pkg(const char* pkg, int check_installed, int compile_build) {
+int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
+  if (overide == 1) {
+    check_installed = 0;
+  }
 
   if (open_package(pkg, check_installed, compile_build) != 0) {
     return(1);

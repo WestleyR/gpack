@@ -165,15 +165,13 @@ int _upgrade_pkg(int compile_build) {
 }
 
 int upgrade_pkg(int compile_build) {
-  printf("I: Updateing...\n");
+  printf("I: Upgradding packages...\n");
 
   char* update_script = get_upgrade_script();
   if (update_script == NULL) {
     fprintf(stderr, "Failed to get update script\n");
     return(1);
   }
-
-  printf("Update script: %s\n", update_script);
 
   if (system(update_script) != 0) {
     fprintf(stderr, "Failed to run update script\n");
@@ -182,8 +180,6 @@ int upgrade_pkg(int compile_build) {
   }
 
   free(update_script);
-
-  printf("I: Done\n");
 
   return(0);
 }
