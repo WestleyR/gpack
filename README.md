@@ -6,7 +6,7 @@ This is a basic package manager that can manage non-system (users) packages.
 
 ```bash
 gpack install WestleyR/list-files
-# downloads and installs lf
+# downloads and installs the lf command (list-files)
 
 gpack remove WestleyR/list-files
 # removes lf
@@ -47,11 +47,11 @@ export CPATH=${HOME}/.local/include:${CPATH}
 export LIBRARY_PATH=${HOME}/.local/lib:${LIBRARY_PATH}
 
 # If Linux Ubuntu:
-export GPACK_ARCH="X86_64_LINUX"
+export GPACK_ARCH="x86_64_linux"
 # Or if MacOS:
-export GPACK_ARCH="MACOS"
-# Or if raspberry pi zero
-export GPACK_ARCH="ARMV6L"
+export GPACK_ARCH="macos"
+# Or if raspberry pi zero (or other raspberry pi)
+export GPACK_ARCH="armv6l"
 ```
 
 If you are using macOS, then use `DYLD_LIBRARY_PATH` instead of `LD_LIBRARY_PATH`:
@@ -64,7 +64,79 @@ export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 
 ## Making your own package
 
-Docs comming soon! As gpack is still in beta, things are changing.
+To make your own gpack package, you first need to decied if your package will
+be updated whenever you push a new commit (always master), or only releases.
+
+If you want to base you package of the releases (recommend), then you can use
+this template file:
+
+```sh
+USR_NAME="your_username"
+PKG_NAME="your_repo_name"
+NAME="name_of_your_package" # Typical, this is the same as the PKG_NAME
+PKG_VERSION="1.0.0" # Your package version (without the 'v' prefix)
+
+TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz" # The URL for the tarball.
+# Note: There is the 'v' prefix here, if you done use the 'v' prefix then remove it here.
+
+# The sha256sum for your tarball
+SHA256SUM="fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+
+# This is the directory name of the un-tared package
+UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
+
+# If you want to have pre-compiled binaries of you package, then you will need
+# to add a assest on your release, it should be called 'repo-name-v1.0.0-x86_64_linux.tar.gz',
+# eg. 'lf-v1.5.2-x86_64_linux.tar.gz'. This tarball should be a tared directory
+# of your projects prefix, in its version, like: 'repo_name/1.0.0/bin/executable'
+# eg. 'list-files/1.5.2/bin/lf'
+
+# Linux Ubuntu
+X86_64_LINUX_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-x86_64_linux.tar.gz"
+X86_64_LINUX_SHA256SUM="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+
+# Macos
+MACOS_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-macos.tar.gz"
+MACOS_SHA256SUM="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+
+# Raspberry pi zero (and others)
+ARMV6L_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-armv6l.tar.gz"
+ARMV6L_SHA256SUM="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+
+# Load the prefix
+. load_gpack ${PKG_NAME}
+
+# This is the install command(s) for your project
+INSTALL_CMD="make install PREFIX=${gpack_prefix}"
+```
+
+Now, if you want your package to always be up-to-date with master (gets updated
+whenever theres a new commit), then you can use this template file:
+
+```sh
+USR_NAME="your_username"
+PKG_NAME="your_repo_name"
+NAME="name_of_your_package" # Tipicaly, this is the same as the PKG_NAME
+
+# This will return a github commit hash, that will be used as the version.
+# The 'get-json-value' command comes installed with gpack, so dont worry
+# about that.
+PKG_VERSION=`curl -s "https://api.github.com/repos/${USR_NAME}/${PKG_NAME}/commits/master" | get-json-value`
+
+TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/${PKG_VERSION}.tar.gz"
+
+# This is the directory name of the un-tared package
+UNTAR_DIR="${PKG_NAME}-*"
+
+# Load the prefix
+. load_gpack ${PKG_NAME}
+
+INSTALL_CMD="./configure --prefix ${gpack_prefix} && make install"
+```
+
+By using this template, there is no sha256sum/checksum to verify with, thats
+the downside of having your project "alwasys-up-to-date with master". Another
+downside is that there is no pre-compiled binaries support for this.
 
 <br>
 

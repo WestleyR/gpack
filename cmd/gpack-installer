@@ -155,16 +155,16 @@ elif [ ! -z ${GPACK_COMPILE_BUILD} ]; then
   exit 0
 fi
 
-if [[ "${GPACK_ARCH}" = "X86_64_LINUX" ]]; then
+if [[ "${GPACK_ARCH}" = "x86_64_linux" ]]; then
   PREBUILT_URL="${X86_64_LINUX_URL}"
   PREBUILT_SHA256SUM="${X86_64_LINUX_SHA256SUM}"
-elif [[ "${GPACK_ARCH}" = "MACOS" ]]; then
+elif [[ "${GPACK_ARCH}" = "macos" ]]; then
   PREBUILT_URL="${MACOS_URL}"
   PREBUILT_SHA256SUM="${MACOS_SHA256SUM}"
-elif [[ "${GPACK_ARCH}" = "ARMV6L" ]]; then
+elif [[ "${GPACK_ARCH}" = "armv6l" ]]; then
   PREBUILT_URL="${ARMV6L_URL}"
   PREBUILT_SHA256SUM="${ARMV6L_SHA256SUM}"
-elif [[ "${GPACK_ARCH}" = "ARMV7L" ]]; then
+elif [[ "${GPACK_ARCH}" = "armv7l" ]]; then
   PREBUILT_URL="${ARMV7L_URL}"
   PREBUILT_SHA256SUM="${ARMV7L_SHA256SUM}"
 else
