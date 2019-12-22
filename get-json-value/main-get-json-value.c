@@ -13,6 +13,7 @@
 //
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 int main(int argc, char **argv) {
@@ -21,19 +22,22 @@ int main(int argc, char **argv) {
 //  }
 
   char line[256];
-  char sha[256];
+  char raw_sha[128];
 
   while (fgets(line, sizeof(line), stdin)) {
 //    printf("LINE: %s", line); 
     if (strstr(line, "sha") != NULL) {
-      strcpy(sha, line);
+      strcpy(raw_sha, line);
       break;
     }
   }
 
+  char* sha;
+  sha = (char*) malloc(128 * sizeof(char));
+
   char *p;
   int c = 0;
-  p = strtok (sha, "\"");
+  p = strtok(raw_sha, "\"");
   while (p != NULL) {
     //printf("%s -> %d\n", p, c);
     if (c == 3) {
@@ -45,6 +49,7 @@ int main(int argc, char **argv) {
   }
 
   printf("%s\n", sha);
+  free(sha);
 
   return(0);
 }
