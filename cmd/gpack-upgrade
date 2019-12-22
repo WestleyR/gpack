@@ -20,18 +20,11 @@ for f in $(ls -1 ${HOME}/.gpack/installed/); do
 
     # TODO check file before sourcing
     source ${HOME}/.gpack/gpack/packages/${f}/${p}
-    current_commit=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
+    current_version=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
 
-    if [[ "$PKG_VERSION" = "master" ]]; then
-      if [[ "$current_commit" != "$LATEST_COMMIT" ]]; then
-        echo "Master package out-of-date: ${f}/${p}"
-        gpack install --overide "${f}/${p}"
-      fi
-    else
-      if [[ "$current_commit" != "$PKG_VERSION" ]]; then
-        echo "Package out-of-date: ${f}/${p}"
-        gpack install --overide "${f}/${p}"
-      fi
+    if [[ "$current_version" != "$PKG_VERSION" ]]; then
+      echo "Package out-of-date: ${f}/${p}"
+      gpack install --overide "${f}/${p}"
     fi
 
   done

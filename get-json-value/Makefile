@@ -17,24 +17,15 @@ PREFIX = $(HOME)/.gpack
 # your c compiler
 CC = gcc
 
-DEP_FLAG = -Ideps
 CFLAGS = -Wall
-DEFLAGS = 
 
-TARGET = gpack
-
-COMMIT = "$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ) )"
-DEFLAGS += -DCOMMIT_HASH=\"$(COMMIT)\"
+TARGET = get-json-value
 
 ifeq ($(DEBUG), true)
 	CFLAGS += -DDEBUG
 endif
 
-SRCDIR = src
-DEPDIR = deps
-
-SRC = $(wildcard src/*.c)
-SRC += $(wildcard deps/*/*.c)
+SRC = $(wildcard ./*.c)
 
 OBJS = $(SRC:.c=.o)
 
@@ -44,7 +35,6 @@ all: $(TARGET)
 .PHONY:
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LDFLAGS) -o $(TARGET)
-	$(MAKE) -C get-json-value
 
 .PHONY:
 %.o: %.c
@@ -53,19 +43,15 @@ $(TARGET): $(OBJS)
 .PHONY:
 clean:
 	rm -f $(OBJS)
-	$(MAKE) -C get-json-value clean
 
 .PHONY:
 cleanall:
 	rm -f $(TARGET) $(OBJS)
-	$(MAKE) -C get-json-value cleanall
 
 .PHONY:
 install: $(TARGET)
 	mkdir -p $(PREFIX)/bin
 	cp -f $(TARGET) $(PREFIX)/bin
-	cp -f cmd/load_gpack $(PREFIX)/bin
-	$(MAKE) -C get-json-value install
 
 #
 # End Makefile

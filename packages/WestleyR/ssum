@@ -1,9 +1,8 @@
 USR_NAME="WestleyR"
 PKG_NAME="ssum"
 NAME="ssum"
-PKG_VERSION="master"
 
-LATEST_COMMIT=`curl -s "https://api.github.com/repos/${USR_NAME}/${PKG_NAME}/commits/master" | grep "sha" | head -1`
+PKG_VERSION=`curl -s "https://api.github.com/repos/${USR_NAME}/${PKG_NAME}/commits/master" | get-json-value`
 
 TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/${PKG_VERSION}.tar.gz"
 
