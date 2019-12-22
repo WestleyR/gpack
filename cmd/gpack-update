@@ -14,4 +14,13 @@ git pull origin master
 make
 make install
 
+cd ${HOME}/.gpack
+
+if ! test -d packages; then
+  git clone https://github.com/WestleyR/packages
+else
+  cd packages
+  git pull origin master
+fi
+
 # vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
