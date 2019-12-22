@@ -1,8 +1,8 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Nov 28, 2019
+// Date: Dec 21, 2019
 // https://github.com/WestleyR/gpack
-// version-1.0.1
+// version-1.0.0
 //
 // The Clear BSD License
 //
@@ -41,6 +41,11 @@ char* get_static_version(const char* pkg) {
     }
   }
 
+  if (strstr(ret, "master") == 0) {
+
+  }
+ 
+
   free(ppath);
 
   return(ret);
@@ -73,7 +78,7 @@ char* read_file(const char* path) {
   return(ret);
 }
 
-int upgrade_pkg(int compile_build) {
+int _upgrade_pkg(int compile_build) {
 #ifdef DEBUG
   printf("I: Checking...\n");
 #endif
@@ -133,21 +138,10 @@ int upgrade_pkg(int compile_build) {
               return(1);
             }
 
-#ifdef DEBUG
-            printf("Current version: %s; for: %s\n", current_version, version_file);
-            printf("Static version: %s\n", static_version);
-#endif
+            print_debugf("Current version: %s; for: %s\n", current_version, version_file);
+            print_debugf("Static version: %s\n", static_version);
 
-            if (strstr(static_version, current_version)) {
-              if (strcmp(current_version, "master") == 0) {
-                printf("I: Reinstalling master package: %s\n", pkg_name);
-                if (reinstall_pkg(pkg_name, compile_build) != 0) {
-                  printf("Failed to reinstall pkg\n");
-                }
-              } else {
-                print_verbosef("%s: Already up to date\n", pkg_name);
-              }
-            } else {
+            if (strstr(static_version, current_version) == 0) {
               printf("I: Upgrading: %s\n", pkg_name);
               if (reinstall_pkg(pkg_name, compile_build) != 0) {
                 printf("Failed to reinstall pkg\n");
@@ -170,5 +164,28 @@ int upgrade_pkg(int compile_build) {
   return(0);
 }
 
+int upgrade_pkg(int compile_build) {
+  printf("I: Updateing...\n");
+
+  char* update_script = get_upgrade_script();
+  if (update_script == NULL) {
+    fprintf(stderr, "Failed to get update script\n");
+    return(1);
+  }
+
+  printf("Update script: %s\n", update_script);
+
+  if (system(update_script) != 0) {
+    fprintf(stderr, "Failed to run update script\n");
+    free(update_script);
+    return(1);
+  }
+
+  free(update_script);
+
+  printf("I: Done\n");
+
+  return(0);
+}
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

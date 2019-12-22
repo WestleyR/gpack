@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Nov 28, 2019
+// Date: Dec 21, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -25,8 +25,6 @@ int update_pkg() {
 
   printf("Update script: %s\n", update_script);
 
-  // TODO: add shasum verify to update script
-  
   if (system(update_script) != 0) {
     fprintf(stderr, "Failed to run update script\n");
     free(update_script);

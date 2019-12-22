@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 18, 2019
+// Date: Dec 21, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -34,6 +34,18 @@ char* get_update_script() {
   }
 
   char* ret = path_join(h, ".gpack/gpack/cmd/gpack-update");
+
+  return(ret);
+}
+
+char* get_upgrade_script() {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  char* ret = path_join(h, ".gpack/gpack/cmd/gpack-upgrade");
 
   return(ret);
 }

@@ -1,12 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 
-set -ex
+set -e
 
 cd ${HOME}/.gpack/gpack
 
 if ! git diff --name-status --exit-code; then
     echo "gpack has un-commited changes; aborting"
-    exit 1
+    #exit 1
 fi
 
 git pull origin master
@@ -14,3 +14,21 @@ git pull origin master
 make
 make install
 
+echo "I: Checking updates for packages..."
+for f in $(ls -1 ${HOME}/.gpack/installed/); do
+  for p in $(ls -1 ${HOME}/.gpack/installed/${f}/); do
+    if test -f "${HOME}/.gpack/installed/${f}/${p}/master.gpack"; then
+      echo "I: Getting new commit for ${f}/${p}..."
+      . ${HOME}/.gpack/gpack/packages/${f}/${p}
+      current_commit=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
+      echo "New commit    : ${LATEST_COMMIT}"
+      echo "Current commit: ${current_commit}"
+      if [[ "${LATEST_COMMIT}" != "${current_commit}" ]]; then
+        echo "I: Package out-of-date: ${f}/${p}"
+        echo "${LATEST_COMMIT}" > ${HOME}/.gpack/installed/${f}/${p}/version.gpack
+      fi
+    fi
+  done
+done
+
+# vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

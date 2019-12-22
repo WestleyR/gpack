@@ -1,3 +1,4 @@
+# TODO
 
  - [x] Make the install script look at 'bin', 'lib', and 'include' in the prefix to install stuff
  - [x] Add -f flag when removing packages
@@ -8,7 +9,10 @@
  - [x] Handle `INSTALL_NOTES="blab"` and `NOTES="blab"` in package file
  - [ ] Add "c", "clang" to repo tags
  - [x] Make `autoclean` clean the `~/.local/lib` and `~/.local/include` directories
- - [ ] Make gpack install to `~/.local`
+ - [ ] Make gpack install commands to `~/.local/bin`
  - [ ] Autoclean after removing a package
  - [x] Use a path join function in utils.c
+ - [ ] Show version of package when listing them
+ - [ ] There should be a "version" to always stay up-to-date with master (without redownloading it every time)
+ - [ ] when `update`ing, should check for new commits in a master package
 

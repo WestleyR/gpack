@@ -1,0 +1,40 @@
+#!/bin/bash
+# Created by: WestleyR
+# email: westleyr@nym.hush.com
+# Date: Dec 21, 2019
+# https://github.com/WestleyR/gpack
+# version-1.0.0
+#
+# The Clear BSD License
+#
+# Copyright (c) 2019 WestleyR
+# All rights reserved.
+#
+# This software is licensed under a Clear BSD License.
+#
+
+for f in $(ls -1 ${HOME}/.gpack/installed/); do
+  for p in $(ls -1 ${HOME}/.gpack/installed/${f}/); do
+
+    source ${HOME}/.gpack/gpack/packages/${f}/${p}
+    current_commit=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
+
+    if [[ "$PKG_VERSION" = "master" ]]; then
+      if [[ "$current_commit" != "$LATEST_COMMIT" ]]; then
+        echo "Master package out-of-date: ${f}/${p}"
+        # TODO: dont remove the package
+        gpack remove --force "${f}/${p}"
+        gpack install "${f}/${p}"
+      fi
+    else
+      if [[ "$current_commit" != "$PKG_VERSION" ]]; then
+        echo "Package out-of-date: ${f}/${p}"
+        gpack remove --force "${f}/${p}"
+        gpack install "${f}/${p}"
+      fi
+    fi
+
+  done
+done
+
+# vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

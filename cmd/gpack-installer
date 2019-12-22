@@ -1,7 +1,7 @@
 #!/bin/bash
 # Created by: WestleyR
 # email: westleyr@nym.hush.com
-# Date: Dec 18, 2019
+# Date: Dec 21, 2019
 # https://github.com/WestleyR/gpack
 # version-1.0.0
 #
@@ -112,7 +112,13 @@ build_release() {
     for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
       ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
     done
-    echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+
+    if [ ! -z "$LATEST_COMMIT" ]; then
+      echo "$LATEST_COMMIT" > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+      touch ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/master.gpack
+    else
+      echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
+    fi
 
     if [ ! -z "${INSTALL_NOTES}" ]; then
       echo

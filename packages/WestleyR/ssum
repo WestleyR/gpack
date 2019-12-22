@@ -1,21 +1,16 @@
 USR_NAME="WestleyR"
 PKG_NAME="ssum"
 NAME="ssum"
-PKG_VERSION="3.0.0"
+PKG_VERSION="master"
 
-#DEP_PKGS="WestleyR/lib-ssum"
+LATEST_COMMIT=`curl -s "https://api.github.com/repos/${USR_NAME}/${PKG_NAME}/commits/master" | grep "sha" | head -1`
 
-TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz"
-SHA256SUM="799e0fab0f7465f1c380ee5b2b5222d4392ac69e3961efe01b12acee9d000234"
+TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/${PKG_VERSION}.tar.gz"
 
-UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
+UNTAR_DIR="${PKG_NAME}-*"
 
 # Load the prefix
 . load_gpack ${PKG_NAME}
 
 INSTALL_CMD="./configure --prefix ${gpack_prefix} --without-library && make install"
-
-# Linux Ubuntu
-X86_64_LINUX_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/ssum-v${PKG_VERSION}-x86_64_linux.tar.gz"
-X86_64_LINUX_SHA256SUM="c061e3c8bce6d2827176cb70fa2af6c4532d7f9b5c8b0d683b4fdc27a5e2e5bc"
 
