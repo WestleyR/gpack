@@ -34,7 +34,7 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
   }
 
   strcpy(pkg_file, h);
-  strcat(pkg_file, "/.gpack/gpack/packages/");
+  strcat(pkg_file, "/.gpack/packages/");
   strcat(pkg_file, pkg);
 
   FILE* fp = fopen(pkg_file, "r");

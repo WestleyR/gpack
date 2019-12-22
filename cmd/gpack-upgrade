@@ -19,7 +19,7 @@ for f in $(ls -1 ${HOME}/.gpack/installed/); do
   for p in $(ls -1 ${HOME}/.gpack/installed/${f}/); do
 
     # TODO check file before sourcing
-    source ${HOME}/.gpack/gpack/packages/${f}/${p}
+    source ${HOME}/.gpack/packages/${f}/${p}
     current_version=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
 
     if [[ "$current_version" != "$PKG_VERSION" ]]; then

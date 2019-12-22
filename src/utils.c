@@ -132,7 +132,7 @@ char* get_package_dir() {
   }
 
   strcpy(path, h);
-  strcat(path, "/.gpack/gpack/packages/");
+  strcat(path, "/.gpack/packages/");
 
   return(path);
 }

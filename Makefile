@@ -66,6 +66,7 @@ install: $(TARGET)
 	cp -f $(TARGET) $(PREFIX)/bin
 	cp -f cmd/load_gpack $(PREFIX)/bin
 	$(MAKE) -C get-json-value install
+	cd $(HOME)/.gpack ; git clone https://github.com/WestleyR/packages
 
 #
 # End Makefile
