@@ -38,8 +38,6 @@ void help_menu(const char* script_name) {
   printf("  install    install a package/library\n");
   printf("  update     update gpack and libraries\n");
   printf("  upgrade    upgrade installed packages\n");
-  printf("             note: if a package version is 'master',\n");
-  printf("             it will alwasy be reinstalled.\n");
   printf("  remove     remove a package\n");
   printf("  autoclean  remove broken links from ~/.gpack/bin,\n");
   printf("             ~/.local/lib and ~/.local/include.\n");

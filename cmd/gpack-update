@@ -6,7 +6,7 @@ cd ${HOME}/.gpack/gpack
 
 if ! git diff --name-status --exit-code; then
     echo "gpack has un-commited changes; aborting"
-    #exit 1
+    exit 1
 fi
 
 git pull origin master

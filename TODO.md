@@ -13,6 +13,5 @@
  - [ ] Autoclean after removing a package
  - [x] Use a path join function in utils.c
  - [ ] Show version of package when listing them
- - [ ] There should be a "version" to always stay up-to-date with master (without redownloading it every time)
- - [ ] when `update`ing, should check for new commits in a master package
+ - [x] There should be a "version" to always stay up-to-date with master (without redownloading it every time)
 
