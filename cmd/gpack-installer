@@ -115,7 +115,6 @@ build_release() {
 
     if [ ! -z "$LATEST_COMMIT" ]; then
       echo "$LATEST_COMMIT" > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
-      touch ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/master.gpack
     else
       echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
     fi
