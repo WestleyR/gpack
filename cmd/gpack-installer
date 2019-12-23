@@ -144,7 +144,6 @@ build_release() {
 # get the pkg
 source $1
 
-
 if [ -z ${GPACK_ARCH} ]; then
   echo "WARNING: \$GPACK_ARCH is not set; see https://github.com/WestleyR/gpack for help"
   echo "WARNING: Cant get prebuilt binaries for a unset arch"

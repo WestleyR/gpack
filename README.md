@@ -164,3 +164,24 @@ downside is that there is no pre-compiled binaries support for this.
 
 <br>
 
+### Disclaimer
+
+Gpack is only a helper to download, install, update and remove packages (other
+code and binaries). It is up to you to make sure you follow and agree to that
+packages license.
+
+<br>
+
+### License
+
+```
+The Clear BSD License
+
+Copyright (c) 2019 WestleyR
+All rights reserved.
+```
+
+See the [LICENSE file](LICENSE) for more details.
+
+<br>
+
