@@ -64,7 +64,7 @@ export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 
 ## Making your own package
 
-To make your own gpack package, you first need to decied if your package will
+To make your own gpack package, you first need to decided if your package will
 be updated whenever you push a new commit (always master), or only releases.
 
 If you want to base you package of the releases (recommend), then you can use

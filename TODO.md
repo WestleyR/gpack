@@ -7,7 +7,7 @@
  - [x] Document how to make a precompiled package
  - [x] Document how to make a package
  - [x] Handle `INSTALL_NOTES="blab"` and `NOTES="blab"` in package file
- - [ ] Add "c", "clang" to repo tags
+ - [x] Add "c", "clang" to repo tags
  - [x] Make `autoclean` clean the `~/.local/lib` and `~/.local/include` directories
  - [ ] Make gpack install commands to `~/.local/bin`
  - [ ] Autoclean after removing a package
