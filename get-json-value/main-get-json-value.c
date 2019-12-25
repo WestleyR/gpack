@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 22, 2019
+// Date: Dec 24, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -17,23 +17,31 @@
 #include <string.h>
 
 int main(int argc, char **argv) {
-//  if (argc <= 1) {
-//    return(1);
-//  }
+  //if (argc <= 1) {
+  //  return(1);
+  //}
 
   char line[256];
   char raw_sha[128];
+  int got_line = 0;
 
   while (fgets(line, sizeof(line), stdin)) {
-//    printf("LINE: %s", line); 
     if (strstr(line, "sha") != NULL) {
-      strcpy(raw_sha, line);
-      break;
+      // Cant use break here since curl will print a warning:
+      // (23) Failed writing body
+      if (got_line == 0) {
+        strcpy(raw_sha, line);
+        got_line = 1;
+      }
     }
   }
 
   char* sha;
   sha = (char*) malloc(128 * sizeof(char));
+  if (sha == NULL) {
+    fprintf(stderr, "FAIL: malloc failed\n");
+    return(1);
+  }
 
   char *p;
   int c = 0;

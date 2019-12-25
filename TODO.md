@@ -9,9 +9,11 @@
  - [x] Handle `INSTALL_NOTES="blab"` and `NOTES="blab"` in package file
  - [x] Add "c", "clang" to repo tags
  - [x] Make `autoclean` clean the `~/.local/lib` and `~/.local/include` directories
- - [ ] Make gpack install commands to `~/.local/bin`
+ - [ ] Make gpack install commands to `~/.local/bin` (maybe?...)
  - [ ] Autoclean after removing a package
  - [x] Use a path join function in utils.c
  - [x] Show version of package when listing them
  - [x] There should be a "version" to always stay up-to-date with master (without redownloading it every time)
+ - [ ] Add dry-run for 'autoclean'
+ - [ ] Fix 'list' so the output is aligned
 

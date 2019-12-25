@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 21, 2019
+// Date: Dec 24, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -29,10 +29,10 @@ char* get_installed_pkg_version(const char* usr_pkg, const char* pkg) {
   }
 
   char* ret;
-  ret = (char*) malloc(32 * sizeof(char));
+  ret = (char*) malloc(64 * sizeof(char));
   if (ret == NULL) {
     print_debugf("malloc failed\n");
-    return (NULL);
+    return(NULL);
   }
 
   while(fgets(line, sizeof(line), fp) != NULL) {
