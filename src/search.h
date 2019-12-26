@@ -12,19 +12,24 @@
 // This software is licensed under a Clear BSD License.
 //
 
-#ifndef INCLUDE_MAIN_H
-#define INCLUDE_MAIN_H
+#ifndef INCLUDE_SEARCH_H
+#define INCLUDE_SEARCH_H
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <dirent.h>
 #include <string.h>
 #include <sys/stat.h>
 #include <unistd.h>
-#include <getopt.h>
+#include <grp.h>
 
-#define GPACK_VERSION "v1.0.0-beta-54, Dec 25, 2019"
+#include "utils.h"
 
-#endif // INCLUDE_MAIN_H
+#include "logger/logger.h"
+#include "path-join/path-join.h"
+
+int search_pkg(const char* pat, int print);
+
+#endif // INCLUDE_SEARCH_H
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

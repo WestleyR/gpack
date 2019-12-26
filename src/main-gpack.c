@@ -19,6 +19,7 @@
 #include "update-pkg.h"
 #include "upgrade-pkg.h"
 #include "remove-pkg.h"
+#include "search.h"
 #include "utils.h"
 
 #include "logger/logger.h"
@@ -42,6 +43,7 @@ void help_menu(const char* script_name) {
   printf("  autoclean  remove broken links from ~/.gpack/bin,\n");
   printf("             ~/.local/lib and ~/.local/include.\n");
   printf("  list       list all installed packages\n");
+  printf("  search     search string for a package description\n");
   printf("\n");
   printf("Options\n");
   printf("  -h, --help     print help menu\n");
@@ -211,7 +213,7 @@ int main(int argc, char **argv) {
         return(0);
         break;
       } else if (strcmp(argv[i], "remove") == 0) {
-        if (argc - optind <= 0) {
+        if (argc - optind <= 1) {
           print_errorf("Nothing to remove...\n");
           return(1);
         }
@@ -230,6 +232,24 @@ int main(int argc, char **argv) {
           if (argv[i+n] == NULL) break;
           printf("I: Removing: %s ...\n", argv[i+n]);
           remove_pkg(argv[i+n]);
+        }
+        return(0);
+        break;
+      } else if (strcmp(argv[i], "search") == 0) {
+        if (argc - optind <= 1) {
+          if (search_pkg("", 1) != 0) {
+            fprintf(stderr, "Failed to search for packages\n");
+            return(1);
+          }
+        }
+        if (argc - optind > 2) {
+          fprintf(stderr, "Invalid arguments\n");
+          return(22);
+        }
+        print_debugf("Pattern: %s\n", argv[i+1]);
+        if (search_pkg(argv[i+1], 1) != 0) {
+          fprintf(stderr, "Failed to search for packages\n");
+          return(1);
         }
         return(0);
         break;

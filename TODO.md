@@ -17,4 +17,5 @@
  - [x] Add dry-run for 'autoclean'
  - [x] Fix 'list' so the output is aligned
  - [x] Handle `--compile` flag when upgradding
+ - [x] Add a `search` command
 

@@ -1,0 +1,27 @@
+#!/bin/bash
+# Created by: WestleyR
+# email: westleyr@nym.hush.com
+# Date: Dec 25, 2019
+# https://github.com/WestleyR/gpack
+# version-1.0.0
+#
+# The Clear BSD License
+#
+# Copyright (c) 2019 WestleyR
+# All rights reserved.
+#
+# This software is licensed under a Clear BSD License.
+#
+
+set -e
+
+source $1
+
+if [ ! -z "$(echo ${PKG_DESC} | grep $2)" ]; then
+  echo
+  echo "${USR_NAME}/${PKG_NAME}:"
+  echo "${PKG_DESC}"
+fi
+
+
+# vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 21, 2019
+// Date: Dec 25, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -26,6 +26,7 @@ char* get_installed_pkg_version(const char* usr_pkg, const char* pkg);
 char* get_installer();
 char* get_package_dir();
 char* get_update_script();
+char* get_search_script();
 char* get_upgrade_script();
 char* get_package_prefix();
 char* get_bin();
