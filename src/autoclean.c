@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 18, 2019
+// Date: Dec 25, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -14,7 +14,7 @@
 
 #include "autoclean.h"
 
-int autoclean(const char* clean_dir) {
+int autoclean(const char* clean_dir, int dry_run) {
   DIR *dir;
   struct dirent *d;
   dir = opendir(clean_dir);
@@ -60,10 +60,14 @@ int autoclean(const char* clean_dir) {
         if (access(full_link_path, F_OK) != 0) {
           // If the link is broken
           print_debugf("%s: Link is broken\n", d->d_name);
-          printf("I: Removing broken link: %s\n", full_file_path);
-          if (remove(full_file_path) != 0) {
-            fprintf(stderr, "Failed to remove: %s\n", full_file_path);
-            return(1);
+          if (dry_run == 1) {
+            printf("I: Would remove broken link: %s\n", full_file_path);
+          } else {
+            printf("I: Removing broken link: %s\n", full_file_path);
+            if (remove(full_file_path) != 0) {
+              fprintf(stderr, "Failed to remove: %s\n", full_file_path);
+              return(1);
+            }
           }
         } else {
           print_debugf("%s: Link OK\n", d->d_name);

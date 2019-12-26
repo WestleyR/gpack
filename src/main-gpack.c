@@ -55,6 +55,7 @@ void help_menu(const char* script_name) {
   printf("                 the pre-compiled binaries\n");
   printf("  -f, --force    dont ask, just do\n");
   printf("  -r, --overide  overide the existing package\n");
+  printf("  -n, --dry-run  dont remove anything, just print\n");
   printf("\n");
   printf("Examples\n");
   printf("  %s install WestleyR/ssum\n", script_name);
@@ -76,7 +77,7 @@ void print_commit() {
   printf("%s\n", COMMIT_HASH);
 }
 
-int helper_autoclean() {
+int helper_autoclean(int dry_run) {
   // For ~/.gpack/bin
   char* bin_dir = get_bin();
   if (bin_dir == NULL) {
@@ -84,7 +85,7 @@ int helper_autoclean() {
     return(1);
   }
   print_debugf("Cleaning bin dir: %s\n", bin_dir);
-  if (autoclean(bin_dir) != 0) {
+  if (autoclean(bin_dir, dry_run) != 0) {
     return(1);
   }
   free(bin_dir);
@@ -96,7 +97,7 @@ int helper_autoclean() {
     return(1);
   }
   print_debugf("Cleaning lib dir: %s\n", lib_dir);
-  if (autoclean(lib_dir) != 0) {
+  if (autoclean(lib_dir, dry_run) != 0) {
     return(1);
   }
   free(lib_dir);
@@ -108,7 +109,7 @@ int helper_autoclean() {
     return(1);
   }
   print_debugf("Cleaning include dir: %s\n", include_dir);
-  if (autoclean(include_dir) != 0) {
+  if (autoclean(include_dir, dry_run) != 0) {
     return(1);
   }
   free(include_dir);
@@ -127,6 +128,7 @@ int main(int argc, char **argv) {
   int compile_build = 0;
   int force_flag = 0;
   int overide_flag = 0;
+  int dry_run_flag = 0;
 
   int opt = 0;
 
@@ -136,13 +138,14 @@ int main(int argc, char **argv) {
     {"compile", no_argument, 0, 'c'},
     {"force", no_argument, 0, 'f'},
     {"overide", no_argument, 0, 'r'},
+    {"dry-run", no_argument, 0, 'n'},
     {"commit", no_argument, 0, 'C'},
     {"verbose", no_argument, 0, 'v'},
     {"debug", no_argument, 0, 'd'},
     {NULL, 0, 0, 0}
   };
 
-  while ((opt = getopt_long(argc, argv, "vdfrVcCh", long_options, 0)) != -1) {
+  while ((opt = getopt_long(argc, argv, "nvdfrVcCh", long_options, 0)) != -1) {
     switch (opt) {
       case 'h':
         help_menu(argv[0]);
@@ -159,6 +162,9 @@ int main(int argc, char **argv) {
         break;
       case 'r':
         overide_flag = 1;
+        break;
+      case 'n':
+        dry_run_flag = 1;
         break;
       case 'd':
         debug_print = 1;
@@ -231,7 +237,7 @@ int main(int argc, char **argv) {
         list_packages();
         return(0);
       } else if (strcmp(argv[i], "autoclean") == 0) {
-        int ret_code = helper_autoclean();
+        int ret_code = helper_autoclean(dry_run_flag);
         return(ret_code);
         break;
       } else {
