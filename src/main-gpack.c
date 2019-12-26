@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 21, 2019
+// Date: Dec 25, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -28,13 +28,13 @@
 #endif
 
 void help_menu(const char* script_name) {
-  printf("DESCRIPTION:\n");
+  printf("Description\n");
   printf("  Manage packages on github.\n");
   printf("\n");
-  printf("USAGE:\n");
-  printf("  $ %s [option] [command] <github/url>\n", script_name);
+  printf("Usage\n");
+  printf("  $ %s [option] [command] <option> <github/url>\n", script_name);
   printf("\n");
-  printf("Commands:\n");
+  printf("Commands\n");
   printf("  install    install a package/library\n");
   printf("  update     update gpack and libraries\n");
   printf("  upgrade    upgrade installed packages\n");
@@ -43,14 +43,20 @@ void help_menu(const char* script_name) {
   printf("             ~/.local/lib and ~/.local/include.\n");
   printf("  list       list all installed packages\n");
   printf("\n");
-  printf("OPTIONS:\n");
+  printf("Options\n");
   printf("  -h, --help     print help menu\n");
   printf("  -v, --verbose  verbose output\n");
   printf("  -d, --debug    debug output\n");
   printf("  -C, --commit   print the github commit hash\n");
   printf("  -V, --version  print version\n");
   printf("\n");
-  printf("EXAMPLES:\n");
+  printf("Other options\n");
+  printf("  -c, --compile  only compile the package, dont use\n");
+  printf("                 the pre-compiled binaries\n");
+  printf("  -f, --force    dont ask, just do\n");
+  printf("  -r, --overide  overide the existing package\n");
+  printf("\n");
+  printf("Examples\n");
   printf("  %s install WestleyR/ssum\n", script_name);
   printf("  %s remove WestleyR/ssum\n", script_name);
   printf("  %s autoclean\n", script_name);
@@ -136,7 +142,6 @@ int main(int argc, char **argv) {
     {NULL, 0, 0, 0}
   };
 
-  //    while ((opt = getopt_long(argc, argv,"o:T:S:vVhdtsl", long_options, 0)) != -1) {
   while ((opt = getopt_long(argc, argv, "vdfrVcCh", long_options, 0)) != -1) {
     switch (opt) {
       case 'h':
@@ -231,7 +236,7 @@ int main(int argc, char **argv) {
         break;
       } else {
         print_errorf("Unknown command: %s\n", argv[i]);
-        return(1);
+        return(22);
       }
     }
   } else {

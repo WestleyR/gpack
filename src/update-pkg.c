@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 21, 2019
+// Date: Dec 25, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -15,7 +15,7 @@
 #include "update-pkg.h"
 
 int update_pkg() {
-  printf("I: Updateing...\n");
+  printf("I: Updating...\n");
 
   char* update_script = get_update_script();
   if (update_script == NULL) {
@@ -23,7 +23,7 @@ int update_pkg() {
     return(1);
   }
 
-  printf("Update script: %s\n", update_script);
+  print_debugf("Update script: %s\n", update_script);
 
   if (system(update_script) != 0) {
     fprintf(stderr, "Failed to run update script\n");

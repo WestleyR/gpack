@@ -16,4 +16,5 @@
  - [x] There should be a "version" to always stay up-to-date with master (without redownloading it every time)
  - [ ] Add dry-run for 'autoclean'
  - [ ] Fix 'list' so the output is aligned
+ - [x] Handle `--compile` flag when upgradding
 

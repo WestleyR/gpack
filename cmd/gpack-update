@@ -1,12 +1,25 @@
 #!/bin/bash
+# Created by: WestleyR
+# email: westleyr@nym.hush.com
+# Date: Dec 25, 2019
+# https://github.com/WestleyR/gpack
+# version-1.0.0
+#
+# The Clear BSD License
+#
+# Copyright (c) 2019 WestleyR
+# All rights reserved.
+#
+# This software is licensed under a Clear BSD License.
+#
 
 set -e
 
 cd ${HOME}/.gpack/gpack
 
 if ! git diff --name-status --exit-code; then
-    echo "gpack has un-commited changes; aborting"
-    exit 1
+  echo "gpack has un-commited changes; aborting"
+  exit 1
 fi
 
 git pull origin master
@@ -20,6 +33,10 @@ if ! test -d packages; then
   git clone https://github.com/WestleyR/packages
 else
   cd packages
+  if ! git diff --name-status --exit-code; then
+    echo "packages has un-commited changes; aborting"
+    exit 1
+  fi
   git pull origin master
 fi
 
