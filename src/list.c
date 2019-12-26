@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 22, 2019
+// Date: Dec 25, 2019
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -26,7 +26,9 @@ int print_package(const char* path, const char* name) {
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
       char *pkg_version = get_installed_pkg_version(path, d->d_name);
-      printf("%s/%-12s %s\n", name, d->d_name, pkg_version);
+      printf("%s/%s", name, d->d_name);
+      for (int i = strlen(name) + strlen(d->d_name) + 1; i < 24; i++) printf(" ");
+      printf(" %s\n", pkg_version);
       free(pkg_version);
     }
   }
