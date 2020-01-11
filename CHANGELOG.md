@@ -1,7 +1,7 @@
 # Changelog
 
 
-### v1.0.0-beta
+### v1.0.0
 
 Still developmenting, not yet released.
 

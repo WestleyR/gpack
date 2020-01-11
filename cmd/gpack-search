@@ -1,7 +1,7 @@
 #!/bin/bash
 # Created by: WestleyR
 # email: westleyr@nym.hush.com
-# Date: Dec 25, 2019
+# Date: Jan 9, 2020
 # https://github.com/WestleyR/gpack
 # version-1.0.0
 #
@@ -15,13 +15,16 @@
 
 set -e
 
-source $1
-
-if [ ! -z "$(echo ${PKG_DESC} | grep $2)" ]; then
-  echo
-  echo "${USR_NAME}/${PKG_NAME}:"
-  echo "${PKG_DESC}"
-fi
-
+for f in $(ls -1 ${HOME}/.gpack/packages/); do
+  if test -d "${HOME}/.gpack/packages/${f}"; then
+    for p in $(ls -1 ${HOME}/.gpack/packages/${f}); do
+      if [ -z "$1" ]; then
+        echo "${f}/${p}"
+      else
+        echo "${f}/${p}" | grep --color=always "$1" || true
+      fi
+    done
+  fi
+done
 
 # vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

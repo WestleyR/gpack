@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 25, 2019
+// Date: Jan 9, 2020
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -36,7 +36,7 @@ char* get_installed_pkg_version(const char* usr_pkg, const char* pkg) {
   }
 
   while(fgets(line, sizeof(line), fp) != NULL) {
-    if (line != NULL) {
+    if (line[0] != '\0') {
       if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = '\0';
       strcpy(ret, line);
     }

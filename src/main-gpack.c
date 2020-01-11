@@ -241,6 +241,7 @@ int main(int argc, char **argv) {
             fprintf(stderr, "Failed to search for packages\n");
             return(1);
           }
+          return(0);
         }
         if (argc - optind > 2) {
           fprintf(stderr, "Invalid arguments\n");

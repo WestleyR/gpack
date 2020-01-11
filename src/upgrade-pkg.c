@@ -1,6 +1,6 @@
 // Created by: WestleyR
 // email: westleyr@nym.hush.com
-// Date: Dec 25, 2019
+// Date: Jan 9, 2020
 // https://github.com/WestleyR/gpack
 // version-1.0.0
 //
@@ -15,7 +15,7 @@
 #include "upgrade-pkg.h"
 
 int upgrade_pkg(int compile_build) {
-  printf("I: Upgradding packages...\n");
+  printf("I: Checking out-of-date packages...\n");
 
   char* upgrade_script = get_upgrade_script();
   if (upgrade_script == NULL) {
