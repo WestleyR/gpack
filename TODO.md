@@ -18,7 +18,8 @@
  - [x] Fix 'list' so the output is aligned
  - [x] Handle `--compile` flag when upgradding
  - [x] Add a `search` command
- - [ ] Search should only search for names
+ - [x] Search should only search for names
  - [x] Fix output when `upgrade`ing and theres nothing to upgrade
  - [ ] After installing a package, should print `I: Done installing pkg_name`
+ - [x] Fix any issue after a clean install
 

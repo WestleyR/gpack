@@ -1,12 +1,12 @@
 # Created by: WestleyR
 # email: westleyr@nym.hush.com
-# Date: Dec 22, 2019
+# Date: Jan 10, 2020
 # https://github.com/WestleyR/gpack
 # version-1.0.0
 #
 # The Clear BSD License
 #
-# Copyright (c) 2019 WestleyR
+# Copyright (c) 2019-2020 WestleyR
 # All rights reserved.
 #
 # This software is licensed under a Clear BSD License.
@@ -63,6 +63,7 @@ cleanall:
 .PHONY:
 install: $(TARGET)
 	mkdir -p $(PREFIX)/bin
+	mkdir -p $(PREFIX)/installed
 	cp -f $(TARGET) $(PREFIX)/bin
 	cp -f cmd/load_gpack $(PREFIX)/bin
 	$(MAKE) -C get-json-value install
