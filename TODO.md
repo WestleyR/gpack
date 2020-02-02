@@ -22,4 +22,5 @@
  - [x] Fix output when `upgrade`ing and theres nothing to upgrade
  - [ ] After installing a package, should print `I: Done installing pkg_name`
  - [x] Fix any issue after a clean install
+ - [x] Make a simple gist one file script handler
 

@@ -1,12 +1,16 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 24, 2019
+// Email(s): westleyr@nym.hush.com
+// Last modifyed date: Jan 31, 2020
+// This file version-1.0.0
+//
+// This file is part of the gpack software:
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+//
+// Which that software and this file is licensed under:
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -17,16 +21,25 @@
 #include <string.h>
 
 int main(int argc, char **argv) {
-  //if (argc <= 1) {
-  //  return(1);
-  //}
+  char* search;
+  search = (char*) malloc(200 * sizeof(char));
+  if (search == NULL) {
+    fprintf(stderr, "Malloc failed\n");
+    return(1);
+  }
+
+  strcpy(search, "sha");
+
+  if (argc > 1) {
+    strcpy(search, argv[1]);
+  }
 
   char line[256];
   char raw_sha[128];
   int got_line = 0;
 
   while (fgets(line, sizeof(line), stdin)) {
-    if (strstr(line, "sha") != NULL) {
+    if (strstr(line, search) != NULL) {
       // Cant use break here since curl will print a warning:
       // (23) Failed writing body
       if (got_line == 0) {
@@ -58,6 +71,7 @@ int main(int argc, char **argv) {
 
   printf("%s\n", sha);
   free(sha);
+  free(search);
 
   return(0);
 }
