@@ -1,13 +1,17 @@
 #!/bin/bash
 # Created by: WestleyR
-# email: westleyr@nym.hush.com
-# Date: Dec 25, 2019
-# https://github.com/WestleyR/gpack
+# Email(s): westleyr@nym.hush.com
+# Last modifyed date: Mar 1, 2020
 # version-1.0.0
+#
+# This file is part of the gpack software:
+# https://github.com/WestleyR/gpack
+#
+# Which that software and this file is licensed under:
 #
 # The Clear BSD License
 #
-# Copyright (c) 2019 WestleyR
+# Copyright (c) 2019-2020 WestleyR
 # All rights reserved.
 #
 # This software is licensed under a Clear BSD License.
@@ -22,14 +26,28 @@ if ! git diff --name-status --exit-code; then
   exit 1
 fi
 
-git pull origin master
+log_file=`mktemp`
 
-make
-make install
+git pull origin master &> $log_file
+
+echo "Running make:" >> $log_file
+
+if ! make &> $log_file; then
+  echo "Make failed; last 10 lines of: $log_file"
+  tail $log_file
+  exit 1
+fi
+
+if ! make install &> $log_file; then
+  echo "Make install failed; last 10 lines of: $log_file"
+  tail $log_file
+  exit 1
+fi
 
 cd ${HOME}/.gpack
 
 if ! test -d packages; then
+  echo "Clonning package scripts..."
   git clone https://github.com/WestleyR/packages
 else
   cd packages
@@ -37,7 +55,8 @@ else
     echo "packages has un-commited changes; aborting"
     exit 1
   fi
-  git pull origin master
+  echo "Updating packages:" >> $log_file
+  git pull origin master &> $log_file
 fi
 
 # vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

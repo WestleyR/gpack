@@ -1,12 +1,16 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 25, 2019
+// Email(s): westleyr@nym.hush.com
+// Last modifyed date: Mar 1, 2019-2020
+// This file version-1.0.0
+//
+// This file is part of the gpack software:
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+//
+// Which that software and this file is licensed under:
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -204,7 +208,7 @@ int main(int argc, char **argv) {
         return(0);
         break;
       } else if (strcmp(argv[i], "update") == 0) {
-        printf("I: Updating packages...\n");
+        print_debugf("I: Updating packages...\n");
         update_pkg();
         return(0);
         break;

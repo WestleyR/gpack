@@ -1,12 +1,16 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Jan 9, 2020
+// Email(s): westleyr@nym.hush.com
+// Last modifyed date: Mar 1, 2020
+// This file version-1.0.0
+//
+// This file is part of the gpack software:
 // https://github.com/WestleyR/gpack
-// version-1.0.0
+//
+// Which that software and this file is licensed under:
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -23,7 +27,7 @@
 #include <unistd.h>
 #include <getopt.h>
 
-#define GPACK_VERSION "v1.0.0-beta-56, Jan 9, 2020"
+#define GPACK_VERSION "v1.0.0-beta-58, Mar 1, 2020"
 
 #endif // INCLUDE_MAIN_H
 
