@@ -1,16 +1,13 @@
 // Created by: WestleyR
-// Email(s): westleyr@nym.hush.com
-// Last modifyed date: Mar 1, 2019-2020
-// This file version-1.0.0
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2020-04-21
 //
-// This file is part of the gpack software:
-// https://github.com/WestleyR/gpack
-//
-// Which that software and this file is licensed under:
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2020 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -23,6 +20,7 @@
 #include "update-pkg.h"
 #include "upgrade-pkg.h"
 #include "remove-pkg.h"
+#include "check-pkgs.h"
 #include "search.h"
 #include "utils.h"
 
@@ -205,15 +203,18 @@ int main(int argc, char **argv) {
             return(1);
           }
         }
+        printf("Installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "update") == 0) {
         print_debugf("I: Updating packages...\n");
         update_pkg();
+        printf("Installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "upgrade") == 0) {
         upgrade_pkg(compile_build);
+        printf("Installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "remove") == 0) {

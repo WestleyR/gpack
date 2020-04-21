@@ -7,25 +7,27 @@
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
 //
 
-#ifndef INCLUDE_MAIN_H
-#define INCLUDE_MAIN_H
+#ifndef CHECK_PKG_H
+#define CHECK_PKG_H
 
+#include <sys/types.h>
+#include <dirent.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <dirent.h>
 #include <string.h>
-#include <sys/stat.h>
-#include <unistd.h>
-#include <getopt.h>
 
-#define GPACK_VERSION "v1.0.0.a2, Apr 21, 2020"
+#include "utils.h"
+#include "path-join/path-join.h"
+#include "logger/logger.h"
 
-#endif // INCLUDE_MAIN_H
+int check_installed_pkg();
+
+#endif // CHECK_PKG_H
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

@@ -1,8 +1,9 @@
 # Created by: WestleyR
-# email: westleyr@nym.hush.com
-# Date: Jan 10, 2020
-# https://github.com/WestleyR/gpack
-# version-1.0.0
+# Email: westleyr@nym.hush.com
+# Url: https://github.com/WestleyR/gpack
+# Last modified date: 2020-04-21
+#
+# This file is licensed under the terms of
 #
 # The Clear BSD License
 #

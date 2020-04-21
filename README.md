@@ -1,6 +1,7 @@
 # Simple, fast, rootless package and library manager
 
-This is a basic package manager that can manage non-system (users) packages.
+This is a basic package manager that can manage non-system (users) packages and
+libraries.
 
 ## Example
 
@@ -18,6 +19,9 @@ Quick demo:
 
 ## Install
 
+Gpack is installed in `~/.gpack`, so first create that directory and clone the
+Gpack repo:
+
 ```
 mkdir -p ~/.gpack
 cd ~/.gpack
@@ -29,15 +33,19 @@ make
 make install # Dont use sudo!!!
 ```
 
-`gpack` is installed in the users home directory, no root or sudo requiered.
+_**NOTES:**_
 
-#### Setting up your environment
+ 1. `gpack` is installed in the users home directory, no root or sudo requiered.
+ 2. Make sure you download Gpack using `git`, (dont download zip) otherwise Gpack cant update itself.
+
+### Setting up your environment
 
 Add the following lines to your `~/.bashrc`:
 
 ```
 # For you installed commands
-export PATH=${PATH}:${HOME}/.gpack/bin/
+export PATH=${PATH}:${HOME}/.gpack/bin/  # This will be in ~/.local/bin soon
+export PATH=${PATH}:${HOME}/.local/bin/
 
 # For shared libraries at runtime
 export LD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
@@ -58,6 +66,17 @@ If you are using macOS, then use `DYLD_LIBRARY_PATH` instead of `LD_LIBRARY_PATH
 
 ```
 export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
+```
+
+### Testing the install
+
+To test your install, try to install a package, like:
+
+```
+gpack install WestleyR/list-files
+
+# Run the command
+lf
 ```
 
 <br>
@@ -175,7 +194,7 @@ softwares license.
 ```
 The Clear BSD License
 
-Copyright (c) 2019 WestleyR
+Copyright (c) 2019-2020 WestleyR
 All rights reserved.
 ```
 
