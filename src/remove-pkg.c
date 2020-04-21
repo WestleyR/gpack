@@ -1,24 +1,19 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Jun 22, 2019
-// https://github.com/WestleyR/gpack
-// version-1.1.1
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2020-04-21
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
 //
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
-
 #include "remove-pkg.h"
-
-#include "logger/logger.h"
 
 int remove_pkg(char *pkg) {
   print_debugf("Removing: %s\n", pkg);
@@ -71,8 +66,14 @@ int remove_pkg(char *pkg) {
   printf("About to run: %s\n", cmd);
 
   system("sleep 1s");
-
   system(cmd);
+
+  print_debugf("Autocleaning...\n");
+  int err = helper_autoclean(0);
+  if (err != 0) {
+    print_errorf("Failed to run autoclean(): exit status: %d\n", err);
+    return err;
+  }
 
   return(0);
 }

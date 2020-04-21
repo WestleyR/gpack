@@ -16,6 +16,13 @@
 
 set -e
 
+# If debug
+if [ ! -z $GPACK_DEBUG ]; then
+  set -x
+fi
+
+install_dir=${HOME}/.local
+
 if [ -z $1 ]; then
   echo "No script to install"
   exit 1
@@ -80,25 +87,38 @@ install_files() {
   fi
 
   echo "I: Installing files..."
-  mkdir -p ${HOME}/.gpack/bin
-  mkdir -p ${HOME}/.local/lib
-  mkdir -p ${HOME}/.local/include
+  mkdir -p ${install_dir}/bin
+  mkdir -p ${install_dir}/lib
+  mkdir -p ${install_dir}/include
+  mkdir -p ${install_dir}/etc
   # TODO: handle etc dir
 
   installed_files=0
 
   for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${HOME}/.gpack/bin
+    if test -e "${install_dir}/bin/${e}"; then
+      echo "ERROR: ${e} already exists in ${install_dir}"
+      exit 1
+    fi
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${install_dir}/bin
     ((installed_files+=1))
   done
 
   for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${HOME}/.local/lib
+    if test -e "${install_dir}/lib/${l}"; then
+      echo "ERROR: ${l} already exists in ${install_dir}"
+      exit 1
+    fi
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${install_dir}/lib
     ((installed_files+=1))
   done
 
   for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${HOME}/.local/include
+    if test -e "${install_dir}/include/${h}"; then
+      echo "ERROR: ${h} already exists in ${install_dir}"
+      exit 1
+    fi
+    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${install_dir}/include
     ((installed_files+=1))
   done
 

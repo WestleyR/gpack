@@ -1,18 +1,59 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 25, 2019
-// https://github.com/WestleyR/gpack
-// version-1.0.0
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2020-04-21
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
 //
 
 #include "autoclean.h"
+
+int helper_autoclean(int dry_run) {
+  // For ~/.local/bin
+  char* bin_dir = get_bin();
+  if (bin_dir == NULL) {
+    fprintf(stderr, "Failed to get gpack bin dir\n");
+    return(1);
+  }
+  print_debugf("Cleaning bin dir: %s\n", bin_dir);
+  if (autoclean(bin_dir, dry_run) != 0) {
+    return(1);
+  }
+  free(bin_dir);
+
+  // For ~/.local/lib
+  char* lib_dir = get_lib_dir();
+  if (lib_dir == NULL) {
+    fprintf(stderr, "Failed to get gpack bin dir\n");
+    return(1);
+  }
+  print_debugf("Cleaning lib dir: %s\n", lib_dir);
+  if (autoclean(lib_dir, dry_run) != 0) {
+    return(1);
+  }
+  free(lib_dir);
+
+  // For ~/.local/include
+  char* include_dir = get_include_dir();
+  if (include_dir == NULL) {
+    fprintf(stderr, "Failed to get gpack bin dir\n");
+    return(1);
+  }
+  print_debugf("Cleaning include dir: %s\n", include_dir);
+  if (autoclean(include_dir, dry_run) != 0) {
+    return(1);
+  }
+  free(include_dir);
+
+  return(0);
+}
 
 int autoclean(const char* clean_dir, int dry_run) {
   DIR *dir;

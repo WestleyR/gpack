@@ -1,12 +1,13 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 21, 2019
-// https://github.com/WestleyR/gpack
-// version-1.0.0
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2020-04-21
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -62,16 +63,21 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
   }
 
   char cmd[256];
+  cmd[0] = '\0';
 
   char* installer_script = get_installer();
 
   if (compile_build == 1) {
     printf("I: Compiling from release\n");
     strcpy(cmd, "GPACK_COMPILE_BUILD=true ");
-    strcat(cmd, installer_script);
-  } else {
-    strcpy(cmd, installer_script);
   }
+  // TODO: when the logger package supports this function
+//  if (debug_status() == 1) {
+//    strcpy(cmd, "GPACK_DEBUG=true ");
+//  }
+  strcat(cmd, installer_script);
+ 
+  free(installer_script);
 
   strcat(cmd, pkg_file);
 
@@ -81,10 +87,11 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
 
   if (system(cmd) != 0) {
     fprintf(stderr, "Failed to install: %s\n", pkg);
+    print_debugf("Removing package that failed to install...\n");
+    remove_pkg(pkg);
     return(1);
   }
 
-  free(installer_script);
   printf("I: Done\n");
 
   return 0;
