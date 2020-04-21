@@ -24,7 +24,7 @@
 #include <unistd.h>
 #include <getopt.h>
 
-#define GPACK_VERSION "v1.0.0.a4, Apr 21, 2020"
+#define GPACK_VERSION "v1.0.0.a8, Apr 21, 2020"
 
 #endif // INCLUDE_MAIN_H
 

@@ -163,18 +163,18 @@ int main(int argc, char **argv) {
             return(1);
           }
         }
-        printf("Installed files: %d\n", check_installed_pkg());
+        printf("I: Total installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "update") == 0) {
         print_debugf("I: Updating packages...\n");
         update_pkg();
-        printf("Installed files: %d\n", check_installed_pkg());
+        printf("I: Total installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "upgrade") == 0) {
         upgrade_pkg(compile_build);
-        printf("Installed files: %d\n", check_installed_pkg());
+        printf("I: Total installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "remove") == 0) {

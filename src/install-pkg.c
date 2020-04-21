@@ -92,8 +92,6 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
     return(1);
   }
 
-  printf("I: Done\n");
-
   return 0;
 }
 
@@ -105,6 +103,8 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   if (open_package(pkg, check_installed, compile_build) != 0) {
     return(1);
   }
+
+  printf("I: Done installing %s\n", pkg);
 
   return(0);
 }

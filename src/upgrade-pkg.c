@@ -1,12 +1,13 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Jan 9, 2020
-// https://github.com/WestleyR/gpack
-// version-1.0.0
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2020-04-21
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -29,22 +30,19 @@ int upgrade_pkg(int compile_build) {
     print_debugf("FAIL: malloc failed with buffer size of: %d\n", (long)(strlen(upgrade_script) + 26 + 2) * sizeof(char));
     return(-1);
   }
+  upgrade_command[0] = '\0';
 
   if (compile_build == 1) {
     strcpy(upgrade_command, "GPACK_COMPILE_BUILD=true ");
-    strcat(upgrade_command, upgrade_script);
-  } else {
-    strcpy(upgrade_command, upgrade_script);
   }
+  strcpy(upgrade_command, "GPACK_OVERIDE=true ");
+  strcat(upgrade_command, upgrade_script);
+  free(upgrade_script);
 
   if (system(upgrade_command) != 0) {
     fprintf(stderr, "Failed to run upgrade script\n");
-    free(upgrade_script);
-    free(upgrade_command);
     return(-1);
   }
-
-  free(upgrade_script);
   free(upgrade_command);
 
   return(0);

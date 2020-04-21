@@ -96,27 +96,33 @@ install_files() {
   installed_files=0
 
   for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
-    if test -e "${install_dir}/bin/${e}"; then
-      echo "ERROR: ${e} already exists in ${install_dir}"
-      exit 1
+    if [ -z $GPACK_OVERIDE ]; then
+      if test -e "${install_dir}/bin/${e}"; then
+        echo "ERROR: ${e} already exists in ${install_dir}"
+        exit 1
+      fi
     fi
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${install_dir}/bin
     ((installed_files+=1))
   done
 
   for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
-    if test -e "${install_dir}/lib/${l}"; then
-      echo "ERROR: ${l} already exists in ${install_dir}"
-      exit 1
+    if [ -z $GPACK_OVERIDE ]; then
+      if test -e "${install_dir}/lib/${l}"; then
+        echo "ERROR: ${l} already exists in ${install_dir}"
+        exit 1
+      fi
     fi
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${install_dir}/lib
     ((installed_files+=1))
   done
 
   for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
-    if test -e "${install_dir}/include/${h}"; then
-      echo "ERROR: ${h} already exists in ${install_dir}"
-      exit 1
+    if [ -z $GPACK_OVERIDE ]; then
+      if test -e "${install_dir}/include/${h}"; then
+        echo "ERROR: ${h} already exists in ${install_dir}"
+        exit 1
+      fi
     fi
     ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${install_dir}/include
     ((installed_files+=1))

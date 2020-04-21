@@ -1,4 +1,4 @@
-# Gpack TODO
+# GPACK TODO
 
  - [x] Make the install script look at 'bin', 'lib', and 'include' in the prefix to install stuff
  - [x] Add -f flag when removing packages
@@ -20,7 +20,7 @@
  - [x] Add a `search` command
  - [x] Search should only search for names
  - [x] Fix output when `upgrade`ing and theres nothing to upgrade
- - [ ] After installing a package, should print `I: Done installing pkg_name`
+ - [x] After installing a package, should print `I: Done installing pkg_name`
  - [x] Fix any issue after a clean install
  - [x] Make a simple gist one file script handler
  - [ ] Autoclean should remove unused (older version) of a package after upgrading it (maybe)
