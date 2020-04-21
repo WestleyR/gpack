@@ -24,7 +24,7 @@ char* replace_char(char* str, char find, char replace){
   return str;
 }
 
-int open_package(const char* pkg, int check_installed, int compile_build) {
+int open_package(const char* pkg, int overide, int compile_build) {
   char pkg_file[256];
   pkg_file[0] = '\0';
 
@@ -53,7 +53,7 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
   strcat(installed_pkg, "/.gpack/installed/");
   strcat(installed_pkg, pkg);
 
-  if (check_installed == 1) {
+  if (overide == 0) {
     struct stat sb;
     if (stat(installed_pkg, &sb) == 0 && S_ISDIR(sb.st_mode)) {
       printf("%s: is already installed\n", pkg);
@@ -71,12 +71,16 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
     printf("I: Compiling from release\n");
     strcpy(cmd, "GPACK_COMPILE_BUILD=true ");
   }
+  if (overide == 1) {
+    print_debugf("Overidding install...\n");
+    strcpy(cmd, "GPACK_OVERIDE=true ");
+  }
   // TODO: when the logger package supports this function
-//  if (debug_status() == 1) {
-//    strcpy(cmd, "GPACK_DEBUG=true ");
-//  }
+  //if (debug_status() == 1) {
+  //  strcpy(cmd, "GPACK_DEBUG=true ");
+  //}
   strcat(cmd, installer_script);
- 
+
   free(installer_script);
 
   strcat(cmd, pkg_file);
@@ -96,11 +100,7 @@ int open_package(const char* pkg, int check_installed, int compile_build) {
 }
 
 int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
-  if (overide == 1) {
-    check_installed = 0;
-  }
-
-  if (open_package(pkg, check_installed, compile_build) != 0) {
+  if (open_package(pkg, overide, compile_build) != 0) {
     return(1);
   }
 
