@@ -2,7 +2,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-04-21
+# Last modified date: 2020-05-17
 #
 # This file is licensed under the terms of
 #
@@ -21,16 +21,18 @@ nothing_to_upgrade=0
 for f in $(ls -1 ${HOME}/.gpack/installed/); do
   for p in $(ls -1 ${HOME}/.gpack/installed/${f}/); do
 
-    # TODO check file before sourcing
-    source ${HOME}/.gpack/packages/${f}/${p}
-    current_version=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
+    if test -f ${HOME}/.gpack/packages/${f}/${p} ; then
+      source ${HOME}/.gpack/packages/${f}/${p}
+      current_version=`cat ${HOME}/.gpack/installed/${f}/${p}/version.gpack`
 
-    if [[ "$current_version" != "$PKG_VERSION" ]]; then
-      echo "I: Package out-of-date: ${f}/${p}"
-      gpack install --overide "${f}/${p}"
-      nothing_to_upgrade=1
+      if [[ "$current_version" != "$PKG_VERSION" ]]; then
+        echo "I: Package out-of-date: ${f}/${p}"
+        gpack install --overide "${f}/${p}"
+        nothing_to_upgrade=1
+      fi
+    else
+      echo "WARNING: untracked package installed: ${HOME}/.gpack/packages/${f}/${p}"
     fi
-
   done
 done
 
