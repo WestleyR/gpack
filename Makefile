@@ -1,7 +1,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-04-21
+# Last modified date: 2020-05-17
 #
 # This file is licensed under the terms of
 #
@@ -24,7 +24,8 @@ DEFLAGS =
 
 TARGET = gpack
 
-COMMIT = "$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ) )"
+COMMIT = $(subst `,\`,"$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ))")
+
 DEFLAGS += -DCOMMIT_HASH=\"$(COMMIT)\"
 
 ifeq ($(DEBUG), true)
