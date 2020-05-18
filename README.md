@@ -20,10 +20,10 @@ Quick demo:
 ## Install
 
 Gpack is installed in `~/.gpack`, so first create that directory and clone the
-Gpack repo:
+gpack repo:
 
 ```
-mkdir -p ~/.gpack
+mkdir ~/.gpack
 cd ~/.gpack
 
 git clone https://github.com/WestleyR/gpack
@@ -35,8 +35,8 @@ make install # Dont use sudo!!!
 
 _**NOTES:**_
 
- 1. `gpack` is installed in the users home directory, no root or sudo requiered.
- 2. Make sure you download Gpack using `git`, (dont download zip) otherwise Gpack cant update itself.
+ 1. `gpack` is installed in the users home directory, so that user should install it. No root or sudo required.
+ 2. Make sure you download gpack using `git`, (dont download zip) otherwise gpack cant update itself.
 
 ### Setting up your environment
 

@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-04-21
+// Last modified date: 2020-05-17
 //
 // This file is licensed under the terms of
 //
@@ -14,17 +14,6 @@
 //
 
 #include "main-gpack.h"
-#include "install-pkg.h"
-#include "list.h"
-#include "autoclean.h"
-#include "update-pkg.h"
-#include "upgrade-pkg.h"
-#include "remove-pkg.h"
-#include "check-pkgs.h"
-#include "search.h"
-#include "utils.h"
-
-#include "logger/logger.h"
 
 #ifndef COMMIT_HASH
 #define COMMIT_HASH "unknown"

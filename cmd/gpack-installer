@@ -2,7 +2,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-04-21
+# Last modified date: 2020-05-17
 #
 # This file is licensed under the terms of
 #
@@ -133,7 +133,11 @@ install_files() {
   echo "I: There are ${installed_files} newly files installed"
 
   if [ $installed_files -eq 0 ]; then
+    echo
     echo "ERROR: No files were installed; please open a issue at: https://github.com/${USR_NAME}/${NAME} or: https://github.com/WestleyR/gpack"
+    echo "Try installing ${PKG_NAME} with the '--compile' flag; eg:"
+    echo "  $ gpack install ${USR_NAME}/${PKG_NAME}"
+    echo
     exit 1
   fi
 

@@ -26,4 +26,5 @@
  - [ ] Autoclean should remove unused (older version) of a package after upgrading it (maybe)
  - [x] Should count how many file are installed
  - [x] Remove a package if failed to install it
+ - [ ] `gpack upgrade` should ensure all files are installed correctly
 
