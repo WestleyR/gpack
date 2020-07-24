@@ -27,4 +27,6 @@
  - [x] Should count how many file are installed
  - [x] Remove a package if failed to install it
  - [ ] `gpack upgrade` should ensure all files are installed correctly
+ - [ ] Should cache downloaded packages
+ - [x] `gpack list` should auto-size the space between packages, and its versions
 
