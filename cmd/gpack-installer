@@ -28,25 +28,6 @@ if [ -z $1 ]; then
   exit 1
 fi
 
-verify_download() {
-  packagefile="$1"
-
-  if [ ! -z "${SHA256SUM}" ]; then
-    if ! command -v sha256sum > /dev/null; then
-      echo "WARNING: sha256sum command not found; skipping"
-    else
-      if ! echo "${SHA256SUM}  ${gpack_prefix}/${packagefile}" | sha256sum -c > /dev/null; then
-        echo "ERROR: sha256sum verify failed; hashes differ"
-        exit 1
-      else
-        echo "${gpack_prefix}/${packagefile} sha256sum OK"
-      fi
-    fi
-  else
-    echo "WARNING: ${gpack_prefix}/${packagefile} unverifyied"
-  fi
-}
-
 verify_package() {
   checksum="$1"
   packagefile="$2"
@@ -73,6 +54,12 @@ download_pkg() {
   pkg_v="$2" # 1.6.0
   pkg_url="$3"
   pkg_sha256="$4"
+
+  if [ -z "$pkg_url" ]; then
+    echo "ERROR: no url to download from"
+    echo "please open an issue at: https://github.com/${USR_NAME}/${PKG_NAME}"
+    exit 1;
+  fi
 
   cache_dir="${HOME}/.cache/gpack.cache/${pkg}/${pkg_v}"
   mkdir -p $cache_dir
