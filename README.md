@@ -191,14 +191,8 @@ softwares license.
 
 ## License
 
-```
-The Clear BSD License
-
-Copyright (c) 2019-2020 WestleyR
-All rights reserved.
-```
-
-See the [LICENSE file](LICENSE) for more details.
+This project is licensed under the terms of the The Clear BSD License. See the
+[LICENSE file](LICENSE) for more details.
 
 <br>
 
