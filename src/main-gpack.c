@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-07-25
+// Last modified date: 2020-07-26
 //
 // This file is licensed under the terms of
 //
@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
   set_debug(debug_print);
 
   if (ensure_all_scripts() != 0) {
-    print_errorf("One or more of gpack scripts have changed since gpack was installed/upgraded\n");
+    print_warningf("One or more of gpack scripts have changed since gpack was installed/upgraded\n");
   }
 
   if (optind < argc) {

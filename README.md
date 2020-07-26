@@ -157,8 +157,6 @@ By using this template, there is no sha256sum/checksum to verify with, thats
 the downside of having your project "alwasys-up-to-date with master". Another
 downside is that there is no pre-compiled binaries support for this.
 
-<br>
-
 ### FAQ
 
  - Q: Does gpack support pre-compiled binaries?
@@ -166,7 +164,7 @@ downside is that there is no pre-compiled binaries support for this.
 
  - Q: What dependencies does gpack require?
    - A: Need gcc (or other c compiler) to compile gpack. Need `wget` and `tar` to download packages, and `git` for update,
-   but also a couple other basic commands, like: `rm`, `cp`, `bash`, `ln`, which %99.99 of all systems have/support :)
+   but also a couple other basic commands, like: `rm`, `cp`, `bash`, `ln`, `wget` which %99.99 of all systems have/support :)
 
  - Q: Can you uninstall gpack?
    - A: Yes; `rm -rf ~/.gpack` _NOTE: doing this will remove all packages that gpack installed._
@@ -176,10 +174,6 @@ downside is that there is no pre-compiled binaries support for this.
 
  - Q: Where does gpack install packages?
    - A: In `~/.gpack/installed/<user>/<package_name>`, all binaries are symlinked to `~/.gpack/bin`, and can easily be uninstalled.
-
- - Q: Why use this when you can just use brew?
-   - A: On a generic pc/laptop, it might make sence to use brew. But on a small, low power, low memory divice, thats where gpack comes in.
-   Gpack is very fast, and small in size, making it very good for that use.
 
 <br>
 

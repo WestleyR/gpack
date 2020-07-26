@@ -1,7 +1,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-07-25
+# Last modified date: 2020-07-26
 #
 # This file is licensed under the terms of
 #
@@ -24,13 +24,13 @@ DEFLAGS =
 
 TARGET = gpack
 
-CHECKSUM_CMD_FILE = $(PWD)/cmd-checksum.ssum
+CHECKSUM_CMD_FILE = $(HOME)/.gpack/gpack/cmd-checksum.ssum
 CHECKSUM_PROG = ssum
 ifeq (, $(shell which $(CHECKSUM_PROG)))
 $(warning "No $(CHECKSUM_PROG) command found")
 else
 $(info "Generating checksums for scripts...")
-files = $(wildcard $(PWD)/cmd/*)
+files = $(wildcard $(HOME)/.gpack/gpack/cmd/*)
 $(shell $(CHECKSUM_PROG) $(files) > $(CHECKSUM_CMD_FILE))
 endif
 
