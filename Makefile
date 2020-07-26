@@ -24,27 +24,14 @@ DEFLAGS =
 
 TARGET = gpack
 
-CHECKSUM_CMD_FILE = $(realpath .)/cmd-checksum.ssum
+CHECKSUM_CMD_FILE = $(PWD)/cmd-checksum.ssum
 CHECKSUM_PROG = ssum
 ifeq (, $(shell which $(CHECKSUM_PROG)))
 $(warning "No $(CHECKSUM_PROG) command found")
 else
 $(info "Generating checksums for scripts...")
-#GP_SEARCH_CMD_CHECKSUM = $(shell $(CHECKSUM_PROG) cmd/gpack-search)
-#GP_LOAD_CMD_CHECKSUM = $(shell $(CHECKSUM_PROG) cmd/load_gpack)
-#GP_INSTALLER_CMD_CHECKSUM = $(shell $(CHECKSUM_PROG) cmd/gpack-installer)
-#GP_UPDATE_CMD_CHECKSUM = $(shell $(CHECKSUM_PROG) cmd/gpack-update)
-#GP_UPGRADE_CMD_CHECKSUM = $(shell $(CHECKSUM_PROG) cmd/gpack-upgrade)
-
-#DEFLAGS += -DGP_SEARCH_CS=\"$(GP_SEARCH_CMD_CHECKSUM)\"
-#DEFLAGS += -DGP_LOAD_CS=\"$(GP_LOAD_CMD_CHECKSUM)\"
-#DEFLAGS += -DGP_INSTALLER_CS=\"$(GP_INSTALLER_CMD_CHECKSUM)\"
-#DEFLAGS += -DGP_UPDATE_CS=\"$(GP_UPDATE_CMD_CHECKSUM)\"
-#DEFLAGS += -DGP_UPGRADE_CS=\"$(GP_UPGRADE_CMD_CHECKSUM)\"
-
-files = $(wildcard $(realpath .)/cmd/*)
+files = $(wildcard $(PWD)/cmd/*)
 $(shell $(CHECKSUM_PROG) $(files) > $(CHECKSUM_CMD_FILE))
-
 endif
 
 COMMIT = $(subst `,\`,"$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ))")
