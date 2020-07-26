@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-07-24
+// Last modified date: 2020-07-25
 //
 // This file is licensed under the terms of
 //
@@ -40,6 +40,10 @@ int print_package(const char* path, const char* name, int print_len) {
       // Print the package version
       printf(" %s\n", pkg_version);
       free(pkg_version);
+
+      // Print if its up-to-date
+      // TODO: FIXME!
+      //char* vlable = compare_pkg_version(
     }
   }
   closedir(dir);
@@ -47,6 +51,8 @@ int print_package(const char* path, const char* name, int print_len) {
   return(0);
 }
 
+// get_max_len_of_package_name will get the max string len of a package user/name.
+// Eg. WestleyR/list-files.
 int get_max_len_of_package_name(const char* user_path, const char* user_name) {
   DIR *dir;
   struct dirent *d;

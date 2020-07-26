@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-05-17
+// Last modified date: 2020-07-25
 //
 // This file is licensed under the terms of
 //
@@ -33,10 +33,11 @@
 #include "check-pkgs.h"
 #include "search.h"
 #include "utils.h"
+#include "cmd-ensure.h"
 
 #include "logger/logger.h"
 
-#define GPACK_VERSION "v1.0.0.b1, May 17, 2020"
+#define GPACK_VERSION "v1.0.0.b1, July 25, 2020"
 
 #endif // INCLUDE_MAIN_H
 

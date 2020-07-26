@@ -33,5 +33,5 @@
  - [ ] Add option/flag/command to list/clean cache
  - [ ] `gpack list` should show the "registry version" for the package/show if a package is out-of-date
  - [ ] `gpack autoclean` should clean outdated old packages in the gpack.cache dir
- - [ ] When calling `gpack`, it should ensure all shell scripts have not changed since installing/updating gpack
+ - [x] When calling `gpack`, it should ensure all shell scripts have not changed since installing/updating gpack
 

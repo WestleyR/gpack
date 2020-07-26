@@ -138,6 +138,10 @@ int main(int argc, char **argv) {
   set_verbose(verbose_print);
   set_debug(debug_print);
 
+  if (ensure_all_scripts() != 0) {
+    print_errorf("One or more of gpack scripts have changed since gpack was installed/upgraded\n");
+  }
+
   if (optind < argc) {
     for (int i = optind; i < argc; i++) {
       if (strcmp(argv[i], "install") == 0) {

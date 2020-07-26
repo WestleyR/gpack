@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-04-21
+// Last modified date: 2020-07-25
 //
 // This file is licensed under the terms of
 //
@@ -33,6 +33,7 @@ char* get_package_prefix();
 char* get_bin();
 char* get_lib_dir();
 char* get_include_dir();
+char* get_cmd_checksum_file();
 
 #endif // INCLUDE_UTILS_GPACK_H
 
