@@ -34,4 +34,5 @@
  - [ ] `gpack list` should show the "registry version" for the package/show if a package is out-of-date
  - [ ] `gpack autoclean` should clean outdated old packages in the gpack.cache dir
  - [x] When calling `gpack`, it should ensure all shell scripts have not changed since installing/updating gpack
+ - [ ] Release clib dep for ssum, then update the ssum library
 

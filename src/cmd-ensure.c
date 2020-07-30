@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-07-25
+// Last modified date: 2020-07-29
 //
 // This file is licensed under the terms of
 //
@@ -30,7 +30,7 @@ int ensure_all_scripts() {
     return 0;
   }
 
-  return check_crc32_file(fp, SSUM_BLOCK_SIZE);
+  return check_crc32_file(fp, SSUM_BLOCK_SIZE, NULL, NULL);
 }
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

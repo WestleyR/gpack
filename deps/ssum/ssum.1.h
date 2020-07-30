@@ -1,12 +1,13 @@
-// created by: WestleyR
-// email: westleyr@nym.hush.com
-// https://github.com/WestleyR/ssum
-// date: Dec 21, 2019
-// version: na; see ssum.1.c
+// Created by: WestleyR
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/ssum
+// Last modified date: 2020-05-15
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -14,7 +15,7 @@
 
 #ifndef INCLUDE_SSUM_H
 #define INCLUDE_SSUM_H
-#define SSUM_HEADERFILE_VERSION "v1.1.0, Dec 21, 2019"
+#define SSUM_HEADERFILE_VERSION "v3.0.0, Apr 15, 2020"
 
 #include <stdio.h>
 #include <string.h>
@@ -71,17 +72,30 @@ unsigned int crc32_file(FILE* fp, int block_size);
 // The crc for the contents of the file.
 //
 
-int check_crc32_file(FILE* fp, int block_size);
+int check_crc32_file(FILE* fp, int block_size, int* total_files, int* failed_files);
 // ### Parameters
 // 
-// `fp` is the open file that contains the hash for a file. Open the file in read
-// mode, and non-binary (`"r"`). `block_size` is the size of the block to read.
+// `fp` is the open file that contains the hash for a file. Open the file in read.
+// `mode`, and non-binary (`"r"`). `block_size` is the size of the block to read.
+// `*total_files` is the pointer to the total files checked.
+// `*failed_files` is the pointer to the total failed files checked.
 // 
 // ### Returns
 // 
 // Returns `0` (zero) if the checksum and file match. Returns `1` if it does not.
 // And `-1` if theres a other error.
 //
+
+int hexstr_int(const char *hexstr);
+// ### Parameters
+// 
+// hexstr is the hex string, like: '123ff' (without the 0x prefix).
+// 
+// ### Returns
+//
+// The hexstr converted to the int.
+//
+
 
 #endif // INCLUDE_SSUM_H
 
