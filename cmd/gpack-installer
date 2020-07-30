@@ -2,7 +2,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-07-25
+# Last modified date: 2020-07-29
 #
 # This file is licensed under the terms of
 #
@@ -38,7 +38,7 @@ verify_package() {
     else
       if ! echo "$checksum  ${packagefile}" | sha256sum -c > /dev/null; then
         echo "ERROR: sha256sum verify failed; hashes differ"
-        exit 1
+        return 1
       else
         echo "${packagefile} sha256sum OK"
       fi
@@ -79,7 +79,24 @@ download_pkg() {
   fi
 
   if [ ! -z "$pkg_sha256" ]; then
-    verify_package $pkg_sha256 $cache_dir
+    if ! verify_package $pkg_sha256 $cache_dir ; then
+      echo "I: Redownload package since checksums did not match..."
+      rm -f $cache_dir
+
+      # redownload the file
+      echo "I: Donwload package..."
+      if ! wget -q --show-progress -O $cache_dir $pkg_url ; then
+        echo "ERROR: failed to download tarball from: $pkg_url"
+        echo "Trying to build from source..."
+        build_source
+        exit 0
+      fi
+
+      # Verify the package again
+      if ! verify_package $pkg_sha256 $cache_dir ; then
+        exit 1
+      fi
+    fi
   fi
 }
 
