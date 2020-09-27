@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-04-21
+// Last modified date: 2020-09-26
 //
 // This file is licensed under the terms of
 //
@@ -14,6 +14,59 @@
 //
 
 #include "autoclean.h"
+
+int clean_older_pkgs(int dry_run) {
+  print_debugf("%s()\n", __func__);
+
+  // Directory tree:
+  //   installed_dir = ~/.gpack/installed
+  //
+  //   installed_dir/<username>/<pkgname>/version.gpack
+  //                                      1.0.0/
+  //                                      1.0.1/
+
+  char* installed_dir = get_package_prefix();
+  if (installed_dir == NULL) {
+    fprintf(stderr, "%s() failed to get install dir\n", __func__);
+    return -1;
+  }
+ 
+  DIR *dir;
+  struct dirent *d;
+  dir = opendir(installed_dir);
+  if (dir == NULL) {
+    fprintf(stderr, "Failed to open: %s\n", installed_dir);
+    return -1;
+  }
+
+  struct stat info;
+  char full_file_path[256];
+  full_file_path[0] = '\0';
+
+  while ((d = readdir(dir)) != NULL) {
+    if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
+
+      char* full_file_path = path_join(installed_dir, "");
+      full_file_path = path_join(full_file_path, d->d_name);
+
+      print_debugf("opening file: %s\n", full_file_path);
+      if (lstat(full_file_path, &info) != 0) {
+        perror("lstat");
+        printf("error: unable to open stat on: %s\n", full_file_path);
+        free(full_file_path);
+        continue;
+      }
+
+
+      free(full_file_path);
+    }
+  }
+ 
+
+  free(installed_dir);
+
+  return 0;
+}
 
 int helper_autoclean(int dry_run) {
   // For ~/.local/bin
@@ -31,7 +84,7 @@ int helper_autoclean(int dry_run) {
   // For ~/.local/lib
   char* lib_dir = get_lib_dir();
   if (lib_dir == NULL) {
-    fprintf(stderr, "Failed to get gpack bin dir\n");
+    fprintf(stderr, "Failed to get gpack lib dir\n");
     return(1);
   }
   print_debugf("Cleaning lib dir: %s\n", lib_dir);
@@ -43,7 +96,7 @@ int helper_autoclean(int dry_run) {
   // For ~/.local/include
   char* include_dir = get_include_dir();
   if (include_dir == NULL) {
-    fprintf(stderr, "Failed to get gpack bin dir\n");
+    fprintf(stderr, "Failed to get gpack include dir\n");
     return(1);
   }
   print_debugf("Cleaning include dir: %s\n", include_dir);
@@ -51,6 +104,11 @@ int helper_autoclean(int dry_run) {
     return(1);
   }
   free(include_dir);
+
+  // Now clean the packages
+  if (clean_older_pkgs(dry_run) != 0) {
+    return 1;
+  }
 
   return(0);
 }

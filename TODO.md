@@ -37,4 +37,5 @@
  - [ ] Release clib dep for ssum, then update the ssum library
  - [ ] Add BINFILES in pkg installer, that will only contain the path to bin files
  - [ ] Should check if install files already exist, and dont overide unless forced
+ - [ ] autoclean should remove old package versions
 

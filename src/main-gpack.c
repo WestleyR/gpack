@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-07-26
+// Last modified date: 2020-09-26
 //
 // This file is licensed under the terms of
 //
@@ -31,8 +31,9 @@ void help_menu(const char* script_name) {
   printf("  update     update gpack and libraries\n");
   printf("  upgrade    upgrade installed packages\n");
   printf("  remove     remove a package\n");
-  printf("  autoclean  remove broken links from ~/.gpack/bin,\n");
-  printf("             ~/.local/lib and ~/.local/include.\n");
+  printf("  autoclean  removes old packages, and remove broken\n");
+  printf("             links from ~/.gpack/bin, ~/.local/lib\n");
+  printf("             and ~/.local/include.\n");
   printf("  list       list all installed packages\n");
   printf("  search     search string for a package description\n");
   printf("\n");

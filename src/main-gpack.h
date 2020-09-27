@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-07-25
+// Last modified date: 2020-09-26
 //
 // This file is licensed under the terms of
 //
@@ -37,7 +37,7 @@
 
 #include "logger/logger.h"
 
-#define GPACK_VERSION "v1.0.0.b1, July 25, 2020"
+#define GPACK_VERSION "v1.0.0.b2, Sep 26, 2020"
 
 #endif // INCLUDE_MAIN_H
 
