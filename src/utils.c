@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-09-30
+// Last modified date: 2020-10-01
 //
 // This file is licensed under the terms of
 //
@@ -194,5 +194,60 @@ char* get_package_prefix() {
 
   return(path);
 }
+
+//*****************
+// Unused functions
+//*****************
+
+void append(char* s, char c) {
+  int len = strlen(s);
+  s[len] = c;
+  s[len+1] = '\0';
+}
+
+// delimiters:
+// 0 = binary name
+// 1 = installed path
+// 2 = checksum
+char** get_installed_files_from_map(const char* map, int delimiter) {
+  int installed_files_index = 0;
+  // TODO: should handle more then 5 lines, ie. installed files
+  char** installed_files = (char**) malloc(5);
+  // TODO: error check
+  
+  for (int i = 0; i < 5; i++) {
+    installed_files[i] = (char*) malloc(50);
+    // TODO: error check
+  }
+
+  FILE* fp = fopen(map, "r");
+  if (fp == NULL) {
+//    printf("ERROR: failed to open file\n");
+//    perror("fopen");
+    return NULL;
+  }
+
+  installed_files[0][0] = '\0';
+
+  char item[256];
+  item[0] = '\0';
+
+  int del = 0;
+  char c;
+  while ((c = fgetc(fp)) != EOF) {
+    if (c == ' ') {
+      del++;
+    }
+
+    if (c == '\n') {
+      installed_files[installed_files_index][0] = '\0';
+      strcpy(installed_files[installed_files_index], item);
+      installed_files_index++;
+      del = 0;
+      //printf("ITEM: %s\n", item);
+      item[0] = '\0';
+      continue;
+    }
+
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

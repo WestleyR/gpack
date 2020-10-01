@@ -199,7 +199,7 @@ int check_crc32_file(FILE* fp, int block_size, int* total_files, int* failed_fil
     }
     int num_hash = hexstr_int(hash);
     if (real_checksum != num_hash) {
-      printf("%s: FAIL: hashes differ\n", check_file);
+      //printf("%s: FAIL: hashes differ\n", check_file);
       if (failed_files != NULL)(*failed_files)++;
       checksumOK = 1;
     } else {

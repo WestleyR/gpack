@@ -1,12 +1,13 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 22, 2019
-// https://github.com/WestleyR/gpack
-// version-1.0.0
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2020-09-30
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -24,6 +25,8 @@
 #include "utils.h"
 #include "path-join/path-join.h"
 #include "logger/logger.h"
+#include "ssum/ssum.1.h"
+#include "list-files-utils/color.h"
 
 int list_packages();
 
