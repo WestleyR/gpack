@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-07-25
+// Last modified date: 2020-09-30
 //
 // This file is licensed under the terms of
 //
@@ -14,6 +14,22 @@
 //
 
 #include "utils.h"
+
+
+char* get_listmap_for_pkg(const char* user_name, const char* pkg) {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  char* ret = path_join(h, ".gpack/installed");
+  ret = path_join(ret, user_name);
+  ret = path_join(ret, pkg);
+  ret = path_join(ret, "list.gpack");
+
+  return(ret);
+}
 
 char* get_cmd_checksum_file() {
   char* h = getenv("HOME");

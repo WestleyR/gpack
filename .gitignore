@@ -1,4 +1,5 @@
 *.o
+*.swp
 /gpack
 /get-json-value/get-json-value
 /cmd-checksum.ssum

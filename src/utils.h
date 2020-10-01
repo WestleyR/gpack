@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-07-25
+// Last modified date: 2020-09-30
 //
 // This file is licensed under the terms of
 //
@@ -23,6 +23,7 @@
 #include "path-join/path-join.h"
 #include "logger/logger.h"
 
+char* get_listmap_for_pkg(const char* user_name, const char* pkg);
 char* get_installed_pkg_version(const char* usr_pkg, const char* pkg);
 char* get_installer();
 char* get_package_dir();
