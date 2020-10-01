@@ -205,6 +205,7 @@ void append(char* s, char c) {
   s[len+1] = '\0';
 }
 
+
 // delimiters:
 // 0 = binary name
 // 1 = installed path
@@ -249,5 +250,17 @@ char** get_installed_files_from_map(const char* map, int delimiter) {
       continue;
     }
 
+    if (c == ' ') {
+      continue;
+    }
+
+    if (del == delimiter) {
+      append(item, c);
+    }
+  }
+  fclose(fp);
+
+  return installed_files;
+}
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
