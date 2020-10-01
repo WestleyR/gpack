@@ -38,4 +38,5 @@
  - [ ] Add BINFILES in pkg installer, that will only contain the path to bin files
  - [ ] Should check if install files already exist, and dont overide unless forced
  - [ ] autoclean should remove old package versions
+ - [ ] Should ensure and check (with checksum) that all files are installed with package
 
