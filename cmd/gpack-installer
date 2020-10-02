@@ -2,7 +2,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-08-16
+# Last modified date: 2020-10-01
 #
 # This file is licensed under the terms of
 #
@@ -114,72 +114,60 @@ install_deps() {
   fi
 }
 
-install_files() {
+install_all_files() {
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
   mkdir -p ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
 
   echo "I: Copying files..."
 
-  if test -d ${gpack_prefix}/bin; then
-    for e in $(ls -1 ${gpack_prefix}/bin); do
-      cp -f ${gpack_prefix}/bin/$e ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin
-    done
-  fi
 
-  if test -d ${gpack_prefix}/lib; then
-    for l in $(ls -1 ${gpack_prefix}/lib); do
-      cp -f ${gpack_prefix}/lib/$l ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib
-    done
-  fi
+  #cache_dir="${HOME}/.cache/gpack.cache/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}"
 
-  if test -d ${gpack_prefix}/include; then
-    for h in $(ls -1 ${gpack_prefix}/include); do
-      cp -f ${gpack_prefix}/include/$h ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include
-    done
-  fi
+  base_path="${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}"
 
   echo "I: Installing files..."
   mkdir -p ${install_dir}/bin
   mkdir -p ${install_dir}/lib
   mkdir -p ${install_dir}/include
-  mkdir -p ${install_dir}/etc
-  # TODO: handle etc dir
 
   installed_files=0
 
-  for e in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin); do
-    if [ -z $GPACK_OVERIDE ]; then
-      if test -e "${install_dir}/bin/${e}"; then
-        echo "ERROR: ${e} already exists in ${install_dir}"
-        exit 1
-      fi
-    fi
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/bin/$e" ${install_dir}/bin
-    ((installed_files+=1))
-  done
+  if [ ! -z "$BIN_FILES" ]; then
+    for b in "$BIN_FILES" ; do
+      ln -f -s "${base_path}/${b}" "${install_dir}/bin"
+      ((installed_files+=1))
+    done
+  elif [ ! -z "$BUILD_BIN_FILES" ]; then
+     for b in "$BUILD_BIN_FILES" ; do
+      ln -f -s "${base_path}/${b}" "${install_dir}/bin"
+      ((installed_files+=1))
+    done
+  fi
 
-  for l in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib); do
-    if [ -z $GPACK_OVERIDE ]; then
-      if test -e "${install_dir}/lib/${l}"; then
-        echo "ERROR: ${l} already exists in ${install_dir}"
-        exit 1
-      fi
-    fi
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/lib/$l" ${install_dir}/lib
-    ((installed_files+=1))
-  done
+  if [ ! -z "$LIB_FILES" ]; then
+    for b in "$LIB_FILES" ; do
+      ln -f -s "${base_path}/${b}" "${install_dir}/lib"
+      ((installed_files+=1))
+    done
+  elif [ ! -z "$BUILD_LIB_FILES" ]; then
+     for b in "$BUILD_LIB_FILES" ; do
+      ln -f -s "${base_path}/${b}" "${install_dir}/lib"
+      ((installed_files+=1))
+    done
+  fi
 
-  for h in $(ls -1 ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include); do
-    if [ -z $GPACK_OVERIDE ]; then
-      if test -e "${install_dir}/include/${h}"; then
-        echo "ERROR: ${h} already exists in ${install_dir}"
-        exit 1
-      fi
-    fi
-    ln -f -s "${HOME}/.gpack/installed/${USR_NAME}/${NAME}/${PKG_VERSION}/include/$h" ${install_dir}/include
-    ((installed_files+=1))
-  done
+  if [ ! -z "$INCLUDE_FILES" ]; then
+    for b in "$INCLUDE_FILES" ; do
+      ln -f -s "${base_path}/${b}" "${install_dir}/include"
+      ((installed_files+=1))
+    done
+  elif [ ! -z "$BUILD_INCLUDE_FILES" ]; then
+     for b in "$BUILD_INCLUDE_FILES" ; do
+      ln -f -s "${base_path}/${b}" "${install_dir}/include"
+      ((installed_files+=1))
+    done
+  fi
 
   echo $PKG_VERSION > ${HOME}/.gpack/installed/${USR_NAME}/${NAME}/version.gpack
 
@@ -209,67 +197,7 @@ install_files() {
   fi
 }
 
-build_source() {
-  echo "I: Compiling from source..."
-  if [ -z "${TARBALL}" ]; then
-    if [ -z "${RAW_FILE}" ]; then
-      echo "ERROR: nothing to download; please open a issue at: ${USERNAME}/${PKG_NAME}"
-      exit 1
-    fi
-  fi
-
-  # TODO: fix somthing with single file install
-#  url="${TARBALL}"
-#  if [ ! -z "${RAW_FILE}" ]; then
-#    echo "I: Installing single file..."
-#
-#    url="${RAW_FILE}"
-#
-#    packagefile="${NAME}"
-#    raw_file=1
-#  fi
-
-  # Download the package, or used the cached one
-  download_pkg "${USR_NAME}/${PKG_NAME}" "${PKG_VERSION}" "${TARBALL}" ${SHA256SUM}
-
-
-#  if [ -z "$raw_file" ]; then
-#    tar -xf ${gpack_prefix}/package.tar.gz -C ${gpack_prefix}
-#    cd ${gpack_prefix}/${UNTAR_DIR}
-#  else
-#    cd ${gpack_prefix}
-#  fi
-
-  tar -xf $cache_dir -C ${gpack_prefix}
-  cd ${gpack_prefix}/${UNTAR_DIR}
-
-  # Install the deps (if any)
-  install_deps ${DEP_PKGS}
-
-  if [ ! -z "${INSTALL_CMD}" ]; then
-    # Use 'sh -c' so we can have '&&' in the install command
-    if ! sh -c "${INSTALL_CMD}" &> ${build_log} ; then
-      echo
-      echo "ERROR: failed to run install command"
-      echo "last 10 lines from: ${build_log}"
-      echo
-      tail ${build_log}
-      echo
-      exit 1
-    fi
-  else
-    echo "ERROR: No install command"
-    echo "Please open a issue at https://github.com/WestleyR/gpack, or https://github.com/${USR_NAME}/${PKG_NAME}"
-    exit 1
-  fi
-
-  # Install the files
-  install_files
-
-  exit 0
-}
-
-build_compiled() {
+install_prebuilt() {
   echo "I: Installing prebuilt binaries..."
   if [ ! -z "${PREBUILT_URL}" ]; then
     if [ ! -z "${DEP_PKGS}" ]; then
@@ -286,28 +214,107 @@ build_compiled() {
     download_pkg "${USR_NAME}/${PKG_NAME}" "${PKG_VERSION}" "${PREBUILT_URL}" ${PREBUILT_SHA256SUM}
 
     mkdir -p ${HOME}/.gpack/installed/${USR_NAME}
+
+
+    #cache_dir="${HOME}/.cache/gpack.cache/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}"
+
     tar -xf $cache_dir -C ${HOME}/.gpack/installed/${USR_NAME}
 
-    install_files
+    install_all_files
 
     exit 0
   else
-    build_source
+    echo "ERROR: PREBUILT_URL not set in ${USR_NAME}/${PKG_NAME}"
+    echo "Exiting."
+    exit 1
   fi
 }
 
-# get the pkg
+install_by_compiling() {
+  echo "I: Compiling from source..."
+  if [ -z "${TARBALL}" ]; then
+    if [ -z "${RAW_FILE}" ]; then
+      echo "ERROR: nothing to download; please open a issue at: ${USERNAME}/${PKG_NAME}"
+      exit 1
+    fi
+  fi
+
+  tmp_install_dir=$(mktemp -d --suffix=-"$PKG_NAME" 2> /dev/null || mktemp -d)
+  tmp_install_dir="${tmp_install_dir}/${PKG_NAME}"
+  mkdir -p "$tmp_install_dir"
+  build_log="${tmp_install_dir}/build.log"
+
+  # TODO: if the package is already cached (and its the precompiled), the
+  # source will not be downloaded. Should also cache the source.
+
+  # Download the package, or used the cached one
+  download_pkg "${USR_NAME}/${PKG_NAME}" "${PKG_VERSION}" "${TARBALL}" ${SHA256SUM}
+
+  tar -xf $cache_dir -C ${tmp_install_dir}
+
+  cd ${tmp_install_dir}/${PKG_NAME}*
+
+  # Install the deps (if any)
+  install_deps ${DEP_PKGS}
+
+  if [ ! -z "${BUILD_CMD}" ]; then
+    # Use 'sh -c' so we can have '&&' in the install command
+    if ! sh -c "${BUILD_CMD}" &> ${build_log} ; then
+      echo
+      echo "ERROR: failed to run install command"
+      echo "last 10 lines from: ${build_log}"
+      echo
+      tail ${build_log}
+      echo
+      exit 1
+    fi
+  else
+    echo "ERROR: No install command"
+    echo "Please open a issue at https://github.com/WestleyR/gpack, or https://github.com/${USR_NAME}/${PKG_NAME}"
+    exit 1
+  fi
+
+  mkdir -p "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin"
+  mkdir -p "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/lib"
+  mkdir -p "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/include"
+
+  if [ ! -z "$BUILD_BIN_FILES" ]; then
+     for b in "$BUILD_BIN_FILES" ; do
+      cp -f "${b}" "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/bin"
+    done
+  fi
+
+  if [ ! -z "$BUILD_LIB_FILES" ]; then
+     for b in "$BUILD_LIB_FILES" ; do
+      cp -f "${b}" "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/lib"
+    done
+  fi
+
+  if [ ! -z "$BUILD_INCLUDE_FILES" ]; then
+     for b in "$BUILD_INCLUDE_FILES" ; do
+      cp -f "${b}" "${HOME}/.gpack/installed/${USR_NAME}/${PKG_NAME}/${PKG_VERSION}/include"
+    done
+  fi
+
+  # Install the files
+  install_all_files
+
+  exit 0
+}
+
+# Get the pkg
 source $1
 
-build_log=${gpack_prefix}/build.log
-
+# If GPACK_ARCH is set, then try to get the pre-built binary.
 if [ -z ${GPACK_ARCH} ]; then
   echo "WARNING: \$GPACK_ARCH is not set; see https://github.com/WestleyR/gpack for help"
-  echo "WARNING: Cant get prebuilt binaries for a unset arch"
-  build_compiled
+  echo "WARNING: Cant get prebuilt binaries for a unknown arch"
+  install_by_compiling
   exit 0
 elif [ ! -z ${GPACK_COMPILE_BUILD} ]; then
-  build_source
+  # User forced to compile build
+  #install_prebuilt
+  install_by_compiling
   exit 0
 fi
 
@@ -325,10 +332,10 @@ elif [[ "${GPACK_ARCH}" = "armv7l" ]]; then
   PREBUILT_SHA256SUM="${ARMV7L_SHA256SUM}"
 else
   echo "They are no pre-built binaries for you arch: ${GPACK_ARCH}"
-  build_source
+  install_by_compiling
   exit 0
 fi
 
-build_compiled
+install_prebuilt
 
 # vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
