@@ -224,9 +224,12 @@ install_prebuilt() {
 
     exit 0
   else
-    echo "ERROR: PREBUILT_URL not set in ${USR_NAME}/${PKG_NAME}"
-    echo "Exiting."
-    exit 1
+    echo "Warning: PREBUILT_URL not set in ${USR_NAME}/${PKG_NAME}"
+    echo "Warning: No prebuilt package avalibal for ${USR_NAME}/${PKG_NAME}"
+    echo "Building from source..."
+
+    install_by_compiling
+    exit 0
   fi
 }
 
