@@ -3,6 +3,8 @@
 This is a basic package manager that can manage non-system (users) packages and
 libraries.
 
+**WARNING:** The package installer code is being rewritten, some packages may not work right now.
+
 ## Example
 
 ```bash
