@@ -2,7 +2,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-10-01
+# Last modified date: 2020-10-02
 #
 # This file is licensed under the terms of
 #
@@ -140,7 +140,7 @@ install_all_files() {
     done
   elif [ ! -z "$BUILD_BIN_FILES" ]; then
      for b in "$BUILD_BIN_FILES" ; do
-      ln -f -s "${base_path}/${b}" "${install_dir}/bin"
+      ln -f -s "${base_path}/bin/${b}" "${install_dir}/bin"
       ((installed_files+=1))
     done
   fi
@@ -152,7 +152,7 @@ install_all_files() {
     done
   elif [ ! -z "$BUILD_LIB_FILES" ]; then
      for b in "$BUILD_LIB_FILES" ; do
-      ln -f -s "${base_path}/${b}" "${install_dir}/lib"
+      ln -f -s "${base_path}/lib/${b}" "${install_dir}/lib"
       ((installed_files+=1))
     done
   fi
@@ -164,7 +164,7 @@ install_all_files() {
     done
   elif [ ! -z "$BUILD_INCLUDE_FILES" ]; then
      for b in "$BUILD_INCLUDE_FILES" ; do
-      ln -f -s "${base_path}/${b}" "${install_dir}/include"
+      ln -f -s "${base_path}/include/${b}" "${install_dir}/include"
       ((installed_files+=1))
     done
   fi
