@@ -213,6 +213,8 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
     print_errorf("Checksum missmatch. Did you enter the currect checksum in: %s?\n", pkg_file);
     return -1;
+  } else {
+    printf("I: Package verified with %s\n", binary_ssum);
   }
 
   // Now untar the tarball
