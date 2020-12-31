@@ -146,6 +146,9 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   const char* binary_url = NULL;
   const char* binary_ssum = NULL;
   const char* binary_bin_files = NULL;
+  const char* package_user_name = NULL;
+  const char* package_version = NULL;
+  const char* package_name = NULL;
 
   if (strcmp(current_arch, "macos") == 0) {
     printf("I: Downloading binary for macOS...\n");
@@ -166,10 +169,16 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     print_errorf("Unknown arch for GPACK_ARCH: %s\n", current_arch);
     return -1;
   }
+  package_user_name = get_package_user_name(ini);
+  package_version = get_package_version(ini);
+  package_name = get_package_name(ini);
 
-  printf("URL:       %s\n", binary_url);
-  printf("SSUM:      %s\n", binary_ssum);
-  printf("BIN_FILES: %s\n", binary_bin_files);
+  printf("UserName:       %s\n", package_user_name);
+  printf("Package:        %s\n", package_name);
+  printf("Version:        %s\n", package_version);
+  printf("Binary tarball: %s\n", binary_url);
+  printf("Tarball ssum:   %s\n", binary_ssum);
+  printf("BIN_FILES:      %s\n", binary_bin_files);
 
   // TODO: I want to free ini right after I'm done using it, but it also
   // destroys the binary_url, binary_ssum, etc...
@@ -194,9 +203,26 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     sprintf(wget_cmd, "wget -q --show-progress -O %s %s", cache_path, binary_url);
 
     printf("wget command: %s\n", wget_cmd);
+    if (system(wget_cmd) != 0) {
+      print_errorf("wget command failed\n");
+      return -1;
+    }
   }
 
+  // TODO: verify checksum
 
+
+  // Now untar the tarball
+  const char* install_path = get_installdir_for_user_and_version(package_user_name, package_name, package_version);
+  char tar_cmd[200];
+  tar_cmd[0] = '\0';
+  sprintf(tar_cmd, "tar -xf %s -C %s", cache_path, install_path);
+  printf("I: untar command: %s\n", tar_cmd);
+
+  if (system(tar_cmd) != 0) {
+    print_errorf("Failed to run untar cmd\n");
+    return -1;
+  }
 
 
 	ini_destroy(ini);

@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-10-01
+// Last modified date: 2020-12-31
 //
 // This file is licensed under the terms of
 //
@@ -14,6 +14,39 @@
 //
 
 #include "utils.h"
+
+// New functions!!! TODO:
+
+const char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version) {
+  char* path;
+  path = (char*) malloc(256);
+
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  path = path_join(h, ".gpack/installed");
+  path = path_join(path, user_name);
+  path = path_join(path, name);
+  path = path_join(path, version);
+
+  // TODO: use C functions
+  char mkdir_cmd[200];
+  mkdir_cmd[0] = '\0';
+
+  sprintf(mkdir_cmd, "mkdir -p %s", path);
+  if (system(mkdir_cmd) != 0) {
+    print_errorf("Failed to run mkdir command\n");
+    free(path);
+    return NULL;
+  }
+
+  return(path);
+}
+
+// End new functions!!!
 
 
 char* get_listmap_for_pkg(const char* user_name, const char* pkg) {

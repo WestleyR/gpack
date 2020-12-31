@@ -29,4 +29,8 @@ const char* get_macos_binary_bin_files(ini_t* ini_data);
 const char* get_x86_64_binary_bin_files(ini_t* ini_data);
 const char* get_armv6l_binary_bin_files(ini_t* ini_data);
 
+const char* get_package_user_name(ini_t* ini_data);
+const char* get_package_name(ini_t* ini_data);
+const char* get_package_version(ini_t* ini_data);
+
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

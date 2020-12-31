@@ -19,6 +19,17 @@
 char* get_cachepath_for_sha(const char* sha) {
   const char* home_dir = getenv("HOME");
   char* cache_path = path_join(home_dir, ".cache/gpack.cache/packages/tarballs");
+
+  // Create the directory
+  // TODO: use C calls
+  char mkdir_cmd[200];
+  mkdir_cmd[0] = '\0';
+  sprintf(mkdir_cmd, "mkdir -p %s", cache_path);
+  if (system(mkdir_cmd) != 0) {
+    print_errorf("mkdir command failed\n");
+    return NULL;
+  }
+
   cache_path = path_join(cache_path, sha);
 
   return strcat(cache_path, ".tar.gz");

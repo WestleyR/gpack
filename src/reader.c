@@ -75,5 +75,22 @@ const char* get_armv6l_binary_bin_files(ini_t* ini_data) {
 }
 
 
+// User name
+const char* get_package_user_name(ini_t* ini_data) {
+  int second_index = ini_find_property(ini_data, INI_GLOBAL_SECTION, "UserName\0", 0);
+  return ini_property_value(ini_data, INI_GLOBAL_SECTION, second_index);
+}
+
+// Package name
+const char* get_package_name(ini_t* ini_data) {
+  int second_index = ini_find_property(ini_data, INI_GLOBAL_SECTION, "Name\0", 0);
+  return ini_property_value(ini_data, INI_GLOBAL_SECTION, second_index);
+}
+
+// Package version
+const char* get_package_version(ini_t* ini_data) {
+  int second_index = ini_find_property(ini_data, INI_GLOBAL_SECTION, "Version\0", 0);
+  return ini_property_value(ini_data, INI_GLOBAL_SECTION, second_index);
+}
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

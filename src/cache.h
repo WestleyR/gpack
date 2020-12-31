@@ -19,6 +19,7 @@
 #include <stdlib.h>
 
 #include "path-join/path-join.h"
+#include "logger/logger.h"
 
 char* get_cachepath_for_sha(const char* sha);
 
