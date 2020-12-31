@@ -224,7 +224,25 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     return -1;
   }
 
+  // Now link the installed files
+  // TODO: loop thought the "," in the install files
+  char* source_bin_file = (char*) malloc(strlen(install_path) + 100);
+  strcpy(source_bin_file, install_path);
+  source_bin_file = path_join(source_bin_file, binary_bin_files);
 
+  char* link_binfile = (char*) malloc(256);
+  strcpy(link_binfile, get_bin());
+  link_binfile = path_join(link_binfile, package_name);
+
+  printf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
+  if (symlink(source_bin_file, link_binfile) != 0) {
+    print_errorf("Failed to link bin files\n");
+    perror("symlink");
+    return -1;
+  }
+
+  free(source_bin_file);
+  free(link_binfile);
 	ini_destroy(ini);
   free(cache_path);
 
