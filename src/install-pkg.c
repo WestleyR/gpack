@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-04-21
+// Last modified date: 2020-12-31
 //
 // This file is licensed under the terms of
 //
@@ -100,9 +100,78 @@ int open_package(const char* pkg, int overide, int compile_build) {
 }
 
 int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
-  if (open_package(pkg, overide, compile_build) != 0) {
+//  if (open_package(pkg, overide, compile_build) != 0) {
+//    return(1);
+//  }
+
+  char pkg_file[256];
+  pkg_file[0] = '\0';
+
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    printf("HOME not set!???\n");
     return(1);
   }
+
+  strcpy(pkg_file, h);
+  strcat(pkg_file, "/.gpack/packages/");
+  strcat(pkg_file, pkg);
+
+  print_debugf("package_file: %s\n", pkg_file);
+
+  FILE* fp = fopen(pkg_file, "r");
+  if (fp == NULL) {
+    fprintf(stderr, "%s: package does not exist\n", pkg);
+    return -1;
+  }
+
+  // Load the package file into memory
+	fseek(fp, 0, SEEK_END);
+	int size = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
+	char* data = (char*) malloc(size + 1);
+	fread(data, 1, size, fp);
+	data[size] = '\0';
+	fclose(fp);
+
+	ini_t* ini = ini_load(data, NULL);
+	free(data);
+
+  const char* current_arch = getenv("GPACK_ARCH");
+  if (current_arch == NULL) {
+    print_errorf("GPACK_ARCH not set. Please set to: macos, x86_64_linux, or armv6l\n");
+    return -1;
+  }
+
+  const char* binary_url = NULL;
+  const char* binary_ssum = NULL;
+  const char* binary_bin_files = NULL;
+
+  if (strcmp(current_arch, "macos") == 0) {
+    printf("I: Downloading binary for macOS...\n");
+    binary_url = get_macos_binary_url(ini);
+    binary_ssum = get_macos_binary_ssum(ini);
+    binary_bin_files = get_macos_binary_bin_files(ini);
+  } else if (strcmp(current_arch, "x86_64_linux") == 0) {
+    printf("I: Downloading binary for x86_64_linux...\n");
+    binary_url = get_x86_64_binary_url(ini);
+    binary_ssum = get_x86_64_binary_ssum(ini);
+    binary_bin_files = get_x86_64_binary_bin_files(ini);
+  } else if (strcmp(current_arch, "armv6l") == 0) {
+    printf("I: Downloading binary for armv6l...\n");
+    binary_url = get_armv6l_binary_url(ini);
+    binary_ssum = get_armv6l_binary_ssum(ini);
+    binary_bin_files = get_armv6l_binary_bin_files(ini);
+  } else {
+    print_errorf("Unknown arch for GPACK_ARCH: %s\n", current_arch);
+    return -1;
+  }
+
+  printf("URL:       %s\n", binary_url);
+  printf("SSUM:      %s\n", binary_ssum);
+  printf("BIN_FILES: %s\n", binary_bin_files);
+
+	ini_destroy(ini);
 
   printf("I: Done installing %s\n", pkg);
 
