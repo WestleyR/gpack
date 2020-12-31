@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-09-30
+// Last modified date: 2020-12-30
 //
 // This file is licensed under the terms of
 //
@@ -21,14 +21,14 @@
 
 void help_menu(const char* script_name) {
   printf("Description\n");
-  printf("  Manage packages on github.\n");
+  printf("  Manage user (non-root) binary/script packages.\n");
   printf("\n");
   printf("Usage\n");
-  printf("  $ %s [option] [command] <option> <github/url>\n", script_name);
+  printf("  $ %s [option] [command] <option> <user/package-name>\n", script_name);
   printf("\n");
   printf("Commands\n");
   printf("  install    install a package/library\n");
-  printf("  update     update gpack and libraries\n");
+  printf("  update     update gpack and database\n");
   printf("  upgrade    upgrade installed packages\n");
   printf("  remove     remove a package\n");
   printf("  autoclean  removes old packages, and remove broken\n");
@@ -46,7 +46,7 @@ void help_menu(const char* script_name) {
   printf("\n");
   printf("Other options\n");
   printf("  -c, --compile  only compile the package, dont use\n");
-  printf("                 the pre-compiled binaries\n");
+  printf("                 the pre-compiled binaries (going to remove this flag)\n");
   printf("  -f, --force    dont ask, just do\n");
   printf("  -r, --overide  overide the existing package\n");
   printf("  -n, --dry-run  dont remove anything, just print\n");
