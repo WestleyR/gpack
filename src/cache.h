@@ -13,21 +13,15 @@
 // This software is licensed under a Clear BSD License.
 //
 
-#ifndef INSTALL_PKG_H
-#define INSTALL_PKG_H
 
+#include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
 
-#include "remove-pkg.h"
-#include "utils.h"
-#include "reader.h"
-#include "cache.h"
-#include "logger/logger.h"
+#include "path-join/path-join.h"
 
-int install_pkg(const char* pkg, int check_installed, int compile_build, int overide);
+char* get_cachepath_for_sha(const char* sha);
 
-#endif // INSTALL_PKG_H
+int does_cache_path_exist_and_ok(const char* cache_path);
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

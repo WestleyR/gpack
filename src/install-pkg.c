@@ -171,7 +171,36 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   printf("SSUM:      %s\n", binary_ssum);
   printf("BIN_FILES: %s\n", binary_bin_files);
 
+  // TODO: I want to free ini right after I'm done using it, but it also
+  // destroys the binary_url, binary_ssum, etc...
+	//ini_destroy(ini);
+
+  // Order of operation:
+  //  1. Check if the package exists in cache
+  //  2. Download the package if it does not exist
+  //  3. Verify the checksum
+  //  4. Untar and copy the files to the install dir
+  //  5. Link the installed files to ~/.local/bin, ~/.local/include, etc...
+
+  char* cache_path = get_cachepath_for_sha(binary_ssum);
+
+  printf("I: Cache path: %s\n", cache_path);
+
+  if (does_cache_path_exist_and_ok(cache_path) != 0) {
+    printf("I: Downloading since not cached...\n");
+
+    char* wget_cmd = (char*) malloc(200);
+    wget_cmd[0] = '\0';
+    sprintf(wget_cmd, "wget -q --show-progress -O %s %s", cache_path, binary_url);
+
+    printf("wget command: %s\n", wget_cmd);
+  }
+
+
+
+
 	ini_destroy(ini);
+  free(cache_path);
 
   printf("I: Done installing %s\n", pkg);
 
