@@ -195,7 +195,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   printf("I: Cache path: %s\n", cache_path);
 
-  if (does_cache_path_exist_and_ok(cache_path) != 0) {
+  if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
     printf("I: Downloading since not cached...\n");
 
     char* wget_cmd = (char*) malloc(200);
@@ -209,8 +209,11 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     }
   }
 
-  // TODO: verify checksum
-
+  // Verify the tarball again
+  if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
+    print_errorf("Checksum missmatch. Did you enter the currect checksum in: %s?\n", pkg_file);
+    return -1;
+  }
 
   // Now untar the tarball
   const char* install_path = get_installdir_for_user_and_version(package_user_name, package_name, package_version);
@@ -226,6 +229,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   // Now link the installed files
   // TODO: loop thought the "," in the install files
+  // TODO: add support for LIB_FILES, INCLUDE_FILES, and ETC_FILES
   char* source_bin_file = (char*) malloc(strlen(install_path) + 100);
   strcpy(source_bin_file, install_path);
   source_bin_file = path_join(source_bin_file, binary_bin_files);
@@ -243,8 +247,8 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   free(source_bin_file);
   free(link_binfile);
-	ini_destroy(ini);
   free(cache_path);
+  ini_destroy(ini);
 
   printf("I: Done installing %s\n", pkg);
 

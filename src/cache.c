@@ -35,15 +35,30 @@ char* get_cachepath_for_sha(const char* sha) {
   return strcat(cache_path, ".tar.gz");
 }
 
-int does_cache_path_exist_and_ok(const char* cache_path) {
+int does_cache_path_exist_and_ok(const char* cache_path, const char* checksum) {
   FILE* fp_check = fopen(cache_path, "rb");
   if (fp_check == NULL) {
     // Error opening or does not exist
     return -1;
   }
-  fclose(fp_check);
 
   // TODO: should also verify the checksum with the path
+
+  unsigned int file_checksum = crc32_file(fp_check, SSUM_BLOCK_SIZE);
+  unsigned int verify_checksum = hexstr_int(checksum);
+
+  printf("DEBUG:\n");
+  printf("FILE_CHECKSUM:   %u\n", file_checksum);
+  printf("VERIFY_CHECKSUM: %u\n", verify_checksum);
+
+  if (file_checksum != verify_checksum) {
+    // Checksum missmatch
+    print_warningf("Checksum missmatch.\n");
+    fclose(fp_check);
+    return -1;
+  }
+
+  fclose(fp_check);
 
   return 0;
 }

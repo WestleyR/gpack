@@ -20,9 +20,10 @@
 
 #include "path-join/path-join.h"
 #include "logger/logger.h"
+#include "ssum/ssum.1.h"
 
 char* get_cachepath_for_sha(const char* sha);
 
-int does_cache_path_exist_and_ok(const char* cache_path);
+int does_cache_path_exist_and_ok(const char* cache_path, const char* checksum);
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
