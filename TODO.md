@@ -39,4 +39,6 @@
  - [ ] Should check if install files already exist, and dont overide unless forced
  - [ ] autoclean should remove old package versions
  - [x] Should ensure and check (with checksum) that all files are installed with package
+ - [ ] Should use ini files as package file format, and use: https://github.com/mattiasgustavsson/libs/blob/main/ini.h to parse it
+ - [ ] When removing packages and if running macOS, should put the files to Trash
 
