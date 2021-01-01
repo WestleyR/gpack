@@ -161,7 +161,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
     print_debugf("I: Downloading since not cached...\n");
 
-    char* wget_cmd = (char*) malloc(200);
+    char* wget_cmd = (char*) malloc(512);
     wget_cmd[0] = '\0';
     sprintf(wget_cmd, "wget -q --show-progress -O %s %s", cache_path, binary_url);
 
@@ -173,11 +173,14 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   }
 
   // Verify the tarball again
-  if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
-    print_errorf("Checksum missmatch. Did you enter the currect checksum in: %s?\n", pkg_file);
-    return -1;
+  if (strcmp(binary_ssum, "na") != 0) {
+    if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
+      print_warningf("Checksum missmatch. Did you enter the currect checksum in: %s?\n", pkg_file);
+    } else {
+      printf("I: Package verified with %s\n", binary_ssum);
+    }
   } else {
-    printf("I: Package verified with %s\n", binary_ssum);
+    print_warningf("No checksum to verify with.\n");
   }
 
   // Now untar the tarball
