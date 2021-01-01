@@ -24,6 +24,32 @@ char* replace_char(char* str, char find, char replace){
   return str;
 }
 
+int link_files(const char* install_path, const char* binary_bin_files) {
+  // Now link the installed files
+  // TODO: loop thought the "," in the install files
+  // TODO: add support for LIB_FILES, INCLUDE_FILES, and ETC_FILES
+  char* source_bin_file = (char*) malloc(strlen(install_path) + 100);
+  strcpy(source_bin_file, install_path);
+  source_bin_file = path_join(source_bin_file, binary_bin_files);
+
+  char* link_binfile = (char*) malloc(256);
+  strcpy(link_binfile, get_bin());
+
+  link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
+
+  print_debugf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
+  if (symlink(source_bin_file, link_binfile) != 0) {
+    print_errorf("Failed to link bin files\n");
+    perror("symlink");
+    return -1;
+  }
+
+  free(source_bin_file);
+  free(link_binfile);
+
+  return 0;
+}
+
 int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
   char pkg_file[256];
   pkg_file[0] = '\0';
@@ -70,6 +96,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   const char* package_user_name = NULL;
   const char* package_version = NULL;
   const char* package_name = NULL;
+  const char* package_build_command = NULL;
 
   if (strcmp(current_arch, "macos") == 0) {
     printf("I: Downloading binary for macOS...\n");
@@ -93,6 +120,19 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   package_user_name = get_package_user_name(ini);
   package_version = get_package_version(ini);
   package_name = get_package_name(ini);
+
+  int build_from_source = -1;
+  if (binary_url == NULL) {
+    printf("I: No pre-compiled binary for your arch. Building from source...\n");
+    build_from_source = 0;
+
+    binary_url = get_package_build_url(ini);
+    binary_ssum = get_package_build_ssum(ini);
+    binary_bin_files = get_package_build_bin_files(ini);
+    package_build_command = get_package_build_command(ini);
+
+    print_debugf("Package Build command: %s\n", package_build_command);
+  }
 
   print_debugf("UserName:       %s\n", package_user_name);
   print_debugf("Package:        %s\n", package_name);
@@ -152,24 +192,23 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     return -1;
   }
 
-  // Now link the installed files
-  // TODO: loop thought the "," in the install files
-  // TODO: add support for LIB_FILES, INCLUDE_FILES, and ETC_FILES
-  char* source_bin_file = (char*) malloc(strlen(install_path) + 100);
-  strcpy(source_bin_file, install_path);
-  source_bin_file = path_join(source_bin_file, binary_bin_files);
+  if (build_from_source == 0) {
+    printf("I: Compiling source...\n");
 
-  char* link_binfile = (char*) malloc(256);
-  strcpy(link_binfile, get_bin());
+    char compile_cmd[512];
+    compile_cmd[0] = '\0';
 
-  link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
+    sprintf(compile_cmd, "cd %s && %s", install_path, package_build_command);
 
-  print_debugf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
-  if (symlink(source_bin_file, link_binfile) != 0) {
-    print_errorf("Failed to link bin files\n");
-    perror("symlink");
-    return -1;
+    printf("Build command: %s\n", compile_cmd);
+
+    if (system(compile_cmd) != 0) {
+      print_errorf("Failed to run build command: %s\n", compile_cmd);
+      return -1;
+    }
   }
+
+  link_files(install_path, binary_bin_files);
 
   // Write the version so gpack can list it
   char* package_version_file = getenv("HOME");
@@ -190,8 +229,6 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   fclose(version_file);
 
   free(package_version_file);
-  free(source_bin_file);
-  free(link_binfile);
   free(cache_path);
   ini_destroy(ini);
 

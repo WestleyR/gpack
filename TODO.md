@@ -42,4 +42,5 @@
  - [ ] When removing packages and if running macOS, should put the files to Trash
  - [x] New installer should write the version to version.gpack, so `gpack list` shows the currect version
  - [ ] Use real sha256 for checksum
+ - [ ] Check if installed files before linking is a regular file
 
