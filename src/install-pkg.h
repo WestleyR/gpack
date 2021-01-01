@@ -19,6 +19,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <libgen.h>
 
 #include "remove-pkg.h"
 #include "utils.h"

@@ -24,86 +24,7 @@ char* replace_char(char* str, char find, char replace){
   return str;
 }
 
-int open_package(const char* pkg, int overide, int compile_build) {
-  char pkg_file[256];
-  pkg_file[0] = '\0';
-
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    printf("HOME not set!???\n");
-    return(1);
-  }
-
-  strcpy(pkg_file, h);
-  strcat(pkg_file, "/.gpack/packages/");
-  strcat(pkg_file, pkg);
-
-  FILE* fp = fopen(pkg_file, "r");
-  if (fp == NULL) {
-    fprintf(stderr, "%s: package does not exist\n", pkg);
-    return -1;
-  }
-  fclose(fp);
-
-
-  char installed_pkg[256];
-  installed_pkg[0] = '\0';
-
-  strcpy(installed_pkg, h);
-  strcat(installed_pkg, "/.gpack/installed/");
-  strcat(installed_pkg, pkg);
-
-  if (overide == 0) {
-    struct stat sb;
-    if (stat(installed_pkg, &sb) == 0 && S_ISDIR(sb.st_mode)) {
-      printf("%s: is already installed\n", pkg);
-      // TODO: this should not be 0
-      return(0);
-    }
-  }
-
-  char cmd[256];
-  cmd[0] = '\0';
-
-  char* installer_script = get_installer();
-
-  if (compile_build == 1) {
-    printf("I: Compiling from release\n");
-    strcpy(cmd, "GPACK_COMPILE_BUILD=true ");
-  }
-  if (overide == 1) {
-    print_debugf("Overidding install...\n");
-    strcpy(cmd, "GPACK_OVERIDE=true ");
-  }
-  // TODO: when the logger package supports this function
-  //if (debug_status() == 1) {
-  //  strcpy(cmd, "GPACK_DEBUG=true ");
-  //}
-  strcat(cmd, installer_script);
-
-  free(installer_script);
-
-  strcat(cmd, pkg_file);
-
-#ifdef DEBUG
-  printf("Executing install script: %s\n", cmd);
-#endif
-
-  if (system(cmd) != 0) {
-    fprintf(stderr, "Failed to install: %s\n", pkg);
-    print_debugf("Removing package that failed to install...\n");
-    remove_pkg(pkg);
-    return(1);
-  }
-
-  return 0;
-}
-
 int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
-//  if (open_package(pkg, overide, compile_build) != 0) {
-//    return(1);
-//  }
-
   char pkg_file[256];
   pkg_file[0] = '\0';
 
@@ -173,12 +94,14 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   package_version = get_package_version(ini);
   package_name = get_package_name(ini);
 
-  printf("UserName:       %s\n", package_user_name);
-  printf("Package:        %s\n", package_name);
-  printf("Version:        %s\n", package_version);
-  printf("Binary tarball: %s\n", binary_url);
-  printf("Tarball ssum:   %s\n", binary_ssum);
-  printf("BIN_FILES:      %s\n", binary_bin_files);
+  print_debugf("UserName:       %s\n", package_user_name);
+  print_debugf("Package:        %s\n", package_name);
+  print_debugf("Version:        %s\n", package_version);
+  print_debugf("Binary tarball: %s\n", binary_url);
+  print_debugf("Tarball ssum:   %s\n", binary_ssum);
+  print_debugf("BIN_FILES:      %s\n", binary_bin_files);
+
+  printf("I: Installing %s...\n", package_name);
 
   // TODO: I want to free ini right after I'm done using it, but it also
   // destroys the binary_url, binary_ssum, etc...
@@ -193,16 +116,16 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   char* cache_path = get_cachepath_for_sha(binary_ssum);
 
-  printf("I: Cache path: %s\n", cache_path);
+  print_debugf("I: Cache path: %s\n", cache_path);
 
   if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
-    printf("I: Downloading since not cached...\n");
+    print_debugf("I: Downloading since not cached...\n");
 
     char* wget_cmd = (char*) malloc(200);
     wget_cmd[0] = '\0';
     sprintf(wget_cmd, "wget -q --show-progress -O %s %s", cache_path, binary_url);
 
-    printf("wget command: %s\n", wget_cmd);
+    print_debugf("wget command: %s\n", wget_cmd);
     if (system(wget_cmd) != 0) {
       print_errorf("wget command failed\n");
       return -1;
@@ -222,7 +145,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   char tar_cmd[200];
   tar_cmd[0] = '\0';
   sprintf(tar_cmd, "tar -xf %s -C %s", cache_path, install_path);
-  printf("I: untar command: %s\n", tar_cmd);
+  print_debugf("I: untar command: %s\n", tar_cmd);
 
   if (system(tar_cmd) != 0) {
     print_errorf("Failed to run untar cmd\n");
@@ -238,9 +161,10 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   char* link_binfile = (char*) malloc(256);
   strcpy(link_binfile, get_bin());
-  link_binfile = path_join(link_binfile, package_name);
 
-  printf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
+  link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
+
+  print_debugf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
   if (symlink(source_bin_file, link_binfile) != 0) {
     print_errorf("Failed to link bin files\n");
     perror("symlink");

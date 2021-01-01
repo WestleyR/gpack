@@ -47,9 +47,8 @@ int does_cache_path_exist_and_ok(const char* cache_path, const char* checksum) {
   unsigned int file_checksum = crc32_file(fp_check, SSUM_BLOCK_SIZE);
   unsigned int verify_checksum = hexstr_int(checksum);
 
-  printf("DEBUG:\n");
-  printf("FILE_CHECKSUM:   %u\n", file_checksum);
-  printf("VERIFY_CHECKSUM: %u\n", verify_checksum);
+  print_debugf("FILE_CHECKSUM:   %u\n", file_checksum);
+  print_debugf("VERIFY_CHECKSUM: %u\n", verify_checksum);
 
   if (file_checksum != verify_checksum) {
     // Checksum missmatch

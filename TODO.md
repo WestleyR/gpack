@@ -34,11 +34,12 @@
  - [ ] `gpack list` should show the "registry version" for the package/show if a package is out-of-date
  - [ ] `gpack autoclean` should clean outdated old packages in the gpack.cache dir
  - [x] When calling `gpack`, it should ensure all shell scripts have not changed since installing/updating gpack
- - [ ] Release clib dep for ssum, then update the ssum library
  - [x] Add BINFILES in pkg installer, that will only contain the path to bin files
  - [ ] Should check if install files already exist, and dont overide unless forced
  - [ ] autoclean should remove old package versions
  - [x] Should ensure and check (with checksum) that all files are installed with package
- - [ ] Should use ini files as package file format, and use: https://github.com/mattiasgustavsson/libs/blob/main/ini.h to parse it
+ - [x] Should use ini files as package file format, and use: https://github.com/mattiasgustavsson/libs/blob/main/ini.h to parse it
  - [ ] When removing packages and if running macOS, should put the files to Trash
+ - [ ] New installer should write the version to version.gpack, so `gpack list` shows the currect version
+ - [ ] Use real sha256 for checksum
 
