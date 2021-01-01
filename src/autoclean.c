@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-09-26
+// Last modified date: 2020-12-31
 //
 // This file is licensed under the terms of
 //
@@ -30,7 +30,7 @@ int clean_older_pkgs(int dry_run) {
     fprintf(stderr, "%s() failed to get install dir\n", __func__);
     return -1;
   }
- 
+
   DIR *dir;
   struct dirent *d;
   dir = opendir(installed_dir);
@@ -61,7 +61,7 @@ int clean_older_pkgs(int dry_run) {
       free(full_file_path);
     }
   }
- 
+
 
   free(installed_dir);
 

@@ -1,12 +1,13 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Jan 9, 2020
-// https://github.com/WestleyR/gpack
-// version-1.0.0
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2020-12-31
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2020 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -31,7 +32,7 @@ int search_pkg(const char* pat, int print) {
     strcat(cmd, " ");
     strcat(cmd, pat);
   }
-  
+
   print_debugf("Running command: %s\n", cmd);
 
   if (system(cmd) != 0) {
@@ -41,7 +42,7 @@ int search_pkg(const char* pat, int print) {
   }
 
   free(search_script);
- 
+
   return(0);
 }
 

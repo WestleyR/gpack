@@ -47,16 +47,16 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   }
 
   // Load the package file into memory
-	fseek(fp, 0, SEEK_END);
-	int size = ftell(fp);
-	fseek(fp, 0, SEEK_SET);
-	char* data = (char*) malloc(size + 1);
-	fread(data, 1, size, fp);
-	data[size] = '\0';
-	fclose(fp);
+  fseek(fp, 0, SEEK_END);
+  int size = ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+  char* data = (char*) malloc(size + 1);
+  fread(data, 1, size, fp);
+  data[size] = '\0';
+  fclose(fp);
 
-	ini_t* ini = ini_load(data, NULL);
-	free(data);
+  ini_t* ini = ini_load(data, NULL);
+  free(data);
 
   const char* current_arch = getenv("GPACK_ARCH");
   if (current_arch == NULL) {
@@ -105,7 +105,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   // TODO: I want to free ini right after I'm done using it, but it also
   // destroys the binary_url, binary_ssum, etc...
-	//ini_destroy(ini);
+  //ini_destroy(ini);
 
   // Order of operation:
   //  1. Check if the package exists in cache

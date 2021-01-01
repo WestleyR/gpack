@@ -248,7 +248,7 @@ char** get_installed_files_from_map(const char* map, int delimiter) {
   // TODO: should handle more then 5 lines, ie. installed files
   char** installed_files = (char**) malloc(5);
   // TODO: error check
-  
+
   for (int i = 0; i < 5; i++) {
     installed_files[i] = (char*) malloc(50);
     // TODO: error check
@@ -256,8 +256,8 @@ char** get_installed_files_from_map(const char* map, int delimiter) {
 
   FILE* fp = fopen(map, "r");
   if (fp == NULL) {
-//    printf("ERROR: failed to open file\n");
-//    perror("fopen");
+    //    printf("ERROR: failed to open file\n");
+    //    perror("fopen");
     return NULL;
   }
 

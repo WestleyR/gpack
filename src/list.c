@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-10-01
+// Last modified date: 2020-12-31
 //
 // This file is licensed under the terms of
 //
@@ -31,21 +31,21 @@ int ensure_installed_files(const char* user_name, const char* pkg) {
 
   return check_crc32_file(fp, SSUM_BLOCK_SIZE, NULL, NULL);
 
-//  char** installed_files = get_installed_files_from_map(pkg_listmap, 1);
-//  char** installed_checksum = get_installed_files_from_map(pkg_listmap, 2);
-//
-//  if (installed_files != NULL) {
-//    printf("HELLO WORLD OUTPUT: %s\n", installed_files[0]);
-//    printf("HELLO WORLD OUTPUT: %s\n", installed_checksum[0]);
-//
-//    printf("\n");
-//
-//    printf("HELLO WORLD OUTPUT: %s\n", installed_files[1]);
-//    printf("HELLO WORLD OUTPUT: %s\n", installed_checksum[1]);
-//
-//    free(installed_files);
-//    free(installed_checksum);
-//  }
+  //  char** installed_files = get_installed_files_from_map(pkg_listmap, 1);
+  //  char** installed_checksum = get_installed_files_from_map(pkg_listmap, 2);
+  //
+  //  if (installed_files != NULL) {
+  //    printf("HELLO WORLD OUTPUT: %s\n", installed_files[0]);
+  //    printf("HELLO WORLD OUTPUT: %s\n", installed_checksum[0]);
+  //
+  //    printf("\n");
+  //
+  //    printf("HELLO WORLD OUTPUT: %s\n", installed_files[1]);
+  //    printf("HELLO WORLD OUTPUT: %s\n", installed_checksum[1]);
+  //
+  //    free(installed_files);
+  //    free(installed_checksum);
+  //  }
 }
 
 // print_package will print a package, with its version
@@ -64,14 +64,14 @@ int print_package(const char* path, const char* name, int print_len) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
 
 
-//      char* main_pkg_dir = get_package_dir();
-//      char* package_script = path_join(main_pkg_dir, name);
-//      package_script = path_join(package_script, d->d_name);
-//
-//      print_verbosef("package source installer: %s\n", package_script);
-//
-//      free(main_pkg_dir);
-//      free(package_script);
+      //      char* main_pkg_dir = get_package_dir();
+      //      char* package_script = path_join(main_pkg_dir, name);
+      //      package_script = path_join(package_script, d->d_name);
+      //
+      //      print_verbosef("package source installer: %s\n", package_script);
+      //
+      //      free(main_pkg_dir);
+      //      free(package_script);
 
       int filesOK = 0;
       if (ensure_installed_files(name, d->d_name) != 0) {
@@ -111,7 +111,7 @@ int print_package(const char* path, const char* name, int print_len) {
 int get_max_len_of_package_name(const char* user_path, const char* user_name) {
   DIR *dir;
   struct dirent *d;
-  
+
   //print_debugf("Opening from: %s\n", user_path);
   dir = opendir(user_path);
   if (dir == NULL) {
