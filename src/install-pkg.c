@@ -171,6 +171,25 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     return -1;
   }
 
+  // Write the version so gpack can list it
+  char* package_version_file = getenv("HOME");
+  package_version_file = path_join(package_version_file, ".gpack/installed");
+  package_version_file = path_join(package_version_file, package_user_name);
+  package_version_file = path_join(package_version_file, package_name);
+  package_version_file = path_join(package_version_file, "version.gpack");
+
+  print_debugf("package version file: %s\n", package_version_file);
+
+  FILE* version_file = fopen(package_version_file, "w");
+  if (version_file == NULL) {
+    print_errorf("Failed to open version file: %s\n", package_version_file);
+    return -1;
+  }
+  fprintf(version_file, "%s", package_version);
+
+  fclose(version_file);
+
+  free(package_version_file);
   free(source_bin_file);
   free(link_binfile);
   free(cache_path);

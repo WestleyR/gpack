@@ -40,6 +40,6 @@
  - [x] Should ensure and check (with checksum) that all files are installed with package
  - [x] Should use ini files as package file format, and use: https://github.com/mattiasgustavsson/libs/blob/main/ini.h to parse it
  - [ ] When removing packages and if running macOS, should put the files to Trash
- - [ ] New installer should write the version to version.gpack, so `gpack list` shows the currect version
+ - [x] New installer should write the version to version.gpack, so `gpack list` shows the currect version
  - [ ] Use real sha256 for checksum
 
