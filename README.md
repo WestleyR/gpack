@@ -85,81 +85,41 @@ lf
 
 ## Making your own package
 
-To make your own gpack package, you first need to decided if your package will
-be updated whenever you push a new commit (always master), or only releases.
+Lets look at the `srm` package as an example:
 
-If you want to base you package of the releases (recommend), then you can use
-this template file:
+```ini
+UserName=WestleyR
+Name=srm
+Version=v2.0.0.a1
 
-```sh
-USR_NAME="your_username"
-PKG_NAME="your_repo_name"
-NAME="name_of_your_package" # Typical, this is the same as the PKG_NAME
-PKG_VERSION="1.0.0" # Your package version (without the 'v' prefix)
+Note=This is a test message
 
-TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/v${PKG_VERSION}.tar.gz" # The URL for the tarball.
-# Note: There is the 'v' prefix here, if you done use the 'v' prefix then remove it here.
+[macOS]
 
-# The sha256sum for your tarball
-SHA256SUM="fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+TarballURL=https://github.com/WestleyR/srm/releases/download/v2.0.0.a1/srm-v2.0.0.a1-macos.tar.gz
+SSUM=058e89d0
+BIN_FILES=srm/2.0.0.a1/bin/srm
 
-# This is the directory name of the un-tared package
-UNTAR_DIR="${PKG_NAME}-${PKG_VERSION}"
+[x86_64_linux]
 
-# If you want to have pre-compiled binaries of you package, then you will need
-# to add a assest on your release, it should be called 'repo-name-v1.0.0-x86_64_linux.tar.gz',
-# eg. 'lf-v1.5.2-x86_64_linux.tar.gz'. This tarball should be a tared directory
-# of your projects prefix, in its version, like: 'repo_name/1.0.0/bin/executable'
-# eg. 'list-files/1.5.2/bin/lf'
+TarballURL=https://github.com/WestleyR/srm/releases/download/v2.0.0.a1/srm-v2.0.0.a1-x86_64_linux.tar.gz
+SSUM=9efbbaed
+BIN_FILES=srm/2.0.0.a1/bin/srm
 
-# Linux Ubuntu
-X86_64_LINUX_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-x86_64_linux.tar.gz"
-X86_64_LINUX_SHA256SUM="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+[armv6l]
 
-# Macos
-MACOS_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-macos.tar.gz"
-MACOS_SHA256SUM="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+TarballURL=https://github.com/WestleyR/srm/releases/download/v2.0.0.a1/srm-v2.0.0.a1-armv6l.tar.gz
+SSUM=5ba1a7bc
+BIN_FILES=srm/2.0.0.a1/bin/srm
 
-# Raspberry pi zero (and others)
-ARMV6L_URL="https://github.com/${USR_NAME}/${PKG_NAME}/releases/download/v${PKG_VERSION}/lf-v${PKG_VERSION}-armv6l.tar.gz"
-ARMV6L_SHA256SUM="ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
-
-# Load the prefix
-. load_gpack ${PKG_NAME}
-
-# This is the install command(s) for your project
-INSTALL_CMD="make install PREFIX=${gpack_prefix}"
+# This file is a .ini file without the extension
+# vim: syntax=dosini
 ```
 
-Now, if you want your package to always be up-to-date with master (gets updated
-whenever theres a new commit), then you can use this template file:
+The `TarballURL` is the download URL to the zipped binary (tar.gz). And the
+`BIN_FILES` is the path to the command/binary after the tarball is unzipped.
 
-```sh
-USR_NAME="your_username"
-PKG_NAME="your_repo_name"
-NAME="name_of_your_package" # Tipicaly, this is the same as the PKG_NAME
-
-# This will return a github commit hash, that will be used as the version.
-# The 'get-json-value' command comes installed with gpack, so dont worry
-# about that.
-PKG_VERSION=`curl -s "https://api.github.com/repos/${USR_NAME}/${PKG_NAME}/commits/master" | get-json-value`
-
-TARBALL="https://github.com/${USR_NAME}/${PKG_NAME}/archive/${PKG_VERSION}.tar.gz"
-
-# This is the directory name of the un-tared package
-UNTAR_DIR="${PKG_NAME}-*"
-
-# Load the prefix
-. load_gpack ${PKG_NAME}
-
-INSTALL_CMD="./configure --prefix ${gpack_prefix} && make install"
-```
-
-By using this template, there is no sha256sum/checksum to verify with, thats
-the downside of having your project "alwasys-up-to-date with master". Another
-downside is that there is no pre-compiled binaries support for this.
-
-### FAQ
+## FAQ
 
  - Q: Does gpack support pre-compiled binaries?
    - A: Yes.
@@ -188,7 +148,7 @@ softwares license.
 ## License
 
 This project is licensed under the terms of the The Clear BSD License. See the
-[LICENSE file](LICENSE) for more details.
+[LICENSE file](./LICENSE) for more details.
 
 <br>
 
