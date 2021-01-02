@@ -17,34 +17,45 @@
 
 int link_files(const char* install_path, const char* binary_bin_files) {
   // Now link the installed files
-  // TODO: loop thought the "," in the install files
-  // TODO: add support for LIB_FILES, INCLUDE_FILES, and ETC_FILES
+  // TODO: need better mallocs
+
   char* source_bin_file = (char*) malloc(strlen(install_path) + 100);
-  strcpy(source_bin_file, install_path);
-  source_bin_file = path_join(source_bin_file, binary_bin_files);
+  print_debugf("Looping to install files: %s\n", binary_bin_files);
 
-  char* link_binfile = (char*) malloc(256);
-  strcpy(link_binfile, get_bin());
+  char* file_to_install;
+  pt = strtok(strdup(binary_bin_files), ",");
+  while (pt != NULL) {
+    print_debugf("looped file: %s\n", file_to_install);
 
-  link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
+    strcpy(source_bin_file, install_path);
+    source_bin_file = path_join(source_bin_file, file_to_install);
 
-  print_debugf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
+    char* link_binfile = (char*) malloc(256);
+    strcpy(link_binfile, get_bin());
 
-  // Check if the file exists before linking
-  if (access(source_bin_file, F_OK) != 0) {
-    // Source file does not exist
-    print_errorf("Source file does not exist: %s please check the path is currect and fix it in your package file\n", source_bin_file);
-    return -1;
-  }
+    link_binfile = path_join(link_binfile, basename(strdup(file_to_install)));
 
-  if (symlink(source_bin_file, link_binfile) != 0) {
-    print_errorf("Failed to link bin files\n");
-    perror("symlink");
-    return -1;
+    print_debugf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
+
+    // Check if the file exists before linking
+    if (access(source_bin_file, F_OK) != 0) {
+      // Source file does not exist
+      print_errorf("Source file does not exist: %s please check the path is currect and fix it in your package file\n", source_bin_file);
+      return -1;
+    }
+
+    if (symlink(source_bin_file, link_binfile) != 0) {
+      print_errorf("Failed to link bin files\n");
+      perror("symlink");
+      return -1;
+    }
+
+    source_bin_file[0] = '\0';
+    free(link_binfile);
+    file_to_install = strtok(NULL, ",");
   }
 
   free(source_bin_file);
-  free(link_binfile);
 
   return 0;
 }
@@ -149,14 +160,18 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   // Check if the package files are already installed
   if (binary_bin_files != NULL) {
     char* link_binfile = (char*) malloc(256);
+
+    // TODO: loop thought all the "," in the bin files
     strcpy(link_binfile, get_bin());
     link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
 
     print_debugf("Checking if %s exists...\n", link_binfile);
     if (access(link_binfile, F_OK) == 0) {
       print_errorf("Package %s already has the files installed\n", package_name);
+      free(link_binfile);
       return -1;
     }
+    free(link_binfile);
   }
 
   // Order of operation:
@@ -185,14 +200,10 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   }
 
   // Verify the tarball again
-  if (strcmp(binary_ssum, "na") != 0) {
-    if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
-      print_warningf("Checksum missmatch. Did you enter the currect checksum in: %s?\n", pkg_file);
-    } else {
-      printf("I: Package verified with %s\n", binary_ssum);
-    }
+  if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
+    print_warningf("Checksum missmatch. Did you enter the currect checksum in: %s?\n", pkg_file);
   } else {
-    print_warningf("No checksum to verify with.\n");
+    printf("I: Package verified with %s\n", binary_ssum);
   }
 
   // Now untar the tarball
