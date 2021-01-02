@@ -23,8 +23,8 @@ int link_files(const char* install_path, const char* binary_bin_files) {
   print_debugf("Looping to install files: %s\n", binary_bin_files);
 
   char* file_to_install;
-  pt = strtok(strdup(binary_bin_files), ",");
-  while (pt != NULL) {
+  file_to_install = strtok(strdup(binary_bin_files), ",");
+  while (file_to_install != NULL) {
     print_debugf("looped file: %s\n", file_to_install);
 
     strcpy(source_bin_file, install_path);
