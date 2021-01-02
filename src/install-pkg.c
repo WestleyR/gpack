@@ -1,28 +1,19 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-31
+// Last modified date: 2021-01-01
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
 //
 
 #include "install-pkg.h"
-
-char* replace_char(char* str, char find, char replace){
-  char *current_pos = strchr(str,find);
-  while (current_pos) {
-    *current_pos = replace;
-    current_pos = strchr(current_pos,find);
-  }
-  return str;
-}
 
 int link_files(const char* install_path, const char* binary_bin_files) {
   // Now link the installed files
@@ -38,6 +29,14 @@ int link_files(const char* install_path, const char* binary_bin_files) {
   link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
 
   print_debugf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
+
+  // Check if the file exists before linking
+  if (access(source_bin_file, F_OK) != 0) {
+    // Source file does not exist
+    print_errorf("Source file does not exist: %s please check the path is currect and fix it in your package file\n", source_bin_file);
+    return -1;
+  }
+
   if (symlink(source_bin_file, link_binfile) != 0) {
     print_errorf("Failed to link bin files\n");
     perror("symlink");
@@ -146,6 +145,19 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   // TODO: I want to free ini right after I'm done using it, but it also
   // destroys the binary_url, binary_ssum, etc...
   //ini_destroy(ini);
+
+  // Check if the package files are already installed
+  if (binary_bin_files != NULL) {
+    char* link_binfile = (char*) malloc(256);
+    strcpy(link_binfile, get_bin());
+    link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
+
+    print_debugf("Checking if %s exists...\n", link_binfile);
+    if (access(link_binfile, F_OK) == 0) {
+      print_errorf("Package %s already has the files installed\n", package_name);
+      return -1;
+    }
+  }
 
   // Order of operation:
   //  1. Check if the package exists in cache
