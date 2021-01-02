@@ -1,23 +1,20 @@
-# Simple, fast, rootless package and library manager
+# Simple, fast, users (rootless) package manager
 
-This is a basic package manager that can manage non-system (users) packages and
-libraries.
+Gpack; the package manager for users (non-root).
 
-**WARNING:** The package installer code is being rewritten, some packages may not work right now. New update will be completly written in pure C.
+**WARNING:** This is the dev branch. If you test this, you also need to switch to the dev branch on the packages repo.
 
 ## Example
 
+For this example, lets install a [srm](https://github.com/WestleyR/srm): (rm command with undo/caching)
+
 ```bash
-gpack install WestleyR/list-files
-# downloads and installs the lf command (list-files)
+gpack install WestleyR/srm
+# downloads and installs the srm command
 
-gpack remove WestleyR/list-files
-# removes lf
+gpack remove WestleyR/srm
+# removes srm
 ```
-
-Quick demo:
-
-[![asciicast](https://asciinema.org/a/288403.svg)](https://asciinema.org/a/288403)
 
 ## Install
 
