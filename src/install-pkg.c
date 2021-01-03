@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-01
+// Last modified date: 2021-01-02
 //
 // This file is licensed under the terms of
 //
@@ -150,6 +150,12 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   print_debugf("Binary tarball: %s\n", binary_url);
   print_debugf("Tarball ssum:   %s\n", binary_ssum);
   print_debugf("BIN_FILES:      %s\n", binary_bin_files);
+
+  // Make sure the package name is there
+  if (package_name == NULL) {
+    print_errorf("Package does not have a name: %s\n", pkg_file);
+    return -1;
+  }
 
   printf("I: Installing %s...\n", package_name);
 
