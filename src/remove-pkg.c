@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-04-21
+// Last modified date: 2021-01-02
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -63,7 +63,7 @@ int remove_pkg(char *pkg) {
     }
   }
 
-  printf("About to run: %s\n", cmd);
+  print_debugf("About to run: %s\n", cmd);
 
   system("sleep 1s");
   system(cmd);
