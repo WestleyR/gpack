@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-31
+// Last modified date: 2021-01-02
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -16,6 +16,7 @@
 
 #include "cache.h"
 
+// Need to free() the return string when done with it.
 char* get_cachepath_for_sha(const char* sha) {
   const char* home_dir = getenv("HOME");
   char* cache_path = path_join(home_dir, ".cache/gpack.cache/packages/tarballs");
@@ -32,7 +33,13 @@ char* get_cachepath_for_sha(const char* sha) {
 
   cache_path = path_join(cache_path, sha);
 
-  return strcat(cache_path, ".tar.gz");
+  // Create a new string with the currect len
+  char* full_path = (char*) malloc(strlen(cache_path) + 8 + 2);
+
+  strcpy(full_path, cache_path);
+  strcat(full_path, ".tar.gz");
+
+  return full_path;
 }
 
 int does_cache_path_exist_and_ok(const char* cache_path, const char* checksum) {
