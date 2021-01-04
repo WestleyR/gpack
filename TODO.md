@@ -43,5 +43,5 @@
  - [x] New installer should write the version to version.gpack, so `gpack list` shows the currect version
  - [ ] Use real sha256 for checksum
  - [x] Check if installed files before linking is a regular file
- - [ ] Package versions that are prefixed with "master" should be updated every 7 days (or soo) with `gpack upgrade`
+ - [ ] If package version is "main", gpack should fetch the latest commit sha and check it when upgrading
 
