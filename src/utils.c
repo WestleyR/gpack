@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-31
+// Last modified date: 2021-01-04
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -42,6 +42,18 @@ const char* get_installdir_for_user_and_version(const char* user_name, const cha
     free(path);
     return NULL;
   }
+
+  return(path);
+}
+
+// Return needs to be free()
+char* pkg_file_registry_dir() {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+  char* path = path_join(h, ".gpack/packages/packages");
 
   return(path);
 }
@@ -192,23 +204,6 @@ char* get_include_dir() {
   char* ret = path_join(h, "/.local/include");
 
   return(ret);
-}
-
-char* get_package_dir() {
-  char* path;
-
-  path = (char*) malloc(100);
-
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
-  }
-
-  strcpy(path, h);
-  strcat(path, "/.gpack/packages/");
-
-  return(path);
 }
 
 char* get_package_prefix() {

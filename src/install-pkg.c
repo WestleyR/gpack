@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-02
+// Last modified date: 2021-01-04
 //
 // This file is licensed under the terms of
 //
@@ -61,18 +61,8 @@ int link_files(const char* install_path, const char* binary_bin_files) {
 }
 
 int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
-  char pkg_file[256];
-  pkg_file[0] = '\0';
-
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    printf("HOME not set!???\n");
-    return(1);
-  }
-
-  strcpy(pkg_file, h);
-  strcat(pkg_file, "/.gpack/packages/");
-  strcat(pkg_file, pkg);
+  char* pkg_file = pkg_file_registry_dir();
+  pkg_file = path_join(pkg_file, pkg);
 
   print_debugf("package_file: %s\n", pkg_file);
 
@@ -260,6 +250,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   fclose(version_file);
 
+  free(pkg_file);
   free(package_version_file);
   free(cache_path);
   ini_destroy(ini);

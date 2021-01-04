@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-31
+// Last modified date: 2021-01-04
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -25,6 +25,7 @@
 
 const char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version);
 
+char* pkg_file_registry_dir();
 
 
 
@@ -33,7 +34,6 @@ const char* get_installdir_for_user_and_version(const char* user_name, const cha
 char* get_listmap_for_pkg(const char* user_name, const char* pkg);
 char* get_installed_pkg_version(const char* usr_pkg, const char* pkg);
 char* get_installer();
-char* get_package_dir();
 char* get_update_script();
 char* get_search_script();
 char* get_upgrade_script();
