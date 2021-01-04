@@ -106,17 +106,17 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   const char* package_build_command = NULL;
 
   if (strcmp(current_arch, "macos") == 0) {
-    printf("I: Downloading binary for macOS...\n");
+    print_debugf("I: Downloading binary for macOS...\n");
     binary_url = get_macos_binary_url(ini);
     binary_ssum = get_macos_binary_ssum(ini);
     binary_bin_files = get_macos_binary_bin_files(ini);
   } else if (strcmp(current_arch, "x86_64_linux") == 0) {
-    printf("I: Downloading binary for x86_64_linux...\n");
+    print_debugf("I: Downloading binary for x86_64_linux...\n");
     binary_url = get_x86_64_binary_url(ini);
     binary_ssum = get_x86_64_binary_ssum(ini);
     binary_bin_files = get_x86_64_binary_bin_files(ini);
   } else if (strcmp(current_arch, "armv6l") == 0) {
-    printf("I: Downloading binary for armv6l...\n");
+    print_debugf("I: Downloading binary for armv6l...\n");
     binary_url = get_armv6l_binary_url(ini);
     binary_ssum = get_armv6l_binary_ssum(ini);
     binary_bin_files = get_armv6l_binary_bin_files(ini);
@@ -130,7 +130,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   int build_from_source = -1;
   if (binary_url == NULL) {
-    printf("I: No pre-compiled binary for your arch. Building from source...\n");
+    print_debugf("I: No pre-compiled binary for your arch. Building from source...\n");
     build_from_source = 0;
 
     binary_url = get_package_build_url(ini);
@@ -154,28 +154,61 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     return -1;
   }
 
+  // Panic check
+  if (binary_bin_files == NULL) {
+    print_errorf("No binfiles to install.\n");
+    return -1;
+  }
+
+  // Check if the package files are already installed
+  if (1) { // New scope
+    int files_installed = 0;
+    int files_to_install = 0;
+
+    char* file_to_install;
+    file_to_install = strtok(strdup(binary_bin_files), ",");
+    while (file_to_install != NULL) {
+      print_debugf("looped file: %s\n", file_to_install);
+
+      char* link_binfile = (char*) malloc(256);
+
+      strcpy(link_binfile, get_bin());
+      link_binfile = path_join(link_binfile, basename(strdup(file_to_install)));
+
+      print_debugf("Checking if %s exists...\n", link_binfile);
+      if (access(link_binfile, F_OK) == 0) {
+        print_debugf("File %s already has the files installed\n", link_binfile);
+        files_installed++;
+      }
+      free(link_binfile);
+
+      file_to_install = strtok(NULL, ",");
+      files_to_install++;
+    }
+
+    print_debugf("Files installed (by this package): %d\n", files_installed);
+    print_debugf("Files to install: %d\n", files_to_install);
+
+    if (files_to_install == files_installed) {
+      print_errorf("Package %s is already installed.\n", pkg);
+      return -1;
+    } else if (files_installed != 0) {
+      print_errorf("Package %s is already installed.\n", pkg);
+      print_warningf("Package %s has non-installed files. You may want to re-install this package.\n", pkg);
+      return -1;
+    }
+  }
+
   printf("I: Installing %s...\n", package_name);
+  if (build_from_source == 0) {
+    printf("I: No pre-compiled binary for your arch. Building from source...\n");
+  } else {
+    printf("I: Downloading binary for %s...\n", current_arch);
+  }
 
   // TODO: I want to free ini right after I'm done using it, but it also
   // destroys the binary_url, binary_ssum, etc...
   //ini_destroy(ini);
-
-  // Check if the package files are already installed
-  if (binary_bin_files != NULL) {
-    char* link_binfile = (char*) malloc(256);
-
-    // TODO: loop thought all the "," in the bin files
-    strcpy(link_binfile, get_bin());
-    link_binfile = path_join(link_binfile, basename(strdup(binary_bin_files)));
-
-    print_debugf("Checking if %s exists...\n", link_binfile);
-    if (access(link_binfile, F_OK) == 0) {
-      print_errorf("Package %s already has the files installed\n", package_name);
-      free(link_binfile);
-      return -1;
-    }
-    free(link_binfile);
-  }
 
   // Order of operation:
   //  1. Check if the package exists in cache
