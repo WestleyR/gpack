@@ -62,6 +62,13 @@ int link_files(const char* install_path, const char* binary_bin_files) {
 
 int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
   char* pkg_file = pkg_file_registry_dir();
+
+  // Panic check
+  if (pkg_file == NULL) {
+    print_errorf("Memmory alloc failed\n");
+    abort();
+  }
+
   pkg_file = path_join(pkg_file, pkg);
 
   print_debugf("package_file: %s\n", pkg_file);
