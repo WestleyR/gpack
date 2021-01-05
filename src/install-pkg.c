@@ -66,7 +66,8 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   // Panic check
   if (pkg_file == NULL) {
     print_errorf("Memmory alloc failed\n");
-    abort();
+    // Exit the program ASAP since we are out of ram
+    exit(1);
   }
 
   pkg_file = path_join(pkg_file, pkg);
@@ -161,7 +162,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   }
 
   // Check if the package files are already installed
-  if (1) { // New scope
+  if (1) { // New scope TODO: theres should be better ways...
     int files_installed = 0;
     int files_to_install = 0;
 
