@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-30
+// Last modified date: 2021-01-04
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -56,7 +56,7 @@ void help_menu(const char* script_name) {
   printf("  %s remove WestleyR/ssum\n", script_name);
   printf("  %s autoclean\n", script_name);
   printf("\n");
-  printf("Copyright (c) 2019-2020 WestleyR, All rights reserved.\n");
+  printf("Copyright (c) 2019-2021 WestleyR, All rights reserved.\n");
   printf("This software is licensed under a Clear BSD License.\n");
   printf("Source code: https://github.com/WestleyR/gpack\n");
   return;

@@ -70,7 +70,11 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     exit(1);
   }
 
-  pkg_file = path_join(pkg_file, pkg);
+  // Silly, but otherwise there will be memmory leaks
+  // TODO: path_join() function use may cause memmory leaks, need to use a better function...
+  char* tmp = pkg_file;
+  free(pkg_file);
+  pkg_file = path_join(tmp, pkg);
 
   print_debugf("package_file: %s\n", pkg_file);
 
