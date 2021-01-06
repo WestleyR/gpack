@@ -1,6 +1,6 @@
 # Simple, fast, users (rootless) package manager
 
-Gpack; the package manager for users (non-root).
+Gpack; the fast, lightweight, memory leak-free package manager for users (non-root).
 
 **WARNING:** This is the dev branch. If you test this, you also need to switch to the dev branch on the packages repo.
 
@@ -43,7 +43,6 @@ Add the following lines to your `~/.bashrc`:
 
 ```
 # For you installed commands
-export PATH=${PATH}:${HOME}/.gpack/bin/  # This will be in ~/.local/bin soon
 export PATH=${PATH}:${HOME}/.local/bin/
 
 # For shared libraries at runtime
@@ -78,7 +77,29 @@ gpack install WestleyR/list-files
 lf
 ```
 
-<br>
+## Memory leak test
+
+This package manager is designed to be memory leak-free! Heres an example of installing
+a package: (clipped output from valgrind)
+
+```
+==32286== Command: ./gpack install WestleyR/srm
+==32286== 
+I: Installing: WestleyR/srm ...
+I: Installing srm...
+I: Downloading binary for armv6l...
+I: Done installing WestleyR/srm
+I: Total installed files: 21
+==32286== 
+==32286== HEAP SUMMARY:
+==32286==     in use at exit: 0 bytes in 0 blocks
+==32286==   total heap usage: 106 allocs, 106 frees, 1,813,810 bytes allocated
+==32286== 
+==32286== All heap blocks were freed -- no leaks are possible
+```
+
+As you can see, there are no memory leaks! (some of the gpack commands may
+not be leak-free, since this is the dev branch.)
 
 ## Making your own package
 
@@ -134,8 +155,6 @@ The `TarballURL` is the download URL to the zipped binary (tar.gz). And the
  - Q: Where does gpack install packages?
    - A: In `~/.gpack/installed/<user>/<package_name>`, all binaries are symlinked to `~/.gpack/bin`, and can easily be uninstalled.
 
-<br>
-
 ## Disclaimer
 
 Gpack is only a helper to download, install, update and remove packages (third
@@ -146,6 +165,4 @@ softwares license.
 
 This project is licensed under the terms of the The Clear BSD License. See the
 [LICENSE file](./LICENSE) for more details.
-
-<br>
 
