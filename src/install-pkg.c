@@ -198,10 +198,20 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
     if (files_to_install == files_installed) {
       print_errorf("Package %s is already installed.\n", pkg);
+
+      // Cleanup
+      // TODO: should have a cleanup function
+      free(pkg_file);
+      ini_destroy(ini);
       return -1;
     } else if (files_installed != 0) {
       print_errorf("Package %s is already installed.\n", pkg);
       print_warningf("Package %s has non-installed files. You may want to re-install this package.\n", pkg);
+
+      // Cleanup
+      // TODO: should have a cleanup function
+      free(pkg_file);
+      ini_destroy(ini);
       return -1;
     }
   }
