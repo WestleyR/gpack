@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-04
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
@@ -13,13 +13,19 @@
 // This software is licensed under a Clear BSD License.
 //
 
-
 #include "cache.h"
 
 // Need to free() the return string when done with it.
 char* get_cachepath_for_sha(const char* sha) {
   const char* home_dir = getenv("HOME");
-  char* cache_path = path_join(home_dir, ".cache/gpack.cache/packages/tarballs");
+  if (home_dir == NULL) {
+    fprintf(stderr, "Cannot find HOME dir!\n");
+    return NULL;
+  }
+
+  char* cache_path = NULL;
+  catpath(&cache_path, home_dir);
+  catpath(&cache_path, ".cache/gpack.cache/packages/tarballs");
 
   // Create the directory
   // TODO: use C calls
@@ -28,16 +34,19 @@ char* get_cachepath_for_sha(const char* sha) {
   sprintf(mkdir_cmd, "mkdir -p %s", cache_path);
   if (system(mkdir_cmd) != 0) {
     print_errorf("mkdir command failed\n");
+    free(cache_path);
     return NULL;
   }
 
-  cache_path = path_join(cache_path, sha);
+  catpath(&cache_path, sha);
 
-  // Create a new string with the currect len
+  // Create a new pointer with the currect len (8 for ".tar.gz", and 2 for extra)
   char* full_path = (char*) malloc(strlen(cache_path) + 8 + 2);
 
   strcpy(full_path, cache_path);
   strcat(full_path, ".tar.gz");
+
+  free(cache_path);
 
   return full_path;
 }
