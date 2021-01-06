@@ -19,21 +19,25 @@ int link_files(const char* install_path, const char* binary_bin_files) {
   // Now link the installed files
   // TODO: need better mallocs
 
-  char* source_bin_file = (char*) malloc(strlen(install_path) + 100);
   print_debugf("Looping to install files: %s\n", binary_bin_files);
 
+  char* bin_files_dup = strdup(binary_bin_files);
+
   char* file_to_install;
-  file_to_install = strtok(strdup(binary_bin_files), ",");
+  file_to_install = strtok(bin_files_dup, ",");
   while (file_to_install != NULL) {
     print_debugf("looped file: %s\n", file_to_install);
 
-    strcpy(source_bin_file, install_path);
-    source_bin_file = path_join(source_bin_file, file_to_install);
+    char* source_bin_file = NULL;
+    catpath(&source_bin_file, install_path);
+    catpath(&source_bin_file, file_to_install);
 
-    char* link_binfile = (char*) malloc(256);
-    strcpy(link_binfile, get_bin());
+    char* link_binfile = NULL;
+    char* bin_dir = get_bin();
+    catpath(&link_binfile, bin_dir);
+    free(bin_dir);
 
-    link_binfile = path_join(link_binfile, basename(strdup(file_to_install)));
+    catpath(&link_binfile, basename(file_to_install));
 
     print_debugf("I: Linking: %s -> %s...\n", source_bin_file, link_binfile);
 
@@ -52,10 +56,11 @@ int link_files(const char* install_path, const char* binary_bin_files) {
 
     source_bin_file[0] = '\0';
     free(link_binfile);
+    free(source_bin_file);
     file_to_install = strtok(NULL, ",");
   }
 
-  free(source_bin_file);
+  free(bin_files_dup);
 
   return 0;
 }
@@ -171,10 +176,11 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     while (file_to_install != NULL) {
       print_debugf("looped file: %s\n", file_to_install);
 
-      char* link_binfile = (char*) malloc(256);
-
-      strcpy(link_binfile, get_bin());
-      link_binfile = path_join(link_binfile, basename(strdup(file_to_install)));
+      char* link_binfile = NULL;
+      char* bin_dir = get_bin();
+      catpath(&link_binfile, bin_dir);
+      free(bin_dir);
+      catpath(&link_binfile, basename(file_to_install));
 
       print_debugf("Checking if %s exists...\n", link_binfile);
       if (access(link_binfile, F_OK) == 0) {
@@ -272,11 +278,14 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   link_files(install_path, binary_bin_files);
 
   // Write the version so gpack can list it
-  char* package_version_file = getenv("HOME");
-  package_version_file = path_join(package_version_file, ".gpack/installed");
-  package_version_file = path_join(package_version_file, package_user_name);
-  package_version_file = path_join(package_version_file, package_name);
-  package_version_file = path_join(package_version_file, "version.gpack");
+  char* user_home_dir = getenv("HOME");
+
+  char* package_version_file = NULL;
+  catpath(&package_version_file, user_home_dir);
+  catpath(&package_version_file, ".gpack/installed");
+  catpath(&package_version_file, package_user_name);
+  catpath(&package_version_file, package_name);
+  catpath(&package_version_file, "version.gpack");
 
   print_debugf("package version file: %s\n", package_version_file);
 
