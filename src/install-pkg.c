@@ -79,6 +79,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   FILE* fp = fopen(pkg_file, "r");
   if (fp == NULL) {
     fprintf(stderr, "%s: package does not exist\n", pkg);
+    free(pkg_file);
     return -1;
   }
 
