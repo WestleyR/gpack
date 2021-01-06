@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-04
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
@@ -14,6 +14,9 @@
 //
 
 #include "main-gpack.h"
+
+#define CATPATH_IMPLEMENTATION
+#include "catpath.h"
 
 #ifndef COMMIT_HASH
 #define COMMIT_HASH "unknown"

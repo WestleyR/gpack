@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-04
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
@@ -70,11 +70,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     exit(1);
   }
 
-  // Silly, but otherwise there will be memmory leaks
-  // TODO: path_join() function use may cause memmory leaks, need to use a better function...
-  char* tmp = pkg_file;
-  free(pkg_file);
-  pkg_file = path_join(tmp, pkg);
+  catpath(&pkg_file, pkg);
 
   print_debugf("package_file: %s\n", pkg_file);
 
