@@ -127,6 +127,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     print_errorf("Unknown arch for GPACK_ARCH: %s\n", current_arch);
     return -1;
   }
+  // TODO: maybe need to free() these before re-defining it
   package_user_name = get_package_user_name(ini);
   package_version = get_package_version(ini);
   package_name = get_package_name(ini);
@@ -168,8 +169,9 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     int files_installed = 0;
     int files_to_install = 0;
 
-    char* file_to_install;
-    file_to_install = strtok(strdup(binary_bin_files), ",");
+    char* bin_files_dup = strdup(binary_bin_files);
+
+    char* file_to_install = strtok(bin_files_dup, ",");
     while (file_to_install != NULL) {
       print_debugf("looped file: %s\n", file_to_install);
 
@@ -189,6 +191,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
       file_to_install = strtok(NULL, ",");
       files_to_install++;
     }
+    free(bin_files_dup);
 
     print_debugf("Files installed (by this package): %d\n", files_installed);
     print_debugf("Files to install: %d\n", files_to_install);
@@ -209,10 +212,6 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   } else {
     printf("I: Downloading binary for %s...\n", current_arch);
   }
-
-  // TODO: I want to free ini right after I'm done using it, but it also
-  // destroys the binary_url, binary_ssum, etc...
-  //ini_destroy(ini);
 
   // Order of operation:
   //  1. Check if the package exists in cache
@@ -244,6 +243,8 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   // Verify the tarball again
   if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
     print_warningf("Checksum missmatch. Did you enter the currect checksum in: %s?\n", pkg_file);
+    // Continue even if checksum fails, since the package may be a "master" package and always
+    // wants to be up-to-date.
   }
 
   // Now untar the tarball

@@ -52,7 +52,9 @@ char* pkg_file_registry_dir() {
     fprintf(stderr, "Cant find home directory\n");
     return(NULL);
   }
-  char* path = path_join(h, ".gpack/packages/packages");
+  char* path = NULL;
+  catpath(&path, h);
+  catpath(&path, ".gpack/packages/packages");
 
   return(path);
 }
