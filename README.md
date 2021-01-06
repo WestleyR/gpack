@@ -98,8 +98,9 @@ I: Total installed files: 21
 ==32286== All heap blocks were freed -- no leaks are possible
 ```
 
-As you can see, there are no memory leaks! (some of the gpack commands may
-not be leak-free, since this is the dev branch.)
+As you can see, there are no memory leaks! And only using a total of 1.8Mbs
+of memory (which will be improved later...). _(some of the gpack commands may
+not be leak-free, since this is the dev branch.)_
 
 ## Making your own package
 
