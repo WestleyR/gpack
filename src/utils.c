@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-04
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
@@ -17,9 +17,8 @@
 
 // New functions!!! TODO:
 
-const char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version) {
-  char* path;
-  path = (char*) malloc(256);
+char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version) {
+  char* path =  NULL;
 
   char* h = getenv("HOME");
   if (h == NULL) {
@@ -27,10 +26,11 @@ const char* get_installdir_for_user_and_version(const char* user_name, const cha
     return(NULL);
   }
 
-  path = path_join(h, ".gpack/installed");
-  path = path_join(path, user_name);
-  path = path_join(path, name);
-  path = path_join(path, version);
+  catpath(&path, h);
+  catpath(&path, ".gpack/installed");
+  catpath(&path, user_name);
+  catpath(&path, name);
+  catpath(&path, version);
 
   // TODO: use C functions
   char mkdir_cmd[200];
@@ -39,7 +39,6 @@ const char* get_installdir_for_user_and_version(const char* user_name, const cha
   sprintf(mkdir_cmd, "mkdir -p %s", path);
   if (system(mkdir_cmd) != 0) {
     print_errorf("Failed to run mkdir command\n");
-    free(path);
     return NULL;
   }
 

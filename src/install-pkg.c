@@ -247,7 +247,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   }
 
   // Now untar the tarball
-  const char* install_path = get_installdir_for_user_and_version(package_user_name, package_name, package_version);
+  char* install_path = get_installdir_for_user_and_version(package_user_name, package_name, package_version);
   char tar_cmd[200];
   tar_cmd[0] = '\0';
   sprintf(tar_cmd, "tar -xf %s -C %s", cache_path, install_path);
@@ -297,6 +297,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
 
   fclose(version_file);
 
+  free(install_path);
   free(pkg_file);
   free(package_version_file);
   free(cache_path);

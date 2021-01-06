@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-04
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
@@ -20,10 +20,12 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include "catpath.h"
+
 #include "path-join/path-join.h"
 #include "logger/logger.h"
 
-const char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version);
+char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version);
 
 char* pkg_file_registry_dir();
 
