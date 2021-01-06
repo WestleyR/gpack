@@ -17,8 +17,6 @@
 
 int link_files(const char* install_path, const char* binary_bin_files) {
   // Now link the installed files
-  // TODO: need better mallocs
-
   print_debugf("Looping to install files: %s\n", binary_bin_files);
 
   char* bin_files_dup = strdup(binary_bin_files);
@@ -54,7 +52,6 @@ int link_files(const char* install_path, const char* binary_bin_files) {
       return -1;
     }
 
-    source_bin_file[0] = '\0';
     free(link_binfile);
     free(source_bin_file);
     file_to_install = strtok(NULL, ",");
@@ -231,6 +228,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
   if (does_cache_path_exist_and_ok(cache_path, binary_ssum) != 0) {
     print_debugf("I: Downloading since not cached...\n");
 
+    // TODO: need better malloc len here
     char* wget_cmd = (char*) malloc(512);
     wget_cmd[0] = '\0';
     sprintf(wget_cmd, "wget -q --show-progress -O %s %s", cache_path, binary_url);
@@ -240,6 +238,7 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
       print_errorf("wget command failed\n");
       return -1;
     }
+    free(wget_cmd);
   }
 
   // Verify the tarball again
