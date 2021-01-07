@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-31
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -25,7 +25,7 @@ int clean_older_pkgs(int dry_run) {
   //                                      1.0.0/
   //                                      1.0.1/
 
-  char* installed_dir = get_package_prefix();
+  char* installed_dir = package_install_dir();
   if (installed_dir == NULL) {
     fprintf(stderr, "%s() failed to get install dir\n", __func__);
     return -1;

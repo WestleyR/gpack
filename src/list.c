@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-31
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -16,7 +16,15 @@
 #include "list.h"
 
 int ensure_installed_files(const char* user_name, const char* pkg) {
+  // TODO: need code here
 
+  // Maybe have a `installed-files.ini` file in `~/.gpack/database/installed-files.ini`, which
+  // contains all the installed packages and the files they should have installed, along with
+  // a checksum for each file. Which will also be verified when running `gpack list`.
+
+  return 0;
+
+/*
   char* pkg_listmap = get_listmap_for_pkg(user_name, pkg);
 
   FILE* fp = fopen(pkg_listmap, "r");
@@ -30,7 +38,7 @@ int ensure_installed_files(const char* user_name, const char* pkg) {
   }
 
   return check_crc32_file(fp, SSUM_BLOCK_SIZE, NULL, NULL);
-
+*/
   //  char** installed_files = get_installed_files_from_map(pkg_listmap, 1);
   //  char** installed_checksum = get_installed_files_from_map(pkg_listmap, 2);
   //
@@ -55,24 +63,13 @@ int print_package(const char* path, const char* name, int print_len) {
   dir = opendir(path);
   if (dir == NULL) {
     fprintf(stderr, "Failed to open: %s\n", path);
-    return(1);
+    return 1;
   }
 
   // Loop through all installed packages under the user
   // name path, eg. ~/.gpack/installed/WestleyR.
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-
-
-      //      char* main_pkg_dir = get_package_dir();
-      //      char* package_script = path_join(main_pkg_dir, name);
-      //      package_script = path_join(package_script, d->d_name);
-      //
-      //      print_verbosef("package source installer: %s\n", package_script);
-      //
-      //      free(main_pkg_dir);
-      //      free(package_script);
-
       int filesOK = 0;
       if (ensure_installed_files(name, d->d_name) != 0) {
         print_debugf("%s/%s failed checksum\n", name, d->d_name);
@@ -80,13 +77,13 @@ int print_package(const char* path, const char* name, int print_len) {
       }
 
       // Print the package
-      char *pkg_version = get_installed_pkg_version(path, d->d_name);
       printf("%s/%s", name, d->d_name);
 
       // Spacing formatting
       for (int i = strlen(name) + strlen(d->d_name) + 1; i < print_len; i++) printf(" ");
 
       // Print the package version
+      char *pkg_version = get_installed_pkg_version(path, d->d_name);
       printf(" %s", pkg_version);
       free(pkg_version);
 
@@ -96,14 +93,13 @@ int print_package(const char* path, const char* name, int print_len) {
 
       printf("\n");
 
-      // Print if its up-to-date
       // TODO: FIXME!
-      //char* vlable = compare_pkg_version(
+      // Print if its up-to-date
     }
   }
   closedir(dir);
 
-  return(0);
+  return 0;
 }
 
 // get_max_len_of_package_name will get the max string len of a package user/name.
@@ -112,7 +108,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
   DIR *dir;
   struct dirent *d;
 
-  //print_debugf("Opening from: %s\n", user_path);
+  print_debugf("Opening from: %s\n", user_path);
   dir = opendir(user_path);
   if (dir == NULL) {
     fprintf(stderr, "Failed to open: %s\n", user_path);
@@ -121,7 +117,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
 
   int max_package_len = 0;
 
-  // Determen the max package name length
+  // Get the max package name length
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
       print_debugf("Getting max len for: %s and: %s\n", user_path, d->d_name);
@@ -130,6 +126,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
       if (len > max_package_len) max_package_len = len;
     }
   }
+  closedir(dir);
 
   print_debugf("max package len: %d\n", max_package_len);
 
@@ -138,7 +135,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
 
 // list_packages will list all installed packages
 int list_packages() {
-  char* ppath = get_package_prefix();
+  char* ppath = package_install_dir();
 
   DIR *dir;
   struct dirent *d;
@@ -148,25 +145,27 @@ int list_packages() {
     return(1);
   }
 
-  char pkg[256];
-  pkg[0] = '\0';
-
-  char full_path[256];
-  full_path[0] = '\0';
+  char* pkg = NULL;
+  char* full_path = NULL;
 
   int max_len = 0;
 
   // Get the max package len
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-      strcpy(pkg, d->d_name);
+//      char* pkg = NULL;
+      pkg = NULL;
+      catpath(&pkg, d->d_name);
 
-      // TODO: use path_join function here
-      char* full_path = path_join(ppath, "");
-      full_path = path_join(full_path, d->d_name);
+//      char* full_path = NULL;
+      full_path = NULL;
+      catpath(&full_path, ppath);
+      catpath(&full_path, d->d_name);
 
       int len = get_max_len_of_package_name(full_path, d->d_name);
-      free(full_path);
+
+//      free(full_path);
+//      free(pkg);
       if (len > max_len) max_len = len;
     }
   }
@@ -179,17 +178,20 @@ int list_packages() {
 
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-      strcpy(pkg, d->d_name);
+      pkg = NULL;
+      catpath(&pkg, d->d_name);
 
-      // TODO: use path_join function here
-      strcpy(full_path, ppath);
-      strcat(full_path, d->d_name);
+      full_path = NULL;
+      catpath(&full_path, ppath);
+      catpath(&full_path, d->d_name);
 
       print_package(full_path, pkg, max_len);
     }
   }
   closedir(dir);
 
+  free(pkg);
+  free(full_path);
   free(ppath);
 
   return 0;
