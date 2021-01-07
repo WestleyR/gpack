@@ -165,7 +165,9 @@ int catpath(char** path, const char* file) {
     }
   } else {
     // If theres no '/' suffix (which there should not be), then add one
-    if (new_path[path_len+1] != '/') {
+    // only if path is not emtpy. If it is empty, then we should treat it
+    // like a new path (only have a / prefix if file has ine).
+    if (new_path[path_len+1] != '/' && new_path[0] != '\0') {
       new_path[path_len+1] = '/';
       path_len++;
       new_path[path_len+1] = '\0';

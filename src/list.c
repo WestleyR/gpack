@@ -120,7 +120,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
   // Get the max package name length
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-      print_debugf("Getting max len for: %s and: %s\n", user_path, d->d_name);
+      print_debugf("Getting max len for: %s and: %s\n", user_name, d->d_name);
       int len = strlen(user_name);
       len += strlen(d->d_name);
       if (len > max_package_len) max_package_len = len;
@@ -142,30 +142,25 @@ int list_packages() {
   dir = opendir(ppath);
   if (dir == NULL) {
     fprintf(stderr, "Failed to open: %s\n", ppath);
-    return(1);
+    return 1;
   }
-
-  char* pkg = NULL;
-  char* full_path = NULL;
 
   int max_len = 0;
 
   // Get the max package len
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-//      char* pkg = NULL;
-      pkg = NULL;
+      char* pkg = NULL;
       catpath(&pkg, d->d_name);
 
-//      char* full_path = NULL;
-      full_path = NULL;
+      char* full_path = NULL;
       catpath(&full_path, ppath);
       catpath(&full_path, d->d_name);
 
       int len = get_max_len_of_package_name(full_path, d->d_name);
 
-//      free(full_path);
-//      free(pkg);
+      free(full_path);
+      free(pkg);
       if (len > max_len) max_len = len;
     }
   }
@@ -178,20 +173,21 @@ int list_packages() {
 
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-      pkg = NULL;
+      char* pkg = NULL;
       catpath(&pkg, d->d_name);
 
-      full_path = NULL;
+      char* full_path = NULL;
       catpath(&full_path, ppath);
       catpath(&full_path, d->d_name);
 
       print_package(full_path, pkg, max_len);
+
+      free(pkg);
+      free(full_path);
     }
   }
   closedir(dir);
 
-  free(pkg);
-  free(full_path);
   free(ppath);
 
   return 0;
