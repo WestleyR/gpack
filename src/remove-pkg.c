@@ -1,7 +1,7 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-02
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
@@ -15,42 +15,33 @@
 
 #include "remove-pkg.h"
 
-int remove_pkg(char *pkg) {
+int remove_pkg(const char *pkg) {
   print_debugf("Removing: %s\n", pkg);
-
-  char cmd[256];
-  cmd[0] = '\0';
-
-  char pkg_file[200];
-  pkg_file[0] = '\0';
-
-  strcpy(pkg_file, "installed/");
-  strcat(pkg_file, pkg);
-
-  strcpy(cmd, "rm -rf ${HOME}/.gpack/installed/");
-  strcat(cmd, pkg);
-
-  char installed_pkg[256];
-  installed_pkg[0] = '\0';
 
   char* h = getenv("HOME");
 
-  strcpy(installed_pkg, h);
-  strcat(installed_pkg, "/.gpack/installed/");
-  strcat(installed_pkg, pkg);
+  char* installed_pkg = NULL;
+  catpath(&installed_pkg, h);
+  catpath(&installed_pkg, ".gpack/installed");
+  catpath(&installed_pkg, pkg);
 
   struct stat sb;
   if (stat(installed_pkg, &sb) != 0 || !S_ISDIR(sb.st_mode)) {
+    free(installed_pkg);
     printf("%s: is not installed\n", pkg);
     return 1;
   }
 
-  char* ispk = strtok(pkg, "/");
+  free(installed_pkg);
+
+  char* pkg_dup = strdup(pkg);
+  char* ispk = strtok(pkg_dup, "/");
   int sc = 0;
   while (ispk != NULL) {
     ispk = strtok(NULL, "/");
     sc++;
   }
+  free(pkg_dup);
   if (sc == 1) {
     fprintf(stderr, "No Package to remove\n");
     fprintf(stderr, "This will remove the user: %s and all you installed from that user\n", pkg);
@@ -59,15 +50,24 @@ int remove_pkg(char *pkg) {
     scanf(" %[^\n]", cont);
     if (strcmp(cont, pkg) != 0) {
       fprintf(stderr, "Aborting\n");
-      return(1);
+      return 1;
     }
   }
 
+  char cmd[256];
+  cmd[0] = '\0';
+  strcpy(cmd, "rm -rf ${HOME}/.gpack/installed/");
+  strcat(cmd, pkg);
+
   print_debugf("About to run: %s\n", cmd);
+  sleep(1);
 
-  system("sleep 1s");
-  system(cmd);
+  if (system(cmd) != 0) {
+    print_errorf("Failed to run: %s\n", cmd);
+    return -1;
+  }
 
+  // New remove the broken link
   print_debugf("Autocleaning...\n");
   int err = helper_autoclean(0);
   if (err != 0) {
@@ -75,7 +75,7 @@ int remove_pkg(char *pkg) {
     return err;
   }
 
-  return(0);
+  return 0;
 }
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
