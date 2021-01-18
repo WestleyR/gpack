@@ -1,7 +1,7 @@
 # Created by: WestleyR
 # Email: westleyr@nym.hush.com
 # Url: https://github.com/WestleyR/gpack
-# Last modified date: 2021-01-01
+# Last modified date: 2021-01-17
 #
 # This file is licensed under the terms of
 #
@@ -13,14 +13,16 @@
 # This software is licensed under a Clear BSD License.
 #
 
-PREFIX = $(HOME)/.gpack
+# The prefix to install the gpack command. This should
+# not be changed, unless you know what your doing.
+PREFIX = $(HOME)/.local
 
-# your c compiler
+# The C compiler
 CC = gcc
 
-DEP_FLAG = -Ideps
-CFLAGS = -Wall
-DEFLAGS = 
+# These flags can be changed though the command line
+CFLAGS = -Wall -Ideps
+LDFLAGS ?= 
 
 TARGET = gpack
 
@@ -42,9 +44,6 @@ ifeq ($(DEBUG), true)
 	CFLAGS += -DDEBUG
 endif
 
-SRCDIR = src
-DEPDIR = deps
-
 SRC = $(wildcard src/*.c)
 SRC += $(wildcard deps/*/*.c)
 
@@ -62,10 +61,6 @@ $(TARGET): $(OBJS)
 	$(CC) $(DEP_FLAG) $(CFLAGS) $(DEFLAGS) -o $@ -c $< $(LDFLAGS)
 
 .PHONY:
-generate_cmd_checksums:
-	$(foreach file, $(wildcard ./cmd/*), echo $(file);)
-
-.PHONY:
 clean:
 	rm -f $(OBJS)
 
@@ -76,9 +71,7 @@ cleanall:
 .PHONY:
 install: $(TARGET)
 	mkdir -p $(PREFIX)/bin
-	mkdir -p $(PREFIX)/installed
 	cp -f $(TARGET) $(PREFIX)/bin
-	cp -f cmd/load_gpack $(PREFIX)/bin
 	@# Ensure the packages are there
 	cd $(HOME)/.gpack ; test -d packages || git clone https://github.com/WestleyR/packages ;
 
