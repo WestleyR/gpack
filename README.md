@@ -39,7 +39,7 @@ _**NOTES:**_
 
 ### Setting up your environment
 
-Add the following lines to your `~/.bashrc`:
+Add the following lines to your `~/.bashrc`, or `~/.bash_profile`, or whatever you prefer:
 
 ```
 # For you installed commands
@@ -141,7 +141,7 @@ The `TarballURL` is the download URL to the zipped binary (tar.gz). And the
 ## FAQ
 
  - Q: Does gpack support pre-compiled binaries?
-   - A: Yes.
+   - A: Yes. It is recomended to only use precompiled binaries.
 
  - Q: What dependencies does gpack require?
    - A: Need gcc (or other c compiler) to compile gpack. Need `wget` and `tar` to download packages, and `git` for update,
