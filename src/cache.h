@@ -13,21 +13,16 @@
 // This software is licensed under a Clear BSD License.
 //
 
-#ifndef INCLUDE_REMOVE_PKG_H
-#define INCLUDE_REMOVE_PKG_H
-
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include <unistd.h>
-#include <sys/stat.h>
+#include <stdlib.h>
 
 #include "catpath.h"
 #include "logger/logger.h"
-#include "autoclean.h"
+#include "ssum/ssum.1.h"
 
-int remove_pkg(const char *pkg);
+char* get_cachepath_for_sha(const char* sha);
 
-#endif // INCLUDE_REMOVE_PKG_H
+int does_cache_path_exist_and_ok(const char* cache_path, const char* checksum);
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

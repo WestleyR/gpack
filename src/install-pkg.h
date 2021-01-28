@@ -1,12 +1,13 @@
 // Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 21, 2019
-// https://github.com/WestleyR/gpack
-// version-1.0.0
+// Email: westleyr@nym.hush.com
+// Url: https://github.com/WestleyR/gpack
+// Last modified date: 2021-01-06
+//
+// This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -18,9 +19,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <sys/stat.h>
+#include <libgen.h>
 
+#include "catpath.h"
 #include "remove-pkg.h"
 #include "utils.h"
+#include "reader.h"
+#include "cache.h"
 #include "logger/logger.h"
 
 int install_pkg(const char* pkg, int check_installed, int compile_build, int overide);

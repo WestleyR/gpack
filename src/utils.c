@@ -1,19 +1,120 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-10-01
+// Last modified date: 2021-01-06
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
 //
 
 #include "utils.h"
+
+// New functions!!! TODO:
+
+char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version) {
+  char* path =  NULL;
+
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+
+  catpath(&path, h);
+  catpath(&path, ".gpack/installed");
+  catpath(&path, user_name);
+  catpath(&path, name);
+  catpath(&path, version);
+
+  // TODO: use C functions
+  char mkdir_cmd[200];
+  mkdir_cmd[0] = '\0';
+
+  sprintf(mkdir_cmd, "mkdir -p %s", path);
+  if (system(mkdir_cmd) != 0) {
+    print_errorf("Failed to run mkdir command\n");
+    return NULL;
+  }
+
+  return(path);
+}
+
+// Return needs to be free()
+char* pkg_file_registry_dir() {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return(NULL);
+  }
+  char* path = NULL;
+  catpath(&path, h);
+  catpath(&path, ".gpack/packages/packages");
+
+  return(path);
+}
+
+// Return pointer must be freed.
+char* package_install_dir() {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return NULL;
+  }
+
+  char* path = NULL;
+  catpath(&path, h);
+  catpath(&path, ".gpack/installed");
+
+  return path;
+}
+
+// Return value must be freed.
+char* get_installed_pkg_version(const char* usr_pkg, const char* pkg) {
+  // Build the version file path
+  char* version_file = NULL;
+  catpath(&version_file, usr_pkg);
+  catpath(&version_file, pkg);
+  catpath(&version_file, "version.gpack");
+
+  print_debugf("Full version file path: %s\n", version_file);
+
+  // Open the version file
+  FILE* fp = fopen(version_file, "r");
+  if (fp == NULL) {
+    print_debugf("Failed to open: %s\n", version_file);
+    free(version_file);
+    return NULL;
+  }
+
+  free(version_file);
+
+  char* ret;
+  ret = (char*) malloc(64 * sizeof(char));
+  if (ret == NULL) {
+    print_debugf("malloc failed\n");
+    return NULL;
+  }
+
+  char line[128];
+  while(fgets(line, sizeof(line), fp) != NULL) {
+    if (line[0] != '\0') {
+      if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = '\0';
+      strcpy(ret, line);
+    }
+  }
+
+  fclose(fp);
+
+  return ret;
+}
+
+// End new functions!!!
 
 
 char* get_listmap_for_pkg(const char* user_name, const char* pkg) {
@@ -23,6 +124,7 @@ char* get_listmap_for_pkg(const char* user_name, const char* pkg) {
     return(NULL);
   }
 
+  // TODO: dont use memory-leaky path_join(), need to use catpath()
   char* ret = path_join(h, ".gpack/installed");
   ret = path_join(ret, user_name);
   ret = path_join(ret, pkg);
@@ -39,40 +141,6 @@ char* get_cmd_checksum_file() {
   }
 
   char* ret = path_join(h, ".gpack/gpack/cmd-checksum.ssum");
-
-  return(ret);
-}
-
-char* get_installed_pkg_version(const char* usr_pkg, const char* pkg) {
-  char* version_file = path_join(usr_pkg, pkg);
-  version_file = path_join(version_file, "version.gpack");
-
-  print_debugf("Full version file path: %s\n", version_file);
-
-  char line[128];
-
-  FILE* fp = fopen(version_file, "r");
-  if (fp == NULL) {
-    print_debugf("Failed to open: %s\n", version_file);
-    return(NULL);
-  }
-
-  char* ret;
-  ret = (char*) malloc(64 * sizeof(char));
-  if (ret == NULL) {
-    print_debugf("malloc failed\n");
-    return(NULL);
-  }
-
-  while(fgets(line, sizeof(line), fp) != NULL) {
-    if (line[0] != '\0') {
-      if (line[strlen(line)-1] == '\n') line[strlen(line)-1] = '\0';
-      strcpy(ret, line);
-    }
-  }
-
-  fclose(fp);
-  free(version_file);
 
   return(ret);
 }
@@ -161,40 +229,6 @@ char* get_include_dir() {
   return(ret);
 }
 
-char* get_package_dir() {
-  char* path;
-
-  path = (char*) malloc(100);
-
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
-  }
-
-  strcpy(path, h);
-  strcat(path, "/.gpack/packages/");
-
-  return(path);
-}
-
-char* get_package_prefix() {
-  char* path;
-
-  path = (char*) malloc(100);
-
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
-  }
-
-  strcpy(path, h);
-  strcat(path, "/.gpack/installed/");
-
-  return(path);
-}
-
 //*****************
 // Unused functions
 //*****************
@@ -215,7 +249,7 @@ char** get_installed_files_from_map(const char* map, int delimiter) {
   // TODO: should handle more then 5 lines, ie. installed files
   char** installed_files = (char**) malloc(5);
   // TODO: error check
-  
+
   for (int i = 0; i < 5; i++) {
     installed_files[i] = (char*) malloc(50);
     // TODO: error check
@@ -223,8 +257,8 @@ char** get_installed_files_from_map(const char* map, int delimiter) {
 
   FILE* fp = fopen(map, "r");
   if (fp == NULL) {
-//    printf("ERROR: failed to open file\n");
-//    perror("fopen");
+    //    printf("ERROR: failed to open file\n");
+    //    perror("fopen");
     return NULL;
   }
 

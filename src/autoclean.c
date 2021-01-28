@@ -1,13 +1,13 @@
 // Created by: WestleyR
 // Email: westleyr@nym.hush.com
 // Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-09-26
+// Last modified date: 2021-01-16
 //
 // This file is licensed under the terms of
 //
 // The Clear BSD License
 //
-// Copyright (c) 2019-2020 WestleyR
+// Copyright (c) 2019-2021 WestleyR
 // All rights reserved.
 //
 // This software is licensed under a Clear BSD License.
@@ -16,6 +16,9 @@
 #include "autoclean.h"
 
 int clean_older_pkgs(int dry_run) {
+
+  // TODO: Need to fix this function...
+
   print_debugf("%s()\n", __func__);
 
   // Directory tree:
@@ -25,12 +28,12 @@ int clean_older_pkgs(int dry_run) {
   //                                      1.0.0/
   //                                      1.0.1/
 
-  char* installed_dir = get_package_prefix();
+  char* installed_dir = package_install_dir();
   if (installed_dir == NULL) {
     fprintf(stderr, "%s() failed to get install dir\n", __func__);
     return -1;
   }
- 
+
   DIR *dir;
   struct dirent *d;
   dir = opendir(installed_dir);
@@ -46,8 +49,9 @@ int clean_older_pkgs(int dry_run) {
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
 
-      char* full_file_path = path_join(installed_dir, "");
-      full_file_path = path_join(full_file_path, d->d_name);
+      char* full_file_path = NULL;
+      catpath(&full_file_path, installed_dir);
+      catpath(&full_file_path, d->d_name);
 
       print_debugf("opening file: %s\n", full_file_path);
       if (lstat(full_file_path, &info) != 0) {
@@ -57,12 +61,11 @@ int clean_older_pkgs(int dry_run) {
         continue;
       }
 
-
       free(full_file_path);
     }
   }
- 
 
+  closedir(dir);
   free(installed_dir);
 
   return 0;
@@ -73,11 +76,11 @@ int helper_autoclean(int dry_run) {
   char* bin_dir = get_bin();
   if (bin_dir == NULL) {
     fprintf(stderr, "Failed to get gpack bin dir\n");
-    return(1);
+    return 1;
   }
   print_debugf("Cleaning bin dir: %s\n", bin_dir);
   if (autoclean(bin_dir, dry_run) != 0) {
-    return(1);
+    return 1;
   }
   free(bin_dir);
 
@@ -85,11 +88,11 @@ int helper_autoclean(int dry_run) {
   char* lib_dir = get_lib_dir();
   if (lib_dir == NULL) {
     fprintf(stderr, "Failed to get gpack lib dir\n");
-    return(1);
+    return 1;
   }
   print_debugf("Cleaning lib dir: %s\n", lib_dir);
   if (autoclean(lib_dir, dry_run) != 0) {
-    return(1);
+    return 1;
   }
   free(lib_dir);
 
@@ -97,11 +100,11 @@ int helper_autoclean(int dry_run) {
   char* include_dir = get_include_dir();
   if (include_dir == NULL) {
     fprintf(stderr, "Failed to get gpack include dir\n");
-    return(1);
+    return 1;
   }
   print_debugf("Cleaning include dir: %s\n", include_dir);
   if (autoclean(include_dir, dry_run) != 0) {
-    return(1);
+    return 1;
   }
   free(include_dir);
 
@@ -110,7 +113,7 @@ int helper_autoclean(int dry_run) {
     return 1;
   }
 
-  return(0);
+  return 0;
 }
 
 int autoclean(const char* clean_dir, int dry_run) {
@@ -165,7 +168,7 @@ int autoclean(const char* clean_dir, int dry_run) {
             printf("I: Removing broken link: %s\n", full_file_path);
             if (remove(full_file_path) != 0) {
               fprintf(stderr, "Failed to remove: %s\n", full_file_path);
-              return(1);
+              return 1;
             }
           }
         } else {
