@@ -141,6 +141,11 @@ int install_pkg(const char* pkg, int check_installed, int compile_build, int ove
     binary_bin_files = get_package_build_bin_files(ini);
     package_build_command = get_package_build_command(ini);
 
+    print_debugf("BuildSource TURL: %s\n", binary_url);
+    print_debugf("BuildSource SSUM: %s\n", binary_ssum);
+    print_debugf("BuildSource BINS: %s\n", binary_bin_files);
+    print_debugf("BuildSource BCMD: %s\n", package_build_command);
+
     print_debugf("Package Build command: %s\n", package_build_command);
   }
 

@@ -64,7 +64,7 @@ int does_cache_path_exist_and_ok(const char* cache_path, const char* checksum) {
 
   if (file_checksum != verify_checksum) {
     // Checksum missmatch
-    print_warningf("Checksum missmatch: expecting: %08x got: %08x (%s)\n", file_checksum, verify_checksum, verify_checksum);
+    print_warningf("Checksum missmatch: expecting: %08x (%s) got: %08x\n", file_checksum, checksum, verify_checksum);
     print_warningf("Invalid checksum, cannot ensure data...\n");
   }
 
