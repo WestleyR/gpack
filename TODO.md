@@ -45,5 +45,7 @@
  - [x] Check if installed files before linking is a regular file
  - [ ] If package version is "main", gpack should fetch the latest commit sha and check it when upgrading
  - [x] Should be a sub package dir in packages
- - [ ] Use of `path_join()` may cause memmory leaks, need a better function
+ - [x] Use of `path_join()` may cause memmory leaks, need a better function
+ - [x] If a checksum fails, also print it as string
+ - [ ] All source files should have the copyright header like main-gpack.c/.h
 

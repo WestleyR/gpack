@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-06
 //
-// This file is licensed under the terms of
+//  cache.c
+//  srm - https://github.com/WestleyR/srm
 //
-// The Clear BSD License
+// Created by WestleyR on Dec 31, 2020
+// Source code: https://github.com/WestleyR/srm
 //
-// Copyright (c) 2019-2021 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2020-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #include "cache.h"
@@ -66,7 +64,7 @@ int does_cache_path_exist_and_ok(const char* cache_path, const char* checksum) {
 
   if (file_checksum != verify_checksum) {
     // Checksum missmatch
-    print_warningf("Checksum missmatch: expecting: %08x got: %08x\n", file_checksum, verify_checksum);
+    print_warningf("Checksum missmatch: expecting: %08x got: %08x (%s)\n", file_checksum, verify_checksum, verify_checksum);
     print_warningf("Invalid checksum, cannot ensure data...\n");
   }
 

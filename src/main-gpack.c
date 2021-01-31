@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-06
 //
-// This file is licensed under the terms of
+//  main-gpack.c
+//  srm - https://github.com/WestleyR/srm
 //
-// The Clear BSD License
+// Created by WestleyR on Jun 16, 2019
+// Source code: https://github.com/WestleyR/srm
 //
-// Copyright (c) 2019-2021 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #include "main-gpack.h"
