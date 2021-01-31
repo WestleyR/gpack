@@ -1,9 +1,9 @@
 //
 //  install-pkg.c
-//  srm - https://github.com/WestleyR/srm
+//  gpack - https://github.com/WestleyR/gpack
 //
 // Created by WestleyR on Jun 16, 2019
-// Source code: https://github.com/WestleyR/srm
+// Source code: https://github.com/WestleyR/gpack
 //
 // Copyright (c) 2019-2021 WestleyR. All rights reserved.
 // This software is licensed under a BSD 3-Clause Clear License.
