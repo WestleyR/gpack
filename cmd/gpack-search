@@ -1,24 +1,22 @@
 #!/bin/bash
-# Created by: WestleyR
-# Email: westleyr@nym.hush.com
-# Url: https://github.com/WestleyR/gpack
-# Last modified date: 2020-04-21
 #
-# This file is licensed under the terms of
+#  gpack-search
+#  gpack - https://github.com/WestleyR/gpack
 #
-# The Clear BSD License
+# Created by WestleyR on Dec 25, 2019
+# Source code: https://github.com/WestleyR/gpack
 #
-# Copyright (c) 2019-2020 WestleyR
-# All rights reserved.
-#
-# This software is licensed under a Clear BSD License.
+# Copyright (c) 2019-2021 WestleyR. All rights reserved.
+# This software is licensed under a BSD 3-Clause Clear License.
+# Consult the LICENSE file that came with this software regarding
+# your rights to distribute this software.
 #
 
 set -e
 
-for f in $(ls -1 ${HOME}/.gpack/packages/); do
-  if test -d "${HOME}/.gpack/packages/${f}"; then
-    for p in $(ls -1 ${HOME}/.gpack/packages/${f}); do
+for f in $(ls -1 ${HOME}/.gpack/packages/packages); do
+  if test -d "${HOME}/.gpack/packages/packages/${f}"; then
+    for p in $(ls -1 ${HOME}/.gpack/packages/packages/${f}); do
       if [ -z "$1" ]; then
         echo "${f}/${p}"
       else
