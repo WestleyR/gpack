@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-06
 //
-// This file is licensed under the terms of
+//  list.c
+//  gpack - https://github.com/WestleyR/gpack
 //
-// The Clear BSD License
+// Created by WestleyR on Nov 28, 2019
+// Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019-2021 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #include "list.h"
@@ -83,7 +81,7 @@ int print_package(const char* path, const char* name, int print_len) {
       for (int i = strlen(name) + strlen(d->d_name) + 1; i < print_len; i++) printf(" ");
 
       // Print the package version
-      char *pkg_version = get_installed_pkg_version(path, d->d_name);
+      char *pkg_version = get_installed_pkg_version(name, d->d_name);
       printf(" %s", pkg_version);
       free(pkg_version);
 

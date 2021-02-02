@@ -1,5 +1,5 @@
 //
-//  upgrade-pkg.h
+//  upgrade-pkg.c
 //  gpack - https://github.com/WestleyR/gpack
 //
 // Created by WestleyR on Nov 28, 2019

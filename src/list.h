@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-06
 //
-// This file is licensed under the terms of
+//  list.h
+//  gpack - https://github.com/WestleyR/gpack
 //
-// The Clear BSD License
+// Created by WestleyR on Nov 28, 2019
+// Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019-2021 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #ifndef INCLUDE_LIST_H
