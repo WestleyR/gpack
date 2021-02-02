@@ -50,5 +50,5 @@
  - [ ] All source files should have the copyright header like main-gpack.c/.h
  - [x] `gpack upgrade` does not work! Fix this!
  - [ ] Use true/false for some values
- - [ ] `install_pkg()` should have array options arguments, maybe like `opts foo[] = {PKG_OVERIDE, PKG_FOO}`
+ - [x] `install_pkg()` should have array options arguments, maybe like `opts foo[] = {PKG_OVERIDE, PKG_FOO}`
 
