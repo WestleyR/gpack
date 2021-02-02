@@ -51,4 +51,5 @@
  - [x] `gpack upgrade` does not work! Fix this!
  - [ ] Use true/false for some values
  - [x] `install_pkg()` should have array options arguments, maybe like `opts foo[] = {PKG_OVERIDE, PKG_FOO}`
+ - [ ] If a installed package in not linked (or missing installed files), then should print that in `list`
 

@@ -21,6 +21,13 @@
 #endif
 
 void help_menu(const char* script_name) {
+  printf("Copyright (c) 2019-2021 WestleyR. All rights reserved.\n");
+  printf("This software is licensed under a BSD 3-Clause Clear License.\n");
+  printf("Consult the LICENSE file that came with this software regarding\n");
+  printf("your rights to distribute this software.\n");
+  printf("\n");
+  printf("Source code: https://github.com/WestleyR/gpack\n");
+  printf("\n");
   printf("Description\n");
   printf("  Manage user (non-root) binary/script packages.\n");
   printf("\n");
@@ -33,7 +40,7 @@ void help_menu(const char* script_name) {
   printf("  upgrade    upgrade installed packages\n");
   printf("  remove     remove a package\n");
   printf("  autoclean  removes old packages, and remove broken\n");
-  printf("             links from ~/.gpack/bin, ~/.local/lib\n");
+  printf("             links from ~/.local/bin, ~/.local/lib\n");
   printf("             and ~/.local/include.\n");
   printf("  list       list all installed packages\n");
   printf("  search     search string for a package description\n");
@@ -57,10 +64,8 @@ void help_menu(const char* script_name) {
   printf("  %s remove WestleyR/ssum\n", script_name);
   printf("  %s autoclean\n", script_name);
   printf("\n");
-  printf("Copyright (c) 2019-2021 WestleyR, All rights reserved.\n");
-  printf("This software is licensed under a Clear BSD License.\n");
-  printf("Source code: https://github.com/WestleyR/gpack\n");
-  return;
+
+ return;
 }
 
 void version_print() {
