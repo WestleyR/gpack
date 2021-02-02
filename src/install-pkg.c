@@ -60,7 +60,24 @@ int link_files(const char* install_path, const char* binary_bin_files) {
   return 0;
 }
 
-int install_pkg(const char* pkg, int check_installed, int compile_build, int overide) {
+int install_pkg(const char* pkg, gpk_install_opts opts) {
+  // TODO: Actrally use this!
+  bool overide = false;
+
+  if (opts != NULL) {
+    for (int i = 0; i < GPK_INSTALL_MAX_OPTS; i++) {
+      if (opts[i] == 0 || opts[i] == GPK_OPTS_END) break;
+      if (opts[i] == GPK_INSTALL_OVERIDE) {
+        print_debugf("Overidding install\n");
+        overide = true;
+      } else if (opts[i] == GPK_INSTALL_COMPILE_BUILD) {
+        print_debugf("Compiling build\n");
+      } else {
+        fprintf(stderr, "%s(): WARNING: unknown option: %d\n", __func__, opts[i]);
+      }
+    }
+  }
+
   char* pkg_file = pkg_file_registry_dir();
 
   // Panic check

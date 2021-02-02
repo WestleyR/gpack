@@ -22,13 +22,24 @@
 #include <libgen.h>
 
 #include "catpath.h"
+#include "bool.h"
 #include "remove-pkg.h"
 #include "utils.h"
 #include "reader.h"
 #include "cache.h"
 #include "logger/logger.h"
 
-int install_pkg(const char* pkg, int check_installed, int compile_build, int overide);
+const static int GPK_INSTALL_OVERIDE = 1;
+const static int GPK_INSTALL_COMPILE_BUILD = 2;
+
+const static int GPK_INSTALL_MAX_OPTS = 3; // +1 extra
+
+// The terminator for the options
+const static int GPK_OPTS_END = 0;
+
+typedef int gpk_install_opts[];
+
+int install_pkg(const char* pkg, gpk_install_opts opts);
 
 #endif // INSTALL_PKG_H
 

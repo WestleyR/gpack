@@ -155,7 +155,8 @@ int main(int argc, char **argv) {
           }
           if (argv[i+n] == NULL) break;
           printf("I: Installing: %s ...\n", argv[i+n]);
-          if (install_pkg(argv[i+n], 1, compile_build, overide_flag) != 0) {
+          // TODO: Pass the currect options
+          if (install_pkg(argv[i+n], NULL) != 0) {
             return(1);
           }
         }

@@ -58,7 +58,8 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
         }
 
         // Reinstall the package
-        if (install_pkg(pkg_path, 1, 0, 0) != 0) {
+        gpk_install_opts opts = {GPK_INSTALL_OVERIDE, GPK_OPTS_END};
+        if (install_pkg(pkg_path, opts) != 0) {
           fprintf(stderr, "Failed to upgrade package: %s\n", pkg_path);
           return -1;
         }
