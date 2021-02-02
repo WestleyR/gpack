@@ -83,7 +83,17 @@ int print_package(const char* path, const char* name, int print_len) {
       // Print the package version
       char *pkg_version = get_installed_pkg_version(name, d->d_name);
       printf(" %s", pkg_version);
+
+      // Now check the "latest" version for that package
+      char* latest_version = get_latest_version_for_pkg(name, d->d_name);
+
+      if (strcmp(latest_version, pkg_version) != 0) {
+        // Versions do not match, proboly an update
+        printf("->%s (upgradeable)", latest_version);
+      }
+
       free(pkg_version);
+      free(latest_version);
 
       if (filesOK != 0) {
         printf(" %s[installed files were overidden]%s please re-install", BOLDRED, COLORRESET);

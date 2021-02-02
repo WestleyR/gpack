@@ -31,7 +31,7 @@
  - [x] `gpack list` should auto-size the space between packages, and its versions
  - [ ] add `gpack info <user>/<package>` command to show a package info
  - [ ] Add option/flag/command to list/clean cache
- - [ ] `gpack list` should show the "registry version" for the package/show if a package is out-of-date
+ - [x] `gpack list` should show the "registry version" for the package/show if a package is out-of-date
  - [ ] `gpack autoclean` should clean outdated old packages in the gpack.cache dir
  - [x] When calling `gpack`, it should ensure all shell scripts have not changed since installing/updating gpack
  - [x] Add BINFILES in pkg installer, that will only contain the path to bin files
@@ -52,4 +52,5 @@
  - [ ] Use true/false for some values
  - [x] `install_pkg()` should have array options arguments, maybe like `opts foo[] = {PKG_OVERIDE, PKG_FOO}`
  - [ ] If a installed package in not linked (or missing installed files), then should print that in `list`
+ - [ ] Output of `list` should show how many installed files that package has
 
