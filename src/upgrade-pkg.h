@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-04-21
 //
-// This file is licensed under the terms of
+//  upgrade-pkg.h
+//  gpack - https://github.com/WestleyR/gpack
 //
-// The Clear BSD License
+// Created by WestleyR on Nov 28, 2019
+// Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019-2020 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #ifndef INCLUDE_UPGRADE_PKG_H
@@ -18,9 +16,13 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <sys/types.h>
+#include <dirent.h>
 #include <stdlib.h>
 
 #include "utils.h"
+#include "catpath.h"
+#include "ini.h"
 #include "logger/logger.h"
 
 int upgrade_pkg(int compile_build);

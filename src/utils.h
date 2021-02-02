@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-06
 //
-// This file is licensed under the terms of
+//  utils.h
+//  gpack - https://github.com/WestleyR/gpack
 //
-// The Clear BSD License
+// Created by WestleyR on Nov 28, 2019
+// Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019-2021 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #ifndef INCLUDE_UTILS_GPACK_H
@@ -21,9 +19,13 @@
 #include <string.h>
 
 #include "catpath.h"
+#include "ini.h"
+#include "reader.h"
 
 #include "path-join/path-join.h"
 #include "logger/logger.h"
+
+// TODO: add documantation
 
 char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version);
 
@@ -31,6 +33,7 @@ char* pkg_file_registry_dir();
 
 char* package_install_dir();
 
+char* get_latest_version_for_pkg(const char* user_name, const char* pkg);
 
 
 

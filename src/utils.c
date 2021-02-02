@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2021-01-06
 //
-// This file is licensed under the terms of
+//  utils.c
+//  gpack - https://github.com/WestleyR/gpack
 //
-// The Clear BSD License
+// Created by WestleyR on Nov 28, 2019
+// Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019-2021 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #include "utils.h"
@@ -74,10 +72,11 @@ char* package_install_dir() {
   return path;
 }
 
+// Takes values like WestleyR, and srm as the arguments.
 // Return value must be freed.
 char* get_installed_pkg_version(const char* usr_pkg, const char* pkg) {
   // Build the version file path
-  char* version_file = NULL;
+  char* version_file = package_install_dir();
   catpath(&version_file, usr_pkg);
   catpath(&version_file, pkg);
   catpath(&version_file, "version.gpack");
@@ -112,6 +111,42 @@ char* get_installed_pkg_version(const char* usr_pkg, const char* pkg) {
   fclose(fp);
 
   return ret;
+}
+
+// Takes values like: WestleyR, srm. Returned value must be freed.
+char* get_latest_version_for_pkg(const char* user_name, const char* pkg) {
+  char* ini_file = pkg_file_registry_dir();
+
+  catpath(&ini_file, user_name);
+  catpath(&ini_file, pkg);
+
+  FILE* fp = fopen(ini_file, "r");
+  if (fp == NULL) {
+    fprintf(stderr, "Failed to open: %s\n", pkg);
+    free(ini_file);
+    return NULL;
+  }
+
+  // Load the package file into memory
+  fseek(fp, 0, SEEK_END);
+  int size = ftell(fp);
+  fseek(fp, 0, SEEK_SET);
+  char* data = (char*) malloc(size + 1);
+  fread(data, 1, size, fp);
+  data[size] = '\0';
+  fclose(fp);
+
+  ini_t* ini = ini_load(data, NULL);
+  free(data);
+
+  const char* latest_pkg_version = get_package_version(ini);
+
+  char* latest_pkg_version_dup = strdup(latest_pkg_version);
+
+  ini_destroy(ini);
+  free(ini_file);
+
+  return latest_pkg_version_dup;
 }
 
 // End new functions!!!

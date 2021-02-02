@@ -48,4 +48,5 @@
  - [x] Use of `path_join()` may cause memmory leaks, need a better function
  - [x] If a checksum fails, also print it as string
  - [ ] All source files should have the copyright header like main-gpack.c/.h
+ - [ ] `gpack upgrade` does not work! Fix this!
 
