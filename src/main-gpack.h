@@ -35,7 +35,7 @@
 
 #include "logger/logger.h"
 
-#define GPACK_VERSION "v1.0.0.b8, 2021-01-30"
+#define GPACK_VERSION "v1.0.0.b9, 2021-02-01"
 
 #endif // INCLUDE_MAIN_H
 
