@@ -48,5 +48,7 @@
  - [x] Use of `path_join()` may cause memmory leaks, need a better function
  - [x] If a checksum fails, also print it as string
  - [ ] All source files should have the copyright header like main-gpack.c/.h
- - [ ] `gpack upgrade` does not work! Fix this!
+ - [x] `gpack upgrade` does not work! Fix this!
+ - [ ] Use true/false for some values
+ - [ ] `install_pkg()` should have array options arguments, maybe like `opts foo[] = {PKG_OVERIDE, PKG_FOO}`
 

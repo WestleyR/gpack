@@ -40,8 +40,30 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
       print_debugf("Latest verison:  %s\n", latest_pkg_version);
 
       if (strcmp(current_pkg_version, latest_pkg_version) != 0) {
-        printf("I: package out-of-date: %s/%s\n", user_name, d->d_name);
-        // TODO: upgrade the pkg...
+        char* pkg_path = NULL;
+
+        // Combine the username/package. We use catpath since its
+        // similar to a path.
+        catpath(&pkg_path, user_name);
+        catpath(&pkg_path, d->d_name);
+
+        printf("I: package out-of-date: %s\n", pkg_path);
+
+        // First remove the pkg
+        // TODO: this should be handled in the install_pkg options
+
+        if (remove_pkg(pkg_path) != 0) {
+          fprintf(stderr, "Failed to remove pkg: %s\n", pkg_path);
+          return -1;
+        }
+
+        // Reinstall the package
+        if (install_pkg(pkg_path, 1, 0, 0) != 0) {
+          fprintf(stderr, "Failed to upgrade package: %s\n", pkg_path);
+          return -1;
+        }
+
+        free(pkg_path);
       }
 
       free(current_pkg_version);
@@ -56,9 +78,6 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
 
 int upgrade_pkg(int compile_build) {
   printf("I: Checking out-of-date packages...\n");
-
-  // TODO: add code
-
 
   char* install_dir = package_install_dir();
   // ~/.gpack/installed

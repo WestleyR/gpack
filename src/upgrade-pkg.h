@@ -23,6 +23,8 @@
 #include "utils.h"
 #include "catpath.h"
 #include "ini.h"
+#include "install-pkg.h"
+
 #include "logger/logger.h"
 
 int upgrade_pkg(int compile_build);
