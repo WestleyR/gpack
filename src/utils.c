@@ -151,117 +151,102 @@ char* get_latest_version_for_pkg(const char* user_name, const char* pkg) {
 
 // End new functions!!!
 
-
-char* get_listmap_for_pkg(const char* user_name, const char* pkg) {
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
-  }
-
-  // TODO: dont use memory-leaky path_join(), need to use catpath()
-  char* ret = path_join(h, ".gpack/installed");
-  ret = path_join(ret, user_name);
-  ret = path_join(ret, pkg);
-  ret = path_join(ret, "list.gpack");
-
-  return(ret);
-}
-
 char* get_cmd_checksum_file() {
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
+    return NULL;
   }
 
-  char* ret = path_join(h, ".gpack/gpack/cmd-checksum.ssum");
+  char* ret = NULL;
+  catpath(&ret, h);
+  catpath(&ret, ".gpack/gpack/cmd-checksum.ssum");
 
-  return(ret);
-}
-
-char* get_installer() {
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
-  }
-
-  char* ret = path_join(h, ".gpack/gpack/cmd/gpack-installer ");
-
-  return(ret);
+  return ret;
 }
 
 char* get_update_script() {
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
+    return NULL;
   }
 
-  char* ret = path_join(h, ".gpack/gpack/cmd/gpack-update");
+  char* ret = NULL;
+  catpath(&ret, h);
+  catpath(&ret, ".gpack/gpack/cmd/gpack-update");
 
-  return(ret);
+  return ret;
 }
 
 char* get_search_script() {
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
+    return NULL;
   }
 
-  char* ret = path_join(h, ".gpack/gpack/cmd/gpack-search");
+  char* ret = NULL;
+  catpath(&ret, h);
+  catpath(&ret, ".gpack/gpack/cmd/gpack-search");
 
-  return(ret);
+  return ret;
 }
 
 char* get_upgrade_script() {
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
+    return NULL;
   }
 
-  char* ret = path_join(h, ".gpack/gpack/cmd/gpack-upgrade");
+  char* ret = NULL;
+  catpath(&ret, h);
+  catpath(&ret, ".gpack/gpack/cmd/gpack-upgrade");
 
-  return(ret);
+  return ret;
 }
 
 char* get_bin() {
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
+    return NULL;
   }
 
-  char* ret = path_join(h, ".local/bin");
+  char* ret = NULL;
+  catpath(&ret, h);
+  catpath(&ret, ".local/bin");
 
-  return(ret);
+  return ret;
 }
 
 char* get_lib_dir() {
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
+    return NULL;
   }
 
-  char* ret = path_join(h, "/.local/lib");
+  char* ret = NULL;
+  catpath(&ret, h);
+  catpath(&ret, ".local/lib");
 
-  return(ret);
+  return ret;
 }
 
 char* get_include_dir() {
   char* h = getenv("HOME");
   if (h == NULL) {
     fprintf(stderr, "Cant find home directory\n");
-    return(NULL);
+    return NULL;
   }
 
-  char* ret = path_join(h, "/.local/include");
+  char* ret = NULL;
+  catpath(&ret, h);
+  catpath(&ret, "/.local/include");
 
-  return(ret);
+  return ret;
 }
 
 //*****************

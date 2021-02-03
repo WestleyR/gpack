@@ -1,15 +1,14 @@
-// Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 25, 2019
-// https://github.com/WestleyR/gpack
-// version-1.0.0
 //
-// The Clear BSD License
+//  search.h
+//  gpack - https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019 WestleyR
-// All rights reserved.
+// Created by WestleyR on Dec 25, 2019
+// Source code: https://github.com/WestleyR/gpack
 //
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #ifndef INCLUDE_SEARCH_H
@@ -26,7 +25,6 @@
 #include "utils.h"
 
 #include "logger/logger.h"
-#include "path-join/path-join.h"
 
 int search_pkg(const char* pat, int print);
 

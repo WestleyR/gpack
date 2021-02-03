@@ -1,16 +1,14 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-04-21
 //
-// This file is licensed under the terms of
+//  check-pkg.h
+//  gpack - https://github.com/WestleyR/gpack
 //
-// The Clear BSD License
+// Created by WestleyR on Apr 21, 2020
+// Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2020 WestleyR
-// All rights reserved.
-//
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2020-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #ifndef CHECK_PKG_H
@@ -23,7 +21,6 @@
 #include <string.h>
 
 #include "utils.h"
-#include "path-join/path-join.h"
 #include "logger/logger.h"
 
 int check_installed_pkg();

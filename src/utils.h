@@ -22,7 +22,6 @@
 #include "ini.h"
 #include "reader.h"
 
-#include "path-join/path-join.h"
 #include "logger/logger.h"
 
 // TODO: add documantation
@@ -36,10 +35,7 @@ char* package_install_dir();
 char* get_latest_version_for_pkg(const char* user_name, const char* pkg);
 
 
-
-char* get_listmap_for_pkg(const char* user_name, const char* pkg);
 char* get_installed_pkg_version(const char* usr_pkg, const char* pkg);
-char* get_installer();
 char* get_update_script();
 char* get_search_script();
 char* get_upgrade_script();

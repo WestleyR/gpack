@@ -6,7 +6,6 @@
     "WestleyR/list-files": "v1.5.2",
     "WestleyR/logger": "v1.0.2",
     "WestleyR/c-utils": "1.0.1",
-    "WestleyR/ssum": "v3.0.0",
-    "stephenmathieson/path-join.c": "0.0.6"
+    "WestleyR/ssum": "v3.0.0"
   }
 }
