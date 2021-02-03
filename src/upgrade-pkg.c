@@ -101,6 +101,8 @@ int upgrade_pkg(int compile_build) {
   closedir(dir);
   free(install_dir);
 
+  printf("I: Done\n");
+
   return 0;
 }
 
