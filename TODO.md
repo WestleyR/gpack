@@ -53,4 +53,5 @@
  - [x] `install_pkg()` should have array options arguments, maybe like `opts foo[] = {PKG_OVERIDE, PKG_FOO}`
  - [ ] If a installed package in not linked (or missing installed files), then should print that in `list`
  - [ ] Output of `list` should show how many installed files that package has
+ - [ ] If package has null version, then it should say "not installed" when listing (or similar)
 
