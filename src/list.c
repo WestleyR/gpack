@@ -87,7 +87,7 @@ int print_package(const char* path, const char* name, int print_len) {
       // Now check the "latest" version for that package
       char* latest_version = get_latest_version_for_pkg(name, d->d_name);
 
-      if (strcmp(latest_version, pkg_version) != 0) {
+      if ((pkg_version != NULL) && (strcmp(latest_version, pkg_version) != 0)) {
         // Versions do not match, proboly an update
         printf("->%s (upgradeable)", latest_version);
       }
