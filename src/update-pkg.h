@@ -1,15 +1,14 @@
-// Created by: WestleyR
-// email: westleyr@nym.hush.com
-// Date: Dec 8, 2019
-// https://github.com/WestleyR/gpack
-// version-1.0.1
 //
-// The Clear BSD License
+//  update-pkg.h for gpack
+//  https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019 WestleyR
-// All rights reserved.
+// Created by WestleyR on 2019-06-21
+// Source code: https://github.com/WestleyR/gpack
 //
-// This software is licensed under a Clear BSD License.
+// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
 
 #ifndef INCLUDE_UPDATE_PKG_H
@@ -19,6 +18,8 @@
 #include <stdlib.h>
 
 #include "utils.h"
+#include "repo-parser.h"
+#include "bool.h"
 
 int update_pkg();
 

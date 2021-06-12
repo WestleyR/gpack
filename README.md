@@ -2,7 +2,7 @@
 
 Gpack; the fast, lightweight, memory leak-free package manager for users (non-root).
 
-_**NOTE:** the gpack code is being updated. Some packages may not work. Please open an issue if you need help._
+_**NOTE:** the gpack workflow/code is being updated. Some packages may not work._
 
 ## Example
 

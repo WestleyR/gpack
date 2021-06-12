@@ -13,9 +13,57 @@
 
 #include "utils.h"
 
-// New functions!!! TODO:
+char* get_repolist_url() {
+  char* url = "https://gist.githubusercontent.com/WestleyR/81b31029e8c02b5434ee8f9a4217af04/raw/repolist.ini";
+  return url;
+}
 
-char* get_installdir_for_user_and_version(const char* user_name, const char* name, const char* version) {
+char* get_gpack_arch() {
+  struct utsname m;
+  if (uname(&m) != 0) {
+    // TODO: use a logger package here!
+    fprintf(stderr, "%s:%s():%d: failed to run uname: ", __FILE__, __func__, __LINE__);
+    perror("uname");
+    exit(255);
+  }
+
+
+  if (strcmp(m.sysname, "Darwin") == 0) {
+    if (strcmp(m.machine, "x86_64") == 0) {
+      return "darwin_x86";
+    } else {
+      fprintf(stderr, "Only Darwin x86 is supported\n");
+      exit(1);
+    }
+  } else if (strcmp(m.sysname, "Linux") == 0) {
+    if (strcmp(m.machine, "x86_64") == 0) {
+      return "linux_x86_64";
+    } else {
+      fprintf(stderr, "Only Linux x86_64 is supported\n");
+      exit(1);
+    }
+  }
+
+  fprintf(stderr, "%s:%s():%d: failed to get system infomation\n", __FILE__, __func__, __LINE__);
+
+  return NULL;
+}
+
+char* get_binary_sha(const char* arch) {
+  if (strcmp(arch, "darwin_x86") == 0) {
+    return "darwin_x86_sha1";
+  } else if (strcmp(arch, "linux_x86_64") == 0) {
+    return "linux_x86_64_sha1";
+  } else if (strcmp(arch, "armv6l") == 0) {
+    return "armv6l_sha1";
+  }
+
+  fprintf(stderr, "%s:%s():%d: failed to get system infomation\n", __FILE__, __func__, __LINE__);
+
+  return NULL;
+}
+
+char* get_installdir_for_user_and_version(const char* usr_pkg, const char* version) {
   char* path =  NULL;
 
   char* h = getenv("HOME");
@@ -26,8 +74,7 @@ char* get_installdir_for_user_and_version(const char* user_name, const char* nam
 
   catpath(&path, h);
   catpath(&path, ".gpack/installed");
-  catpath(&path, user_name);
-  catpath(&path, name);
+  catpath(&path, usr_pkg);
   catpath(&path, version);
 
   // TODO: use C functions
@@ -147,6 +194,21 @@ char* get_latest_version_for_pkg(const char* user_name, const char* pkg) {
   free(ini_file);
 
   return latest_pkg_version_dup;
+}
+
+// Returns ~/.cache/wst.gpack/repo-list.ini
+char* get_repo_index_file() {
+  char* h = getenv("HOME");
+  if (h == NULL) {
+    fprintf(stderr, "Cant find home directory\n");
+    return NULL;
+  }
+
+  char* path = NULL;
+  catpath(&path, h);
+  catpath(&path, ".cache/wst.gpack/repo-list.ini");
+
+  return path;
 }
 
 // End new functions!!!

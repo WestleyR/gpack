@@ -12,7 +12,7 @@
 // This software is licensed under a Clear BSD License.
 //
 
-#include "c-utils/c-utils.h"
+#include "c-utils.h"
 
 void add_char_to_string(char* s, char c) {
     int len = strlen(s);

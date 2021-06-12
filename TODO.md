@@ -41,7 +41,7 @@
  - [x] Should use ini files as package file format, and use: https://github.com/mattiasgustavsson/libs/blob/main/ini.h to parse it
  - [ ] When removing packages and if running macOS, should put the files to Trash
  - [x] New installer should write the version to version.gpack, so `gpack list` shows the currect version
- - [ ] Use real sha256 for checksum
+ - [ ] Use real sha1 for checksum
  - [x] Check if installed files before linking is a regular file
  - [ ] If package version is "main", gpack should fetch the latest commit sha and check it when upgrading
  - [x] Should be a sub package dir in packages
@@ -54,4 +54,5 @@
  - [ ] If a installed package in not linked (or missing installed files), then should print that in `list`
  - [ ] Output of `list` should show how many installed files that package has
  - [ ] If package has null version, then it should say "not installed" when listing (or similar)
+ - [ ] Should keep a installed.ini file to keep track of installed files
 

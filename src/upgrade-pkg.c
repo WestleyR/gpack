@@ -58,8 +58,7 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
         }
 
         // Reinstall the package
-        gpk_install_opts opts = {GPK_INSTALL_OVERIDE, GPK_OPTS_END};
-        if (install_pkg(pkg_path, opts) != 0) {
+        if (install_pkg(pkg_path, true) != 0) {
           fprintf(stderr, "Failed to upgrade package: %s\n", pkg_path);
           return -1;
         }
@@ -77,7 +76,7 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
   return 0;
 }
 
-int upgrade_pkg(int compile_build) {
+int upgrade_pkg() {
   printf("I: Checking out-of-date packages...\n");
 
   char* install_dir = package_install_dir();

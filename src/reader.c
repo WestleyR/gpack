@@ -1,22 +1,17 @@
-// Created by: WestleyR
-// Email: westleyr@nym.hush.com
-// Url: https://github.com/WestleyR/gpack
-// Last modified date: 2020-12-31
 //
-// This file is licensed under the terms of
+//  reader.c
+//  gpack - https://github.com/WestleyR/gpack
 //
-// The Clear BSD License
+// Created by WestleyR on 2020-12-31
+// Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019-2020 WestleyR
-// All rights reserved.
+// Copyright (c) 2020-2021 WestleyR. All rights reserved.
+// This software is licensed under a BSD 3-Clause Clear License.
+// Consult the LICENSE file that came with this software regarding
+// your rights to distribute this software.
 //
-// This software is licensed under a Clear BSD License.
-//
-
 
 #include "reader.h"
-#define INI_IMPLEMENTATION
-#include "ini.h"
 
 const char* get_macos_binary_url(ini_t* ini_data) {
   int section = ini_find_section(ini_data, "macOS\0", 0);

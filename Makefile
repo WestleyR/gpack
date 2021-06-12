@@ -19,7 +19,7 @@ PREFIX = $(HOME)/.local
 CC = gcc
 
 # These flags can be changed though the command line
-CFLAGS = -Wall -Ideps
+CFLAGS = -Wall -Ideps -g
 LDFLAGS ?= 
 
 TARGET = gpack
@@ -34,9 +34,11 @@ files = $(wildcard $(HOME)/.gpack/gpack/cmd/*)
 $(shell $(CHECKSUM_PROG) $(files) > $(CHECKSUM_CMD_FILE))
 endif
 
-COMMIT = $(subst `,\`,"$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ))")
+MODDED = $(shell if command -v git > /dev/null ; then (git diff --exit-code --quiet && echo \"[No changes]\") || echo \"[With uncommited changes]\" ; else echo \"[unknown]\" ; fi)
+COMMIT = "$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ) )"
 
-DEFLAGS += -DCOMMIT_HASH=\"$(COMMIT)\"
+CFLAGS += -DCOMMIT_HASH=\"$(COMMIT)\"
+CFLAGS += -DUNCOMMITED_CHANGES=\"$(MODDED)\"
 
 ifeq ($(DEBUG), true)
 	CFLAGS += -DDEBUG

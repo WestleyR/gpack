@@ -1,25 +1,23 @@
 //
-//  update-pkg.c for gpack
+//  config.h for gpack
 //  https://github.com/WestleyR/gpack
 //
-// Created by WestleyR on 2019-06-21
+// Created by WestleyR on 2021-06-09
 // Source code: https://github.com/WestleyR/gpack
 //
-// Copyright (c) 2019-2021 WestleyR. All rights reserved.
+// Copyright (c) 2021 WestleyR. All rights reserved.
 // This software is licensed under a BSD 3-Clause Clear License.
 // Consult the LICENSE file that came with this software regarding
 // your rights to distribute this software.
 //
 
-#include "update-pkg.h"
+#ifndef INCLUDE_CONFIG_H
+#define INCLUDE_CONFIG_H
 
-int update_pkg() {
-  char* repo_list = download_repo_index(true);
-  free(repo_list);
+#include <stdio.h>
 
-  printf("I: Done\n");
+int show_config_help();
 
-  return(0);
-}
+#endif // INCLUDE_CONFIG_H
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

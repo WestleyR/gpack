@@ -27,7 +27,7 @@
 
 #include "logger/logger.h"
 
-int upgrade_pkg(int compile_build);
+int upgrade_pkg();
 
 #endif // INCLUDE_UPGRADE_PKG_H
 

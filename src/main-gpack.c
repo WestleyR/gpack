@@ -20,6 +20,10 @@
 #define COMMIT_HASH "unknown"
 #endif
 
+#ifndef UNCOMMITED_CHANGES
+#define UNCOMMITED_CHANGES "[unknown]"
+#endif
+
 void help_menu(const char* script_name) {
   printf("Copyright (c) 2019-2021 WestleyR. All rights reserved.\n");
   printf("This software is licensed under a BSD 3-Clause Clear License.\n");
@@ -44,6 +48,7 @@ void help_menu(const char* script_name) {
   printf("             and ~/.local/include.\n");
   printf("  list       list all installed packages\n");
   printf("  search     search string for a package description\n");
+  printf("  config     show help on how to configure a URL for repos\n");
   printf("\n");
   printf("Options\n");
   printf("  -h, --help     print help menu\n");
@@ -53,8 +58,6 @@ void help_menu(const char* script_name) {
   printf("  -V, --version  print version\n");
   printf("\n");
   printf("Other options\n");
-  printf("  -c, --compile  only compile the package, dont use\n");
-  printf("                 the pre-compiled binaries (going to remove this flag)\n");
   printf("  -f, --force    dont ask, just do\n");
   printf("  -r, --overide  overide the existing package\n");
   printf("  -n, --dry-run  dont remove anything, just print\n");
@@ -74,7 +77,7 @@ void version_print() {
 }
 
 void print_commit() {
-  printf("%s\n", COMMIT_HASH);
+  printf("%s %s\n", UNCOMMITED_CHANGES, COMMIT_HASH);
 }
 
 int main(int argc, char **argv) {
@@ -83,19 +86,17 @@ int main(int argc, char **argv) {
     return(1);
   }
 
-  int verbose_print = 0;
-  int debug_print = 0;
-  int compile_build = 0;
-  int force_flag = 0;
-  int overide_flag = 0;
-  int dry_run_flag = 0;
+  bool verbose_print = false;
+  bool debug_print = false;
+  bool force_flag = false;
+  bool overide_flag = false;
+  bool dry_run_flag = false;
 
   int opt = 0;
 
   static struct option long_options[] = {
     {"help", no_argument, 0, 'h'},
     {"version", no_argument, 0, 'V'},
-    {"compile", no_argument, 0, 'c'},
     {"force", no_argument, 0, 'f'},
     {"overide", no_argument, 0, 'r'},
     {"dry-run", no_argument, 0, 'n'},
@@ -105,40 +106,37 @@ int main(int argc, char **argv) {
     {NULL, 0, 0, 0}
   };
 
-  while ((opt = getopt_long(argc, argv, "nvdfrVcCh", long_options, 0)) != -1) {
+  while ((opt = getopt_long(argc, argv, "nvdfrVCh", long_options, 0)) != -1) {
     switch (opt) {
       case 'h':
         help_menu(argv[0]);
         return(0);
         break;
       case 'v':
-        verbose_print = 1;
-        break;
-      case 'c':
-        compile_build = 1;
+        verbose_print = true;
         break;
       case 'f':
-        force_flag = 1;
+        force_flag = true;
         break;
       case 'r':
-        overide_flag = 1;
+        overide_flag = true;
         break;
       case 'n':
-        dry_run_flag = 1;
+        dry_run_flag = true;
         break;
       case 'd':
-        debug_print = 1;
+        debug_print = true;
         break;
       case 'V':
         version_print();
-        return(0);
+        return 0;
         break;
       case 'C':
         print_commit();
-        return(0);
+        return 0;
         break;
       default:
-        return(22);
+        return 22;
     }
   }
 
@@ -151,6 +149,7 @@ int main(int argc, char **argv) {
   }
 
   if (optind < argc) {
+    // TODO: this cli parsing is a bit messy...
     for (int i = optind; i < argc; i++) {
       if (strcmp(argv[i], "install") == 0) {
         for (int n = 1; n <= argc-1; n++) {
@@ -160,8 +159,9 @@ int main(int argc, char **argv) {
           }
           if (argv[i+n] == NULL) break;
           printf("I: Installing: %s ...\n", argv[i+n]);
+          //get_description_for_package(argv[i+n]);
           // TODO: Pass the currect options
-          if (install_pkg(argv[i+n], NULL) != 0) {
+          if (install_pkg(argv[i+n], overide_flag) != 0) {
             return(1);
           }
         }
@@ -171,11 +171,11 @@ int main(int argc, char **argv) {
       } else if (strcmp(argv[i], "update") == 0) {
         print_debugf("I: Updating packages...\n");
         update_pkg();
-        printf("I: Total installed files: %d\n", check_installed_pkg());
+        //printf("I: Total installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "upgrade") == 0) {
-        upgrade_pkg(compile_build);
+        upgrade_pkg();
         printf("I: Total installed files: %d\n", check_installed_pkg());
         return(0);
         break;
@@ -225,8 +225,10 @@ int main(int argc, char **argv) {
         list_packages();
         return(0);
       } else if (strcmp(argv[i], "autoclean") == 0) {
-        int ret_code = helper_autoclean(dry_run_flag);
-        return(ret_code);
+        return helper_autoclean(dry_run_flag);
+        break;
+      } else if (strcmp(argv[i], "config") == 0) {
+        return show_config_help();
         break;
       } else {
         print_errorf("Unknown command: %s\n", argv[i]);

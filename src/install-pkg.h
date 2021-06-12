@@ -26,10 +26,11 @@
 #include "reader.h"
 #include "cache.h"
 #include "logger/logger.h"
+#include "repo-parser.h"
 
 // Install options
 const static int GPK_INSTALL_OVERIDE = 1;
-const static int GPK_INSTALL_COMPILE_BUILD = 2;
+const static int GPK_INSTALL_COMPILE_BUILD = 2; // no longer used
 const static int GPK_INSTALL_MAX_OPTS = 3; // +1 extra
 
 // The terminator for the options
@@ -41,7 +42,10 @@ typedef int gpk_install_opts[];
 // Functions
 //**********
 
-int install_pkg(const char* pkg, gpk_install_opts opts);
+
+int install_pkg(const char* pkg, bool force);
+
+//int install_pkg(const char* pkg, gpk_install_opts opts);
 /*
 install_pkg() will take a package string (like: "WestleyR/srm"), and some install
 options. The opts must be NULL, or terminated with GPK_OPTS_END (int 0). Returns
