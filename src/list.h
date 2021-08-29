@@ -26,6 +26,7 @@
 #include "ssum/ssum.1.h"
 #include "list-files-utils/color.h"
 #include "repo-parser.h"
+#include "errors.h"
 
 int list_packages();
 

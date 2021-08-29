@@ -55,5 +55,5 @@
  - [ ] Output of `list` should show how many installed files that package has
  - [ ] If package has null version, then it should say "not installed" when listing (or similar)
  - [ ] Should keep a installed.ini file to keep track of installed files
- - [ ] Should have a context for each function that logs. This logging context should handle errors
+ - [ ] Should have a context for each function that logs. This logging context should handle errors (WIP)
 

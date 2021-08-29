@@ -154,11 +154,18 @@ int main(int argc, char **argv) {
           }
           if (argv[i+n] == NULL) break;
           printf("I: Installing: %s ...\n", argv[i+n]);
+
+          error err = NULL;
+
           //get_description_for_package(argv[i+n]);
           // TODO: Pass the currect options
-          if (install_pkg(argv[i+n], overide_flag) != 0) {
-            return(1);
-          }
+          int rc = install_pkg(&err, argv[i+n], overide_flag);
+          if (err != NULL) {
+            fprintf(stderr, "Failed to install package: %s\n", err);
+            return 1;
+           } else if (rc != 0) { // Some errors do not set err (yet...)
+             return 1;
+           }
         }
         printf("I: Total installed files: %d\n", check_installed_pkg());
         return(0);
@@ -217,7 +224,12 @@ int main(int argc, char **argv) {
         return(0);
         break;
       } else if (strcmp(argv[i], "list") == 0) {
-        list_packages();
+        error err = NULL;
+        list_packages(&err);
+        if (err != NULL) {
+          fprintf(stderr, "Error while listing packages: %s\n", err);
+        }
+        error_clear(&err);
         return(0);
       } else if (strcmp(argv[i], "autoclean") == 0) {
         return helper_autoclean(dry_run_flag);

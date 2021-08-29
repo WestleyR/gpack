@@ -24,14 +24,14 @@ int ensure_installed_files(const char* user_name, const char* pkg) {
 }
 
 // print_package will print a package, with its version
-int print_package(repolist* rl, const char* path, const char* name, int print_len) {
+int print_package(error* err, repolist* rl, const char* path, const char* name, int print_len) {
   print_debugf("funcall\n");
 
   DIR *dir;
   struct dirent *d;
   dir = opendir(path);
   if (dir == NULL) {
-    fprintf(stderr, "Failed to open: %s\n", path);
+    error_printf(err, "failed to open: %s", path);
     return 1;
   }
 
@@ -107,7 +107,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
 }
 
 // list_packages will list all installed packages
-int list_packages() {
+int list_packages(error* err) {
   print_debugf("funcall\n");
 
   char* ppath = package_install_dir();
@@ -166,8 +166,9 @@ int list_packages() {
 
       print_debugf("full package path at: %s -> %s\n", pkg, full_path);
 
-      if (print_package(rl, full_path, pkg, max_len) != 0) {
-        print_errorf("failed to print package: %s: %s\n", pkg, full_path);
+      print_package(err, rl, full_path, pkg, max_len);
+      if (*err != NULL) {
+        error_printf(err, "failed to print package: %s", full_path);
         return -1;
       }
 
@@ -180,7 +181,6 @@ int list_packages() {
   free(ppath);
 
   repolist_destroy(rl);
-//  free(repo_file);
 
   return 0;
 }

@@ -33,6 +33,7 @@
 #include "utils.h"
 #include "config.h"
 #include "repo-parser.h"
+#include "errors.h"
 
 #include "logger/logger.h"
 

@@ -19,7 +19,7 @@
 //   check if the package has the correct arch in that list
 //   download the package, and link the files
 
-int link_files(const char* install_path, const char* binary_bin_files) {
+int link_files(error* err, const char* install_path, const char* binary_bin_files) {
   // Now link the installed files
   print_debugf("Looping to install files: %s\n", binary_bin_files);
 
@@ -46,7 +46,7 @@ int link_files(const char* install_path, const char* binary_bin_files) {
     // Check if the file exists before linking
     if (access(source_bin_file, F_OK) != 0) {
       // Source file does not exist
-      print_errorf("Source file does not exist: %s please check the path is currect and fix it in your package file\n", source_bin_file);
+      error_printf(err, "source file does not exist: %s please check the path is currect and fix it in your package file", source_bin_file);
       return -1;
     }
 
@@ -66,7 +66,12 @@ int link_files(const char* install_path, const char* binary_bin_files) {
   return 0;
 }
 
-int install_pkg(const char* pkg, bool force) {
+int install_pkg(error* err, const char* pkg, bool force) {
+  if (iserror(err)) {
+    error_printf(err, "err already set");
+    return -1;
+  }
+
   // Make sure the repo-list is downloaded (and up-to-date (todo))
   char* repo_file = download_repo_index(false);
   if (repo_file == NULL) {
@@ -77,7 +82,7 @@ int install_pkg(const char* pkg, bool force) {
 
   repo* r = get_obj_for_pkg(rl, pkg);
   if (r == NULL) {
-    fprintf(stderr, "%s does not exist\n", pkg);
+    error_printf(err, "package: %s does not exist", pkg);
     return -1;
   }
 
@@ -127,7 +132,8 @@ int install_pkg(const char* pkg, bool force) {
     print_debugf("Files to install: %d\n", files_to_install);
 
     if (files_to_install == files_installed) {
-      print_errorf("Package %s is already installed.\n", pkg);
+      //print_errorf("Package %s is already installed.\n", pkg);
+      error_printf(err, "Package %s is already installed", pkg);
 
       // Cleanup
       // TODO: should have a cleanup function
@@ -188,7 +194,10 @@ int install_pkg(const char* pkg, bool force) {
   }
 
   // Link the files
-  link_files(install_path, r->bin_files);
+  link_files(err, install_path, r->bin_files);
+  if (iserror(err)) {
+    return -1;
+  }
 
   // Write the version so gpack can list it
   char* user_home_dir = getenv("HOME");

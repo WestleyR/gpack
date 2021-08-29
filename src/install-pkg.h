@@ -27,6 +27,7 @@
 #include "cache.h"
 #include "logger/logger.h"
 #include "repo-parser.h"
+#include "errors.h"
 
 // Install options
 const static int GPK_INSTALL_OVERIDE = 1;
@@ -43,7 +44,7 @@ typedef int gpk_install_opts[];
 //**********
 
 
-int install_pkg(const char* pkg, bool force);
+int install_pkg(error* err, const char* pkg, bool force);
 
 //int install_pkg(const char* pkg, gpk_install_opts opts);
 /*
