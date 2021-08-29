@@ -88,12 +88,13 @@ const char* get_package_version(ini_t* ini_data) {
   return ini_property_value(ini_data, INI_GLOBAL_SECTION, second_index);
 }
 
-// Package build command
-const char* get_package_build_command(ini_t* ini_data) {
-  int section = ini_find_section(ini_data, "build\0", 0);
-  int second_index = ini_find_property(ini_data, section, "BuildCmd\0", 0);
-  return ini_property_value(ini_data, section, second_index);
-}
+// Will not support building
+//// Package build command
+//const char* get_package_build_command(ini_t* ini_data) {
+//  int section = ini_find_section(ini_data, "build\0", 0);
+//  int second_index = ini_find_property(ini_data, section, "BuildCmd\0", 0);
+//  return ini_property_value(ini_data, section, second_index);
+//}
 
 // Package build bin files
 const char* get_package_build_bin_files(ini_t* ini_data) {
@@ -116,8 +117,30 @@ const char* get_package_build_ssum(ini_t* ini_data) {
   return ini_property_value(ini_data, section, second_index);
 }
 
-
-
-
+// TODO: take a context logger to log error messages.
+//ini_t* get_repolist_ini() {
+//  print_debugf("funcall\n");
+//
+//  FILE* fp = fopen(pkg_file, "r");
+//  if (fp == NULL) {
+//    fprintf(stderr, "Failed to open file: %s\n", pkg_file);
+//    free(pkg_file);
+//    return NULL;
+//  }
+//
+//  // Load the package file into memory
+//  fseek(fp, 0, SEEK_END);
+//  int size = ftell(fp);
+//  fseek(fp, 0, SEEK_SET);
+//  char* data = (char*) malloc(size + 1);
+//  fread(data, 1, size, fp);
+//  data[size] = '\0';
+//  fclose(fp);
+//
+//  ini_t* ini = ini_load(data, NULL);
+//  free(data);
+//
+//  return ini;
+//}
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

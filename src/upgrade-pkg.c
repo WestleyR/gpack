@@ -26,13 +26,27 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
     return 1;
   }
 
+  // Open the main repo list
+  repolist* rl = get_all_packages();
+
   // Loop through all installed packages by user name,
   // eg. ~/.gpack/installed/WestleyR.
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
+      // Create the package path, ie. WestleyR/srm
+      char* usr_pkg = NULL;
+      catpath(&usr_pkg, user_name);
+      catpath(&usr_pkg, d->d_name);
+
+      // Get the latest info on the package, like version.
+      repo* r = get_obj_for_pkg(rl, usr_pkg);
+      if (r == NULL) {
+        print_errorf("package: %s does not exist in repolist. Skipping\n", usr_pkg);
+        continue;
+      }
 
       char* current_pkg_version = get_installed_pkg_version(user_name, d->d_name);
-      char* latest_pkg_version = get_latest_version_for_pkg(user_name, d->d_name);
+      char* latest_pkg_version = r->version;
 
       print_debugf("Checking package: %s...\n", d->d_name);
 
@@ -40,38 +54,31 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
       print_debugf("Latest verison:  %s\n", latest_pkg_version);
 
       if (strcmp(current_pkg_version, latest_pkg_version) != 0) {
-        char* pkg_path = NULL;
-
-        // Combine the username/package. We use catpath since its
-        // similar to a path.
-        catpath(&pkg_path, user_name);
-        catpath(&pkg_path, d->d_name);
-
-        printf("I: package out-of-date: %s\n", pkg_path);
+        printf("I: package out-of-date: %s\n", usr_pkg);
 
         // First remove the pkg
         // TODO: this should be handled in the install_pkg options
 
-        if (remove_pkg(pkg_path) != 0) {
-          fprintf(stderr, "Failed to remove pkg: %s\n", pkg_path);
+        if (remove_pkg(usr_pkg) != 0) {
+          fprintf(stderr, "Failed to remove pkg: %s\n", usr_pkg);
           return -1;
         }
 
         // Reinstall the package
-        if (install_pkg(pkg_path, true) != 0) {
-          fprintf(stderr, "Failed to upgrade package: %s\n", pkg_path);
+        if (install_pkg(usr_pkg, true) != 0) {
+          fprintf(stderr, "Failed to upgrade package: %s\n", usr_pkg);
           return -1;
         }
-
-        free(pkg_path);
       }
 
       free(current_pkg_version);
+      free(usr_pkg);
     }
   }
 
   closedir(dir);
   free(user_packages_path);
+  repolist_destroy(rl);
 
   return 0;
 }

@@ -143,11 +143,6 @@ int main(int argc, char **argv) {
   set_verbose(verbose_print);
   set_debug(debug_print);
 
-  print_debugf("checking scripts...\n");
-  if (ensure_all_scripts() != 0) {
-    print_warningf("One or more of gpack scripts have changed since gpack was installed/upgraded\n");
-  }
-
   if (optind < argc) {
     // TODO: this cli parsing is a bit messy...
     for (int i = optind; i < argc; i++) {

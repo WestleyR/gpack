@@ -1,5 +1,5 @@
 //
-//  cofig.c for gpack
+//  config.c for gpack
 //  https://github.com/WestleyR/gpack
 //
 // Created by WestleyR on 2021-06-09

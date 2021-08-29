@@ -24,6 +24,7 @@
 #include "catpath.h"
 #include "ini.h"
 #include "install-pkg.h"
+#include "repo-parser.h"
 
 #include "logger/logger.h"
 

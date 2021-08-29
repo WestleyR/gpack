@@ -22,7 +22,6 @@
 #include "catpath.h"
 #include "ini.h"
 #include "reader.h"
-#include "helper.h"
 
 #include "logger/logger.h"
 
@@ -41,18 +40,13 @@ char* pkg_file_registry_dir();
 
 char* package_install_dir();
 
-char* get_latest_version_for_pkg(const char* user_name, const char* pkg);
-
 char* get_repo_index_file();
 
 char* get_installed_pkg_version(const char* usr_pkg, const char* pkg);
 char* get_update_script();
-char* get_search_script();
-char* get_upgrade_script();
 char* get_bin();
 char* get_lib_dir();
 char* get_include_dir();
-char* get_cmd_checksum_file();
 
 #endif // INCLUDE_UTILS_GPACK_H
 

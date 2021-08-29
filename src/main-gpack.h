@@ -31,7 +31,6 @@
 #include "check-pkgs.h"
 #include "search.h"
 #include "utils.h"
-#include "cmd-ensure.h"
 #include "config.h"
 #include "repo-parser.h"
 

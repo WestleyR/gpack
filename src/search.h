@@ -22,7 +22,7 @@
 #include <unistd.h>
 #include <grp.h>
 
-#include "utils.h"
+#include "repo-parser.h"
 
 #include "logger/logger.h"
 

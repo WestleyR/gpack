@@ -22,7 +22,7 @@
 #include "bool.h"
 #include "utils.h"
 #include "ini.h"
-#include "helper.h"
+#include "logger/logger.h"
 
 typedef struct repo repo;
 typedef struct repolist repolist;
@@ -48,9 +48,13 @@ struct repolist {
 char* download_repo_index(bool update);
 
 
+// get_all_packages is a helper function to return all avalible packages
+// in a repolist* struct. Return value must be freed with repolist_destroy().
+// TODO: not memory friendly.
+repolist* get_all_packages();
+
 repo* get_obj_for_pkg(repolist* rl, const char* pkg);
-
-
+ini_t* read_ini_file(const char* path);
 repolist* parse_repofile(const char* filepath);
 int repolist_destroy(repolist* rp);
 

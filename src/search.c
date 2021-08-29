@@ -14,34 +14,21 @@
 #include "search.h"
 
 int search_pkg(const char* pat, int print) {
-  char* search_script = get_search_script();
-  if (search_script == NULL) {
-    print_debugf("Failed to get search script\n");
-    return(1);
+  char* repo_file = download_repo_index(false);
+  if (repo_file == NULL) {
+    return -1;
   }
 
-  char cmd[256];
+  repolist* rl = parse_repofile(repo_file);
 
-  print_debugf("Search script: %s\n", search_script);
-
-  strcpy(cmd, search_script);
-
-  if (pat[0] != '\0') {
-    strcat(cmd, " ");
-    strcat(cmd, pat);
+  for (int i = 0; i < rl->repo_count; i++) {
+    printf("%s\n\tDescription: %s\n\n", rl->repos[i]->name, rl->repos[i]->description);
   }
 
-  print_debugf("Running command: %s\n", cmd);
+  repolist_destroy(rl);
+  free(repo_file);
 
-  if (system(cmd) != 0) {
-    fprintf(stderr, "Failed to run search script\n");
-    free(search_script);
-    return(1);
-  }
-
-  free(search_script);
-
-  return(0);
+  return 0;
 }
 
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

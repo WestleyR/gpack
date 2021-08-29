@@ -21,41 +21,12 @@ int ensure_installed_files(const char* user_name, const char* pkg) {
   // a checksum for each file. Which will also be verified when running `gpack list`.
 
   return 0;
-
-/*
-  char* pkg_listmap = get_listmap_for_pkg(user_name, pkg);
-
-  FILE* fp = fopen(pkg_listmap, "r");
-
-  free(pkg_listmap);
-
-  if (fp == NULL) {
-    // Failed to open list map
-    print_verbosef("%s/%s does not have a checksum list. You should reinstall that package\n", user_name, pkg);
-    return 0;
-  }
-
-  return check_crc32_file(fp, SSUM_BLOCK_SIZE, NULL, NULL);
-*/
-  //  char** installed_files = get_installed_files_from_map(pkg_listmap, 1);
-  //  char** installed_checksum = get_installed_files_from_map(pkg_listmap, 2);
-  //
-  //  if (installed_files != NULL) {
-  //    printf("HELLO WORLD OUTPUT: %s\n", installed_files[0]);
-  //    printf("HELLO WORLD OUTPUT: %s\n", installed_checksum[0]);
-  //
-  //    printf("\n");
-  //
-  //    printf("HELLO WORLD OUTPUT: %s\n", installed_files[1]);
-  //    printf("HELLO WORLD OUTPUT: %s\n", installed_checksum[1]);
-  //
-  //    free(installed_files);
-  //    free(installed_checksum);
-  //  }
 }
 
 // print_package will print a package, with its version
-int print_package(const char* path, const char* name, int print_len) {
+int print_package(repolist* rl, const char* path, const char* name, int print_len) {
+  print_debugf("funcall\n");
+
   DIR *dir;
   struct dirent *d;
   dir = opendir(path);
@@ -68,14 +39,12 @@ int print_package(const char* path, const char* name, int print_len) {
   // name path, eg. ~/.gpack/installed/WestleyR.
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
-      int filesOK = 0;
-      if (ensure_installed_files(name, d->d_name) != 0) {
-        print_debugf("%s/%s failed checksum\n", name, d->d_name);
-        filesOK = 1;
-      }
+      char* usr_pkg = NULL;
+      catpath(&usr_pkg, name);
+      catpath(&usr_pkg, d->d_name);
 
       // Print the package
-      printf("%s/%s", name, d->d_name);
+      printf("%s", usr_pkg);
 
       // Spacing formatting
       for (int i = strlen(name) + strlen(d->d_name) + 1; i < print_len; i++) printf(" ");
@@ -85,24 +54,20 @@ int print_package(const char* path, const char* name, int print_len) {
       printf(" %s", pkg_version);
 
       // Now check the "latest" version for that package
-      char* latest_version = get_latest_version_for_pkg(name, d->d_name);
-
-      if ((pkg_version != NULL) && (strcmp(latest_version, pkg_version) != 0)) {
-        // Versions do not match, proboly an update
-        printf("->%s (upgradeable)", latest_version);
+      repo* r = get_obj_for_pkg(rl, usr_pkg);
+      if (r == NULL) {
+        print_debugf("Failed get latest version for pkg: %s -> %s\n", name, d->d_name);
+        printf("->%s", "error getting version");
+      } else {
+        if ((pkg_version != NULL) && (strcmp(r->version, pkg_version) != 0)) {
+          // Versions do not match, update ready
+          printf("->%s (upgradeable)", r->version);
+        }
       }
 
       free(pkg_version);
-      free(latest_version);
-
-      if (filesOK != 0) {
-        printf(" %s[installed files were overidden]%s please re-install", BOLDRED, COLORRESET);
-      }
 
       printf("\n");
-
-      // TODO: FIXME!
-      // Print if its up-to-date
     }
   }
   closedir(dir);
@@ -120,7 +85,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
   dir = opendir(user_path);
   if (dir == NULL) {
     fprintf(stderr, "Failed to open: %s\n", user_path);
-    return(1);
+    return 1;
   }
 
   int max_package_len = 0;
@@ -143,6 +108,8 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
 
 // list_packages will list all installed packages
 int list_packages() {
+  print_debugf("funcall\n");
+
   char* ppath = package_install_dir();
 
   DIR *dir;
@@ -179,6 +146,15 @@ int list_packages() {
 
   print_debugf("Max package name len: %d\n", max_len);
 
+  // Open the main repo list file, so we can
+  // get each package version from it.
+  repolist* rl = get_all_packages();
+  if (rl == NULL) {
+    // TODO: logger
+    return -1;
+  }
+
+  // Now print all the packages
   while ((d = readdir(dir)) != NULL) {
     if (*d->d_name != '.' && strcmp(d->d_name, "..") != 0) {
       char* pkg = NULL;
@@ -188,7 +164,12 @@ int list_packages() {
       catpath(&full_path, ppath);
       catpath(&full_path, d->d_name);
 
-      print_package(full_path, pkg, max_len);
+      print_debugf("full package path at: %s -> %s\n", pkg, full_path);
+
+      if (print_package(rl, full_path, pkg, max_len) != 0) {
+        print_errorf("failed to print package: %s: %s\n", pkg, full_path);
+        return -1;
+      }
 
       free(pkg);
       free(full_path);
@@ -197,6 +178,9 @@ int list_packages() {
   closedir(dir);
 
   free(ppath);
+
+  repolist_destroy(rl);
+//  free(repo_file);
 
   return 0;
 }

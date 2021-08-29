@@ -29,7 +29,7 @@ const char* get_package_user_name(ini_t* ini_data);
 const char* get_package_name(ini_t* ini_data);
 const char* get_package_version(ini_t* ini_data);
 
-const char* get_package_build_command(ini_t* ini_data);
+//const char* get_package_build_command(ini_t* ini_data);
 const char* get_package_build_bin_files(ini_t* ini_data);
 const char* get_package_build_url(ini_t* ini_data);
 const char* get_package_build_ssum(ini_t* ini_data);
