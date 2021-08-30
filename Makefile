@@ -24,16 +24,6 @@ LDFLAGS ?=
 
 TARGET = gpack
 
-CHECKSUM_CMD_FILE = $(HOME)/.gpack/gpack/cmd-checksum.ssum
-CHECKSUM_PROG = ssum
-ifeq (, $(shell which $(CHECKSUM_PROG)))
-$(warning "No $(CHECKSUM_PROG) command found")
-else
-$(info "Generating checksums for scripts...")
-files = $(wildcard $(HOME)/.gpack/gpack/cmd/*)
-$(shell $(CHECKSUM_PROG) $(files) > $(CHECKSUM_CMD_FILE))
-endif
-
 MODDED = $(shell if command -v git > /dev/null ; then (git diff --exit-code --quiet && echo \"[No changes]\") || echo \"[With uncommited changes]\" ; else echo \"[unknown]\" ; fi)
 COMMIT = "$(shell git log -1 --oneline --decorate=short --no-color || ( echo 'ERROR: unable to get commit hash' >&2 ; echo unknown ) )"
 
@@ -72,8 +62,6 @@ cleanall:
 install: $(TARGET)
 	mkdir -p $(PREFIX)/bin
 	cp -f $(TARGET) $(PREFIX)/bin
-	@# Ensure the packages are there
-	cd $(HOME)/.gpack ; test -d packages || git clone https://github.com/WestleyR/packages ;
 
 #
 # End Makefile

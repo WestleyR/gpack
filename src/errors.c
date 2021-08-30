@@ -82,4 +82,9 @@ int iserror(error* err) {
   return *err != NULL;
 }
 
+error* noerror() {
+  error* no_err = malloc(0);
+  return no_err;
+}
+
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

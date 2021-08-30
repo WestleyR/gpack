@@ -173,7 +173,6 @@ int main(int argc, char **argv) {
       } else if (strcmp(argv[i], "update") == 0) {
         print_debugf("I: Updating packages...\n");
         update_pkg();
-        //printf("I: Total installed files: %d\n", check_installed_pkg());
         return(0);
         break;
       } else if (strcmp(argv[i], "upgrade") == 0) {

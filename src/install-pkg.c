@@ -132,8 +132,7 @@ int install_pkg(error* err, const char* pkg, bool force) {
     print_debugf("Files to install: %d\n", files_to_install);
 
     if (files_to_install == files_installed) {
-      //print_errorf("Package %s is already installed.\n", pkg);
-      error_printf(err, "Package %s is already installed", pkg);
+      error_printf(err, "Package %s is already installed or you already installed this command name", pkg);
 
       // Cleanup
       // TODO: should have a cleanup function

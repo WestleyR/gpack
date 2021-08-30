@@ -65,7 +65,8 @@ int loop_for_user_packages(const char* install_dir, const char* user_name) {
         }
 
         // Reinstall the package
-        if (install_pkg(usr_pkg, true) != 0) {
+        // TODO: error check
+        if (install_pkg(noerror(), usr_pkg, true) != 0) {
           fprintf(stderr, "Failed to upgrade package: %s\n", usr_pkg);
           return -1;
         }

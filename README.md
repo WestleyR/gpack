@@ -2,7 +2,8 @@
 
 Gpack; the fast, lightweight, memory leak-free package manager for users (non-root).
 
-_**NOTE:** the gpack workflow/code is being updated. Some packages may not work._
+_**NOTE:** the gpack workflow/code is being updated. Some packages may not
+work. Run `gpack search` to see the available packages._
 
 ## Example
 
@@ -35,7 +36,6 @@ make install # Dont use sudo!!!
 _**NOTES:**_
 
  1. `gpack` is installed in the users home directory, so that user should install it. No root or sudo required.
- 2. Make sure you download gpack using `git`, (dont download zip) otherwise gpack cant update itself.
 
 ### Setting up your environment
 
@@ -44,26 +44,6 @@ Add the following lines to your `~/.bashrc`, or `~/.bash_profile`, or whatever y
 ```
 # For you installed commands
 export PATH=${PATH}:${HOME}/.local/bin/
-
-# For shared libraries at runtime
-export LD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
-
-# For your c compiler to include the installed libraries
-export CPATH=${HOME}/.local/include:${CPATH}
-export LIBRARY_PATH=${HOME}/.local/lib:${LIBRARY_PATH}
-
-# If Linux Ubuntu:
-export GPACK_ARCH="x86_64_linux"
-# Or if MacOS:
-export GPACK_ARCH="macos"
-# Or if raspberry pi zero (or other raspberry pi)
-export GPACK_ARCH="armv6l"
-```
-
-If you are using macOS, then use `DYLD_LIBRARY_PATH` instead of `LD_LIBRARY_PATH`:
-
-```
-export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 ```
 
 ### Testing the install
@@ -71,13 +51,15 @@ export DYLD_LIBRARY_PATH=${HOME}/.local/lib/:${LD_LIBRARY_PATH}
 To test your install, try to install a package, like:
 
 ```
-gpack install WestleyR/list-files
-
-# Run the command
-lf
+gpack install WestleyR/srm
+srm -V
 ```
 
+You may need to create some cache/config directory.
+
 ## Memory leak test
+
+**Yeah, there will be leaks now. Lots of changes in the code.**
 
 This package manager is designed to be memory leak-free! Heres an example of installing
 a package: (clipped output from valgrind)
@@ -100,48 +82,21 @@ I: Total installed files: 21
 
 As you can see, there are no memory leaks! And only using a total of 1.8Mbs
 of memory (which will be improved later...). _(some of the gpack commands may
-not be leak-free, since this is the dev branch.)_
+not be leak-free, since this is the dev branch)_
 
 ## Making your own package
 
-Lets look at the `srm` package as an example:
+Please open an issue, or comment on the gist. The package list is currently
+on github gist right now.
 
-```ini
-UserName=WestleyR
-Name=srm
-Version=v2.0.0.a1
-
-Note=This is a test message
-
-[macOS]
-
-TarballURL=https://github.com/WestleyR/srm/releases/download/v2.0.0.a1/srm-v2.0.0.a1-macos.tar.gz
-SSUM=058e89d0
-BIN_FILES=srm/2.0.0.a1/bin/srm
-
-[x86_64_linux]
-
-TarballURL=https://github.com/WestleyR/srm/releases/download/v2.0.0.a1/srm-v2.0.0.a1-x86_64_linux.tar.gz
-SSUM=9efbbaed
-BIN_FILES=srm/2.0.0.a1/bin/srm
-
-[armv6l]
-
-TarballURL=https://github.com/WestleyR/srm/releases/download/v2.0.0.a1/srm-v2.0.0.a1-armv6l.tar.gz
-SSUM=5ba1a7bc
-BIN_FILES=srm/2.0.0.a1/bin/srm
-
-# This file is a .ini file without the extension
-# vim: syntax=dosini
-```
-
-The `TarballURL` is the download URL to the zipped binary (tar.gz). And the
-`BIN_FILES` is the path to the command/binary after the tarball is unzipped.
+[Package list](https://gist.github.com/WestleyR/81b31029e8c02b5434ee8f9a4217af04)
 
 ## FAQ
 
  - Q: Does gpack support pre-compiled binaries?
-   - A: Yes. It is recomended to only use precompiled binaries.
+   - A: Yes. In fact, it only supports pre-compiled binaries. Other competing
+     package managers may only have building/compiling, which can have security
+	 issues if you dont trust a package.
 
  - Q: What dependencies does gpack require?
    - A: Need gcc (or other c compiler) to compile gpack. Need `wget` and `tar` to download packages, and `git` for update,
@@ -151,14 +106,14 @@ The `TarballURL` is the download URL to the zipped binary (tar.gz). And the
    - A: Yes; `rm -rf ~/.gpack` _NOTE: doing this will remove all packages that gpack installed._
 
  - Q: Can gpack handle shared c libraries?
-   - A: Yes; installed and symlinked to `~/.local/lib` and `~/.local/include`.
+   - A: ~Yes; installed and symlinked to `~/.local/lib` and `~/.local/include`.~ Not yet, since the code has changed a lot.
 
  - Q: Where does gpack install packages?
-   - A: In `~/.gpack/installed/<user>/<package_name>`, all binaries are symlinked to `~/.gpack/bin`, and can easily be uninstalled.
+   - A: In `~/.gpack/installed/<user>/<package_name>`, all binaries are symlinked to `~/.local/bin`, and can easily be uninstalled.
 
 ## Disclaimer
 
-Gpack is only a helper to download, install, update and remove packages (third
+gpack is only a helper to download, install, update and remove packages (third
 party software). It is up to you to make sure you follow and agree to that
 softwares license.
 

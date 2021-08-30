@@ -28,4 +28,9 @@ int error_clear(error* err);
 // iserror returns 1 (true) if err is set.
 int iserror(error* err);
 
+// noerror should be called when you do not want to check the error
+// return of a functions, ie.
+//   some_func(noerror(), "arg1");
+error* noerror();
+
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0
