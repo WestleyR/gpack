@@ -84,30 +84,6 @@ int helper_autoclean(int dry_run) {
   }
   free(bin_dir);
 
-  // For ~/.local/lib
-  char* lib_dir = get_lib_dir();
-  if (lib_dir == NULL) {
-    fprintf(stderr, "Failed to get gpack lib dir\n");
-    return 1;
-  }
-  print_debugf("Cleaning lib dir: %s\n", lib_dir);
-  if (autoclean(lib_dir, dry_run) != 0) {
-    return 1;
-  }
-  free(lib_dir);
-
-  // For ~/.local/include
-  char* include_dir = get_include_dir();
-  if (include_dir == NULL) {
-    fprintf(stderr, "Failed to get gpack include dir\n");
-    return 1;
-  }
-  print_debugf("Cleaning include dir: %s\n", include_dir);
-  if (autoclean(include_dir, dry_run) != 0) {
-    return 1;
-  }
-  free(include_dir);
-
   // Now clean the packages
   if (clean_older_pkgs(dry_run) != 0) {
     return 1;

@@ -191,32 +191,4 @@ char* get_bin() {
   return ret;
 }
 
-char* get_lib_dir() {
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    fprintf(stderr, "Cant find home directory\n");
-    return NULL;
-  }
-
-  char* ret = NULL;
-  catpath(&ret, h);
-  catpath(&ret, ".local/lib");
-
-  return ret;
-}
-
-char* get_include_dir() {
-  char* h = getenv("HOME");
-  if (h == NULL) {
-    fprintf(stderr, "Cant find home directory\n");
-    return NULL;
-  }
-
-  char* ret = NULL;
-  catpath(&ret, h);
-  catpath(&ret, "/.local/include");
-
-  return ret;
-}
-
 // vim: tabstop=2 shiftwidth=2 expandtab autoindent softtabstop=0

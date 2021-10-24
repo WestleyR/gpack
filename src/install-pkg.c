@@ -19,7 +19,7 @@
 //   check if the package has the correct arch in that list
 //   download the package, and link the files
 
-int link_files(error* err, const char* install_path, const char* binary_bin_files) {
+int link_files(cerror* err, const char* install_path, const char* binary_bin_files) {
   // Now link the installed files
   print_debugf("Looping to install files: %s\n", binary_bin_files);
 
@@ -66,7 +66,7 @@ int link_files(error* err, const char* install_path, const char* binary_bin_file
   return 0;
 }
 
-int install_pkg(error* err, const char* pkg, bool force) {
+int install_pkg(cerror* err, const char* pkg, bool force) {
   if (iserror(err)) {
     error_printf(err, "err already set");
     return -1;

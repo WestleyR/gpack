@@ -45,8 +45,6 @@ char* get_repo_index_file();
 char* get_installed_pkg_version(const char* usr_pkg, const char* pkg);
 char* get_update_script();
 char* get_bin();
-char* get_lib_dir();
-char* get_include_dir();
 
 #endif // INCLUDE_UTILS_GPACK_H
 

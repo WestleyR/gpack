@@ -24,7 +24,7 @@ int ensure_installed_files(const char* user_name, const char* pkg) {
 }
 
 // print_package will print a package, with its version
-int print_package(error* err, repolist* rl, const char* path, const char* name, int print_len) {
+int print_package(cerror* err, repolist* rl, const char* path, const char* name, int print_len) {
   print_debugf("funcall\n");
 
   DIR *dir;
@@ -107,7 +107,7 @@ int get_max_len_of_package_name(const char* user_path, const char* user_name) {
 }
 
 // list_packages will list all installed packages
-int list_packages(error* err) {
+int list_packages(cerror* err) {
   print_debugf("funcall\n");
 
   char* ppath = package_install_dir();
@@ -167,7 +167,7 @@ int list_packages(error* err) {
       print_debugf("full package path at: %s -> %s\n", pkg, full_path);
 
       print_package(err, rl, full_path, pkg, max_len);
-      if (*err != NULL) {
+      if (err->err != NULL) {
         error_printf(err, "failed to print package: %s", full_path);
         return -1;
       }

@@ -9,13 +9,27 @@ work. Run `gpack search` to see the available packages._
 
 For this example, lets install a [srm](https://github.com/WestleyR/srm): (rm command with undo/caching)
 
-```bash
-gpack install WestleyR/srm
+```console
+$ gpack install WestleyR/srm
 # downloads and installs the srm command
 
-gpack remove WestleyR/srm
+$ gpack remove WestleyR/srm
 # removes srm
 ```
+
+To search or list for available packages, run:
+
+```console
+$ gpack search
+WestleyR/srm
+	Description: "here is some stuff about test"
+
+WestleyR/gnotes
+	Description: "here is some stuff about test"
+```
+
+_as you can see, this is still a beta project. if you want to contribute, please
+open an issue or pull request._
 
 ## Install
 
@@ -41,7 +55,7 @@ _**NOTES:**_
 
 Add the following lines to your `~/.bashrc`, or `~/.bash_profile`, or whatever you prefer:
 
-```
+```bash
 # For you installed commands
 export PATH=${PATH}:${HOME}/.local/bin/
 ```
